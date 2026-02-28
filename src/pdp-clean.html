@@ -114,12 +114,29 @@
       .product-gallery .flickity-prev-next-button.previous { left: 8px; }
       .product-gallery .flickity-prev-next-button.next { right: 8px; }
 
+      /* Force thumbnail strip visible — theme CSS hides it until Shopify JS inits */
+      .product-gallery__thumbnails {
+        display: flex !important;
+        flex-direction: column;
+        visibility: visible !important;
+        opacity: 1 !important;
+        gap: 8px;
+        max-height: 600px;
+        overflow-y: auto;
+      }
+      .product-gallery__thumbnails img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
       /* Thumbnail active state */
       .product-gallery__thumbnail {
         opacity: 0.5;
         transition: opacity 0.2s;
         cursor: pointer;
         border: 2px solid transparent;
+        padding: 2px;
       }
       .product-gallery__thumbnail.is-nav-selected,
       .product-gallery__thumbnail:hover {
