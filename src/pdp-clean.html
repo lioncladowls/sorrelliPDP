@@ -101,23 +101,10 @@
         object-fit: cover;
         object-position: center;
       }
-      /* Same ratio in Fancybox lightbox — override inline styles on container + image */
-      .fancybox-slide {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .fancybox-content {
-        width: auto !important;
+      /* Same 3:4 portrait crop in Fancybox lightbox — only touch the image, not the container */
+      .fancybox-image {
         height: 90vh !important;
-        aspect-ratio: 1080 / 1440 !important;
-        overflow: hidden !important;
-      }
-      .fancybox-slide img,
-      .fancybox-image,
-      .fancybox-content img {
-        width: 100% !important;
-        height: 100% !important;
+        width: calc(90vh * 3 / 4) !important;
         object-fit: cover !important;
         object-position: center !important;
       }
