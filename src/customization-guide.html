@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#ffffff" name="theme-color"/>
+  <title>PDP Customization Guide -- Sorrelli PDP Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════ DESIGN TOKENS ═══════════════════════════════════════════ */
+    :root {
+      --color-bg-page:       #ffffff;
+      --color-bg-cream:      #FAF3EE;
+      --color-bg-warm:       #f5f0eb;
+      --color-bg-card:       #ffffff;
+      --color-rose-gold:     #cab0a3;
+      --color-copper:        #B88B72;
+      --color-border-warm:   #eddfd3;
+      --color-border-light:  #e8e0da;
+      --color-text-primary:  #3D3531;
+      --color-text-body:     #504842;
+      --color-text-secondary:#6B605A;
+      --color-text-muted:    #9e8070;
+    }
+
+    /* ═══════ RESET & BASE ════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--color-text-body);
+      background-color: var(--color-bg-page);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ═══════ PREVIEW NAV (matches pdp-v2.html) ══════════════════════ */
+    .preview-nav {
+      background: var(--color-text-primary);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+    }
+    .preview-nav__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preview-nav__label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-rose-gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .preview-nav__links {
+      display: flex;
+      gap: 8px;
+    }
+    .preview-nav__link {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .preview-nav__link:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+    }
+    .preview-nav__link--active {
+      color: #ffffff;
+      background: rgba(255,255,255,0.12);
+    }
+    @media (max-width: 480px) {
+      .preview-nav__inner { padding: 8px 16px; }
+      .preview-nav__label { display: none; }
+      .preview-nav__links { width: 100%; justify-content: center; }
+    }
+
+    /* ═══════ HERO HEADER ════════════════════════════════════════════ */
+    .hero {
+      background: var(--color-bg-cream);
+      border-bottom: 1px solid var(--color-border-warm);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-rose-gold);
+      margin-bottom: 20px;
+    }
+    .hero__title {
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin: 0 auto 20px;
+    }
+    .hero__subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero__title { font-size: 26px; }
+      .hero__subtitle { font-size: 15px; }
+    }
+
+    /* ═══════ LAYOUT: SIDEBAR + CONTENT ══════════════════════════════ */
+    .page-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 56px;
+      padding: 56px 24px 80px;
+    }
+
+    /* ═══════ TABLE OF CONTENTS (SIDEBAR) ════════════════════════════ */
+    .toc {
+      position: sticky;
+      top: 72px;
+      align-self: flex-start;
+      width: 220px;
+      min-width: 220px;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .toc__heading {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .toc__list {
+      list-style: none;
+    }
+    .toc__item {
+      margin-bottom: 2px;
+    }
+    .toc__link {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .toc__link:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-rose-gold);
+    }
+    .toc__link.is-active {
+      color: var(--color-text-primary);
+      font-weight: 600;
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-copper);
+    }
+
+    @media (max-width: 860px) {
+      .toc { display: none; }
+      .page-layout {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 20px 64px;
+      }
+    }
+
+    /* Mobile TOC strip */
+    .toc-mobile {
+      display: none;
+    }
+    @media (max-width: 860px) {
+      .toc-mobile {
+        display: block;
+        position: sticky;
+        top: 44px;
+        z-index: 100;
+        background: var(--color-bg-page);
+        border-bottom: 1px solid var(--color-border-warm);
+        padding: 12px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .toc-mobile__inner {
+        display: flex;
+        gap: 4px;
+        padding: 0 16px;
+        min-width: max-content;
+      }
+      .toc-mobile__link {
+        font-size: 12px;
+        white-space: nowrap;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border-warm);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      .toc-mobile__link:hover,
+      .toc-mobile__link.is-active {
+        color: var(--color-text-primary);
+        background: var(--color-bg-cream);
+        border-color: var(--color-rose-gold);
+      }
+    }
+
+    /* ═══════ CONTENT AREA ═══════════════════════════════════════════ */
+    .content {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+
+    /* Major sections */
+    .doc-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+
+    /* Subsection headings (h3) */
+    .subsection-heading {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+
+    /* Body paragraphs */
+    .content p {
+      margin-bottom: 16px;
+      color: var(--color-text-body);
+    }
+
+    /* Strong / Bold */
+    .content strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* Italic */
+    .content em {
+      font-style: italic;
+    }
+
+    /* Inline code */
+    .content code {
+      font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 0.9em;
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--color-text-primary);
+    }
+
+    /* Links */
+    .content a {
+      color: var(--color-copper);
+      text-decoration: underline;
+      text-decoration-color: rgba(184, 139, 114, 0.3);
+      text-underline-offset: 2px;
+      transition: all 0.2s ease;
+    }
+    .content a:hover {
+      color: #9a7260;
+      text-decoration-color: #9a7260;
+    }
+
+    /* Bullet lists */
+    .content ul {
+      list-style: none;
+      margin-bottom: 20px;
+      padding-left: 0;
+    }
+    .content ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+    }
+    .content ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+
+    /* Ordered lists */
+    .content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+      color: var(--color-text-body);
+    }
+    .content ol li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .content ol li::marker {
+      color: var(--color-rose-gold);
+      font-weight: 600;
+    }
+
+    /* Blockquotes */
+    .content blockquote {
+      border-left: 3px solid var(--color-rose-gold);
+      background: var(--color-bg-cream);
+      margin: 24px 0;
+      padding: 20px 24px;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+    .content blockquote p {
+      margin-bottom: 0;
+      color: var(--color-text-secondary);
+    }
+
+    /* Horizontal dividers */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: var(--color-border-warm);
+      margin: 56px 0;
+    }
+
+    /* ═══════ SECTION CARDS ═════════════════════════════════════════ */
+    .section-card {
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+      padding: 36px 32px;
+      margin-bottom: 32px;
+    }
+    .section-card__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .section-card__badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-card__title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.3;
+    }
+    .section-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-copper);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card__label:first-of-type {
+      margin-top: 0;
+    }
+    .section-card p {
+      color: var(--color-text-body);
+      margin-bottom: 12px;
+    }
+    .section-card p:last-child {
+      margin-bottom: 0;
+    }
+    .section-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+    .section-card ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+    @media (max-width: 640px) {
+      .section-card { padding: 24px 20px; }
+    }
+
+    /* ═══════ INTRO TEXT ════════════════════════════════════════════ */
+    .intro-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--color-text-secondary);
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .intro-text strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ TAKEAWAY BLOCK ═══════════════════════════════════════ */
+    .takeaway {
+      background: var(--color-bg-cream);
+      border-left: 3px solid var(--color-copper);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0 20px;
+    }
+    .takeaway p {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: var(--color-text-secondary);
+    }
+    .takeaway strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ DECISION MATRIX TABLE ═══════════════════════════════ */
+    .matrix-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 24px 0 32px;
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+    }
+    .matrix-table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .matrix-table thead {
+      background: var(--color-bg-cream);
+    }
+    .matrix-table th {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-copper);
+      padding: 14px 16px;
+      text-align: center;
+      border-bottom: 2px solid var(--color-border-warm);
+      white-space: nowrap;
+    }
+    .matrix-table th:first-child {
+      text-align: left;
+      min-width: 220px;
+    }
+    .matrix-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border-light);
+      color: var(--color-text-body);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .matrix-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      font-size: 13px;
+    }
+    .matrix-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .matrix-table tbody tr:hover {
+      background: rgba(250, 243, 238, 0.5);
+    }
+    .matrix-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+    .matrix-dot--empty {
+      background: transparent;
+      border: 1.5px solid var(--color-border-warm);
+    }
+
+    /* ═══════ PRIORITY LIST (Section 4) ════════════════════════════ */
+    .priority-list {
+      list-style: none;
+      padding-left: 0;
+      counter-reset: priority;
+    }
+    .priority-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+      counter-increment: priority;
+    }
+    .priority-item__number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .priority-item__content {
+      flex: 1;
+      min-width: 0;
+    }
+    .priority-item__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .priority-item__desc {
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+    @media (max-width: 640px) {
+      .priority-item { padding: 20px 16px; gap: 16px; }
+    }
+
+    /* ═══════ CLOSING NOTE ════════════════════════════════════════ */
+    .closing-note {
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--color-border-warm);
+    }
+
+    /* ═══════ SCROLLBAR STYLING ═══════════════════════════════════ */
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--color-border-warm); border-radius: 4px; }
+
+    .toc-mobile::-webkit-scrollbar { height: 0; }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════ PREVIEW NAV ════════════════════════════════════════════ -->
+<nav class="preview-nav">
+  <div class="preview-nav__inner">
+    <span class="preview-nav__label">Sorrelli PDP Redesign</span>
+    <div class="preview-nav__links">
+      <a href="pdp-v2.html" class="preview-nav__link">Product Page</a>
+      <a href="design-philosophy.html" class="preview-nav__link">Design Philosophy</a>
+      <a href="customization-guide.html" class="preview-nav__link preview-nav__link--active">Customization Guide</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <p class="hero__eyebrow">Sorrelli PDP Redesign</p>
+  <h1 class="hero__title">PDP Customization Guide</h1>
+  <p class="hero__subtitle">Everything that needs to change when applying the redesigned PDP template to different products, categories, collections, and stock statuses.</p>
+</header>
+
+<!-- ═══════ MOBILE TOC STRIP ═════════════════════════════════════ -->
+<div class="toc-mobile">
+  <div class="toc-mobile__inner">
+    <a href="#content-changes" class="toc-mobile__link">1. Content-Level Changes</a>
+    <a href="#product-data" class="toc-mobile__link">2. Product Data Changes</a>
+    <a href="#decision-matrix" class="toc-mobile__link">3. Decision Matrix</a>
+    <a href="#priority-order" class="toc-mobile__link">4. Priority Order</a>
+  </div>
+</div>
+
+<!-- ═══════ PAGE LAYOUT ══════════════════════════════════════════ -->
+<div class="page-layout">
+
+  <!-- ─── SIDEBAR TOC ─── -->
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc__heading">Contents</p>
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#content-changes" class="toc__link" data-section="content-changes">1. Content-Level Changes</a></li>
+      <li class="toc__item"><a href="#product-data" class="toc__link" data-section="product-data">2. Product Data Changes</a></li>
+      <li class="toc__item"><a href="#decision-matrix" class="toc__link" data-section="decision-matrix">3. Decision Matrix</a></li>
+      <li class="toc__item"><a href="#priority-order" class="toc__link" data-section="priority-order">4. Priority Order</a></li>
+    </ul>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- Intro paragraph -->
+    <p class="intro-text">The redesigned PDP was built on the Kathleen Studded Dangle Earrings as a reference product. This guide documents <strong>every element that needs customization</strong> when rolling the template out to other products -- what marketing needs to write, what Shopify handles automatically, and what changes based on product type, collection, or stock status.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1: CONTENT-LEVEL CHANGES                              -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="content-changes">
+      <h2 class="section-heading">1. Content-Level Changes (What Marketing Needs to Write)</h2>
+      <p>These are the items that require human editorial work -- new copy, curated content, or strategic decisions per product. They cannot be automated by Shopify Liquid templates and require a copywriter or merchandiser to create.</p>
+
+
+      <!-- 1.1 Product Description -->
+      <h3 class="subsection-heading">1.1 Product Description (Editorial Rewrite)</h3>
+      <p class="section-card__label">Current example (Kathleen Studded Dangle Earrings)</p>
+      <blockquote>
+        <p>"A luminous emerald-cut crystal catches every shift of light, suspended from a crystal-studded lever back that stays comfortable from morning to evening."</p>
+      </blockquote>
+      <p class="section-card__label">What changes per product</p>
+      <p>Every product needs an editorial description -- sensory, benefit-driven, not catalog spec copy. The description should paint a picture of how the product looks, feels, and fits into the customer's life. It should lead with emotion and follow with specs.</p>
+      <p>The <strong>key features footnote</strong> also needs customization per product. The current format is:</p>
+      <blockquote>
+        <p>"Premium crystal &middot; Bright Gold-tone finish &middot; Lever back French wire &middot; 1&frac12;" L &times; &frac12;" W"</p>
+      </blockquote>
+      <p class="section-card__label">Dimensions format varies by product type</p>
+      <ul>
+        <li><strong>Earrings</strong> -- L &times; W (e.g., "1&frac12;" L &times; &frac12;" W")</li>
+        <li><strong>Necklaces</strong> -- chain length (e.g., "16" chain with 3" extender")</li>
+        <li><strong>Bracelets</strong> -- circumference (e.g., "7" circumference with 1" extender")</li>
+        <li><strong>Rings</strong> -- adjustable range (e.g., "Adjustable, sizes 6-9")</li>
+      </ul>
+      <div class="takeaway"><p><strong>Who owns this:</strong> Copywriter. Each product description should be written fresh, not generated from a template. The features footnote can be templated with product-specific values filled in.</p></div>
+
+
+      <!-- 1.2 Stock Status -->
+      <h3 class="subsection-heading">1.2 Stock Status &amp; Shipping Language</h3>
+      <p>The PDP currently assumes the product is in stock. Stock status affects multiple elements across the page, and each state requires different copy and UI.</p>
+
+      <p class="section-card__label">In-stock products</p>
+      <ul>
+        <li><strong>"In Stock" badge</strong> next to the product name or price area</li>
+        <li><strong>Dynamic shipping estimate script</strong> that calculates "Ships Today" / "Ships Tomorrow" / "Ships Monday" based on Kutztown, PA warehouse business hours (weekdays before 1 PM ET = "Ships Today," after that = "Ships Tomorrow," weekends = "Ships Monday")</li>
+        <li><strong>"Delivers in Days" value prop card</strong> in the value props section with supporting copy: "In stock and ready to ship from our Kutztown, PA studio"</li>
+      </ul>
+
+      <p class="section-card__label">Out-of-stock / Made-to-order products</p>
+      <ul>
+        <li><strong>"Made to Order" badge</strong> replaces the "In Stock" badge</li>
+        <li><strong>"4-6 week" delivery language</strong> replaces the dynamic shipping estimate script</li>
+        <li><strong>"Made to Order" value prop card</strong> replaces "Delivers in Days" with copy justifying the wait: "Each piece handcrafted to your order -- worth the wait"</li>
+      </ul>
+
+      <p class="section-card__label">Conflict to resolve</p>
+      <p>The current page has a <strong>9-10 week delivery estimate in the Shipping accordion</strong> (FAQ) that is irrelevant for in-stock items. This needs conditional display -- in-stock items should show standard shipping times (3-7 business days), while made-to-order items should show the 4-6 week production time plus shipping.</p>
+      <div class="takeaway"><p><strong>Implementation note:</strong> Stock status should ideally be driven by Shopify inventory data, but the copy variants (badge text, value prop card copy, accordion shipping language) need to be pre-written for both states and conditionally displayed.</p></div>
+
+
+      <!-- 1.3 Luxuriously Comfortable -->
+      <h3 class="subsection-heading">1.3 "Luxuriously Comfortable" Value Prop -- Product Type Variants</h3>
+      <p>The value props section includes a "Luxuriously Comfortable" card with comfort messaging. This needs product-type-specific copy because the comfort story is different for each jewelry category.</p>
+
+      <p class="section-card__label">Comfort messaging by product type</p>
+      <ul>
+        <li><strong>Post earrings</strong> -- mention monster backs for secure, comfortable hold. "Our signature monster backs grip securely without pinching -- comfortable enough to forget you're wearing them."</li>
+        <li><strong>Lever-back earrings</strong> -- mention lever back French wire for all-day comfort. "Lever back French wire stays secure and comfortable from morning to evening -- no adjusting needed."</li>
+        <li><strong>Stretch bracelets</strong> -- mention stretch fit, no clasp needed. "Stretch-to-fit design slides on effortlessly -- no fiddly clasps, no asking for help."</li>
+        <li><strong>Necklaces</strong> -- mention extender chain for adjustable length. "An extender chain lets you adjust the length to suit your neckline -- from crew neck to plunging, one necklace does it all."</li>
+        <li><strong>Clasp bracelets</strong> -- mention bracelet extender option. "Adjustable lobster clasp with an extender chain for a custom fit on any wrist."</li>
+        <li><strong>Rings</strong> -- mention adjustable sizing where applicable. "Adjustable band flexes to fit your finger -- no ring sizing needed."</li>
+      </ul>
+      <div class="takeaway"><p><strong>Who owns this:</strong> Copywriter creates six variants (one per product type). The correct variant is selected based on the product's category tag in Shopify. This is a one-time writing task -- the variants are reused across all products of the same type.</p></div>
+
+
+      <!-- 1.4 Reviews Curation -->
+      <h3 class="subsection-heading">1.4 Reviews Curation</h3>
+      <p>Reviews are the most labor-intensive customization. The display logic and curation requirements differ based on how many reviews a product has.</p>
+
+      <p class="section-card__label">Products with 3+ reviews</p>
+      <ul>
+        <li>Show <strong>per-product star rating above fold</strong> with review count (e.g., "4.9 (12 reviews)")</li>
+        <li>Show <strong>curated product-specific reviews</strong> in the carousel -- three reviews from actual buyers of this specific product</li>
+      </ul>
+
+      <p class="section-card__label">Products with fewer than 3 reviews</p>
+      <ul>
+        <li>Show <strong>aggregate brand rating</strong> above fold: "Loved by thousands -- 4.8 average rating"</li>
+        <li>Show <strong>curated same-category reviews</strong> in the carousel -- three reviews from buyers of similar products (e.g., other lever-back earrings for lever-back earring PDPs)</li>
+      </ul>
+
+      <p class="section-card__label">Review curation checklist</p>
+      <p>Every review displayed on the page must be audited against these criteria:</p>
+      <ul>
+        <li><strong>Relevance</strong> -- the review must be for the active SKU (if per-product) or a closely related product type (if same-category)</li>
+        <li><strong>Self-purchase framing</strong> -- prioritize reviews that validate treating yourself ("Bought for myself," "I deserve this," "My everyday go-to")</li>
+        <li><strong>No mentions of sales or discounts</strong> -- any review that mentions waiting for a sale, coupon codes, or discount pricing plants delay behavior in other shoppers</li>
+        <li><strong>No truncated text</strong> -- reviews must display fully; cut-off text looks broken and unprofessional</li>
+        <li><strong>"Verified Buyer" badges</strong> -- every displayed review must show the verified buyer badge to reinforce authenticity</li>
+        <li><strong>No SKU codes in product names</strong> -- customers don't think in SKUs; clean the product name to just the product name</li>
+      </ul>
+      <div class="takeaway"><p><strong>Who owns this:</strong> Merchandiser or marketing coordinator. This is a per-product curation task that requires reading through actual reviews and selecting the three strongest. For products without enough reviews, a library of pre-approved same-category reviews should be maintained.</p></div>
+
+
+      <!-- 1.5 Collection Section -->
+      <h3 class="subsection-heading">1.5 Collection Section</h3>
+      <p>The collection editorial block and cross-sell section are tightly coupled. Whether they appear -- and what they contain -- depends entirely on whether the product belongs to a named collection.</p>
+
+      <p class="section-card__label">Products IN a collection</p>
+      <p>Show the collection editorial block with collection-specific content:</p>
+      <ul>
+        <li><strong>Collection name</strong> as the heading (e.g., "Panama Rose")</li>
+        <li><strong>Collection description</strong> -- mood, color palette, inspiration. Written editorially, not as a product listing. The current Panama Rose copy: "Inspired by golden-hour light and the warmth of sun-drenched evenings, Panama Rose pairs warm rose and champagne tones with rich gold accents."</li>
+        <li><strong>Collection image</strong> -- a swatch or lifestyle shot that represents the collection's mood and color palette</li>
+        <li><strong>CTA link</strong> -- "Explore the Collection" linking to the collection page on sorrelli.com</li>
+      </ul>
+      <p>The <strong>cross-sell cards below</strong> must match the collection:</p>
+      <ul>
+        <li>Four products from the same collection (excluding the current product)</li>
+        <li>Prices, names, and images must be accurate and current</li>
+        <li><strong>Cross-sell subtitle:</strong> "Pieces from the [Collection Name] collection that pair beautifully with your [product type]" -- e.g., "Pieces from the Panama Rose collection that pair beautifully with your earrings"</li>
+        <li><strong>Cross-sell CTA:</strong> "Shop All [Collection Name]" with the correct collection URL</li>
+      </ul>
+
+      <p class="section-card__label">Products NOT in a collection</p>
+      <ul>
+        <li>Hide the collection editorial block entirely -- do not show an empty or generic placeholder</li>
+        <li>The cross-sell section can still appear, but should use a more generic framing: "Complete the Look" with same-category or complementary products</li>
+        <li>Cross-sell CTA becomes "Shop All [Category]" (e.g., "Shop All Earrings")</li>
+      </ul>
+      <div class="takeaway"><p><strong>Who owns this:</strong> Copywriter writes collection descriptions (one per collection, reused across all products in that collection). Merchandiser selects four cross-sell products per collection. Both are one-time-per-collection tasks.</p></div>
+
+
+      <!-- 1.6 FAQ Q3 -->
+      <h3 class="subsection-heading">1.6 FAQ Q3 -- Materials Answer</h3>
+      <p>The third FAQ question asks about product materials. Both the question text and the answer need customization per product.</p>
+
+      <p class="section-card__label">Current example (Kathleen Studded Dangle Earrings)</p>
+      <p><strong>Question:</strong> "What are these earrings made of?"</p>
+      <blockquote>
+        <p>"The Kathleen Studded Dangle Earrings are handcrafted with premium crystal and set in our Bright Gold-tone finish over jeweler's brass. Sorrelli never uses plastics -- only genuine crystal, semi-precious stones, and natural materials like pearls. Every piece is inspected seven times before it ships."</p>
+      </blockquote>
+
+      <p class="section-card__label">What changes per product</p>
+      <ul>
+        <li><strong>Question text</strong> -- the product type word changes: "What is this necklace made of?" vs. "What are these earrings made of?" vs. "What is this bracelet made of?" vs. "What is this ring made of?"</li>
+        <li><strong>Product name</strong> in the answer -- replace "The Kathleen Studded Dangle Earrings" with the actual product name</li>
+        <li><strong>Finish name</strong> -- replace "Bright Gold-tone" with the actual finish (Silver-tone, Antique Gold-tone, Antique Silver-tone, etc.)</li>
+        <li><strong>Specific materials</strong> -- some products use semi-precious stones (turquoise, howlite, jade), pearls, or different crystal types. The materials list should be accurate to the specific product.</li>
+      </ul>
+      <p>The second half of the answer remains constant across all products: "Sorrelli never uses plastics -- only genuine crystal, semi-precious stones, and natural materials like pearls. Every piece is inspected seven times before it ships."</p>
+      <div class="takeaway"><p><strong>Who owns this:</strong> This can be partially templated. The product name and finish are Shopify data. The specific materials list needs to be maintained per product (or per product category if materials are consistent within a type).</p></div>
+
+
+      <!-- 1.7 FAQ Link -->
+      <h3 class="subsection-heading">1.7 FAQ -- Link to Full FAQ</h3>
+      <p>A subtle text link should be added at the bottom of the FAQ accordion section, below the last accordion item:</p>
+      <blockquote>
+        <p>"Have another question? Visit our full FAQ"</p>
+      </blockquote>
+      <p>The link should point to the full FAQ page on sorrelli.com (e.g., <code>https://www.sorrelli.com/pages/faq</code>). This link is static and does not change per product -- it is a one-time addition to the template.</p>
+      <div class="takeaway"><p><strong>Why this matters:</strong> The PDP FAQ covers only the four most common purchase-decision questions. Customers with other questions (international shipping, wholesale, custom sizing) need a path to the full FAQ without having to navigate through the site header. This small link reduces bounce from unanswered questions.</p></div>
+
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2: PRODUCT DATA CHANGES                               -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="product-data">
+      <h2 class="section-heading">2. Product Data Changes (What Shopify/Dev Handles)</h2>
+      <p>These are template variables that Shopify Liquid would handle automatically in production. They are documented here for completeness -- to ensure nothing is missed during Shopify theme integration and to clarify what data flows where.</p>
+
+
+      <!-- 2.1 Product Hero Data -->
+      <h3 class="subsection-heading">2.1 Product Hero Data</h3>
+      <ul>
+        <li><strong>Product name</strong> (<code>&lt;h1&gt;</code>) -- the primary product title displayed above the fold</li>
+        <li><strong>Price display</strong> -- current price, plus sale price and compare-at price if the product is on sale</li>
+        <li><strong>BNPL installment amounts</strong> -- price &divide; 4, which appears in 8+ places across the page (Afterpay text, Shop Pay text, info modal breakdown, etc.)</li>
+        <li><strong>Add to Bag button text</strong> -- includes the price: "Add to Bag -- $80.00"</li>
+        <li><strong>SKU display</strong> -- shown in the product details accordion</li>
+        <li><strong>Colorway selector</strong> -- this is the most complex variable:
+          <ul>
+            <li>Swatch count varies from 1 to 10+ per product</li>
+            <li>Each swatch needs: swatch image, URL to that colorway's PDP, active/inactive state</li>
+            <li>Finish label above the swatches (Bright Gold-tone, Silver-tone, Antique Gold-tone, etc.)</li>
+            <li>"View all colors" link to the product's collection or color family page</li>
+          </ul>
+        </li>
+      </ul>
+
+
+      <!-- 2.2 Product Gallery -->
+      <h3 class="subsection-heading">2.2 Product Gallery</h3>
+      <ul>
+        <li><strong>Image paths</strong> -- typically SKU-based filenames hosted on Shopify CDN</li>
+        <li><strong>Image count</strong> -- varies per product (3 to 6+); affects gallery width, scroll behavior, and thumbnail strip</li>
+        <li><strong>Alt text</strong> -- descriptive alt text per image for accessibility and SEO</li>
+        <li><strong>Thumbnail strip</strong> -- must match the main gallery images in count and order</li>
+        <li><strong>Mobile dot indicators</strong> -- the dot count must match the actual image count and stay synced to the Flickity slider position</li>
+        <li><strong><code>product-gallery--image-amount-N</code> CSS class</strong> -- this class on the gallery container must reflect the actual image count (e.g., <code>product-gallery--image-amount-4</code> for four images). It controls gallery layout and sizing.</li>
+      </ul>
+
+
+      <!-- 2.3 Mobile Sticky CTA -->
+      <h3 class="subsection-heading">2.3 Mobile Sticky CTA</h3>
+      <ul>
+        <li><strong>Product thumbnail URL</strong> -- a small square image shown in the sticky bar</li>
+        <li><strong>Product name</strong> -- truncated if necessary to fit the sticky bar width</li>
+        <li><strong>Price</strong> -- must match the price displayed in the hero area</li>
+      </ul>
+
+
+      <!-- 2.4 Star Rating Logic -->
+      <h3 class="subsection-heading">2.4 Star Rating Logic</h3>
+      <ul>
+        <li><strong>Product has 3+ reviews:</strong> Show per-product star rating with review count (e.g., gold stars + "4.9 (12 reviews)")</li>
+        <li><strong>Product has fewer than 3 reviews:</strong> Show aggregate brand rating: "Loved by thousands -- 4.8 average rating" with five rose-gold stars</li>
+      </ul>
+      <p>The threshold of 3 reviews is deliberate -- a product with only 1-2 reviews looks under-purchased and can actually hurt conversion. The aggregate brand rating fills the trust gap until the product accumulates enough individual reviews to stand on its own.</p>
+
+
+      <!-- 2.5 Meta Tags & SEO -->
+      <h3 class="subsection-heading">2.5 Meta Tags &amp; SEO</h3>
+      <p>Every product page needs a complete set of meta tags for search engines, social sharing, and structured data. All of these are product-specific:</p>
+      <ul>
+        <li><strong>Page <code>&lt;title&gt;</code></strong> -- product name + SKU (e.g., "Kathleen Studded Dangle Earrings ECR47")</li>
+        <li><strong>Canonical URL</strong> -- the product's URL slug on sorrelli.com</li>
+        <li><strong>Meta description</strong> -- an editorial product summary (not the full description, but a concise version optimized for search snippets)</li>
+        <li><strong>Open Graph tags</strong> -- <code>og:url</code>, <code>og:title</code>, <code>og:price:amount</code>, <code>og:image</code> (3 images), <code>og:description</code></li>
+        <li><strong>Twitter card</strong> -- <code>twitter:title</code>, <code>twitter:description</code>, <code>twitter:image</code></li>
+        <li><strong>JSON-LD Product schema</strong> -- name, url, images array, sku, availability (<code>InStock</code> or <code>OutOfStock</code>), price, variant URL, description. This is what powers Google Shopping rich results.</li>
+        <li><strong>Breadcrumbs</strong> (JSON-LD + visible HTML) -- product name, URL, and optionally a category or collection as an intermediate breadcrumb (e.g., Home &rarr; Earrings &rarr; Kathleen Studded Dangle Earrings)</li>
+      </ul>
+
+
+      <!-- 2.6 Shopify Internals -->
+      <h3 class="subsection-heading">2.6 Shopify Internals</h3>
+      <p>These are Shopify-specific data attributes and IDs that the theme engine populates. They are invisible to the customer but critical for cart functionality, analytics, and third-party integrations.</p>
+      <ul>
+        <li><strong>Product ID</strong> -- appears in 6+ places: CSS class on the product section, <code>data-product-id</code> attributes, form ID, hidden input fields, analytics tags</li>
+        <li><strong>Variant ID</strong> -- hidden form input (determines which variant gets added to cart), JSON-LD variant URL</li>
+        <li><strong><code>data-product</code> JSON blob</strong> -- the entire Shopify product JSON object, serialized as a data attribute on the product section. Used by client-side JS for variant switching, price updates, and inventory checks.</li>
+        <li><strong><code>data-rv-handle</code></strong> -- the product handle used by the reviews widget (e.g., Okendo, Judge.me, Stamped) to fetch and display product-specific reviews</li>
+        <li><strong><code>data-select-id</code></strong> -- used by the variant selector to identify which option set is active</li>
+        <li><strong>Form action and product form IDs</strong> -- the <code>&lt;form&gt;</code> element's action URL and ID attributes, which Shopify uses for cart submission and Ajax add-to-cart</li>
+      </ul>
+
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3: DECISION MATRIX                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="decision-matrix">
+      <h2 class="section-heading">3. Decision Matrix</h2>
+      <p>This matrix shows which page sections are affected by each of the four customization variables. A <strong>filled dot</strong> means that section needs to change when the variable changes. An <strong>empty dot</strong> means no change needed.</p>
+      <p>Use this as a quick-reference checklist when rolling out the template to a new product.</p>
+
+      <div class="matrix-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Page Section</th>
+              <th>Per Product</th>
+              <th>Per Category</th>
+              <th>Per Collection</th>
+              <th>Per Stock Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Product Description</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Key Features Footnote</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Stock Status Badge</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+            </tr>
+            <tr>
+              <td>Shipping Estimate Script</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+            </tr>
+            <tr>
+              <td>"Delivers in Days" Value Prop</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+            </tr>
+            <tr>
+              <td>"Luxuriously Comfortable" Value Prop</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Star Rating Display</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Reviews Carousel</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>FAQ Q3 Materials</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Collection Editorial Block</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Cross-Sell Cards</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Cross-Sell Subtitle</td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Product Gallery</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Price / BNPL</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Colorway Selector</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Mobile Sticky CTA</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Meta Tags / SEO</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+            <tr>
+              <td>Shopify Internals</td>
+              <td><span class="matrix-dot"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+              <td><span class="matrix-dot matrix-dot--empty"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="section-card__label">How to read this matrix</p>
+      <ul>
+        <li><strong>Per Product</strong> -- changes every time you roll out to a new product (unique content per SKU)</li>
+        <li><strong>Per Category</strong> -- changes based on product type (earrings vs. necklaces vs. bracelets vs. rings). Write once per category, reuse across all products in that category.</li>
+        <li><strong>Per Collection</strong> -- changes based on named collection (Panama Rose, Crystal Shimmer, etc.). Write once per collection, reuse across all products in that collection.</li>
+        <li><strong>Per Stock Status</strong> -- changes based on inventory state (in-stock vs. made-to-order). Two variants needed, conditionally displayed.</li>
+      </ul>
+
+      <div class="takeaway"><p><strong>Key insight:</strong> The majority of sections are Per Product -- driven by Shopify data and handled automatically by Liquid templates. The highest-effort manual work is concentrated in editorial descriptions, reviews curation, and collection content. Per Category and Per Stock Status items are write-once variants that get reused across many products.</p></div>
+
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4: PRIORITY IMPLEMENTATION ORDER                      -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="priority-order">
+      <h2 class="section-heading">4. Priority Implementation Order</h2>
+      <p>When rolling the redesigned PDP template out to additional products, tackle customizations in this order. The sequence is based on a combination of conversion impact, effort required, and dependency chains.</p>
+
+      <div class="priority-list">
+
+        <div class="priority-item">
+          <span class="priority-item__number">1</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Product Data (Shopify Liquid Templates)</p>
+            <p class="priority-item__desc">Product name, price, BNPL amounts, gallery images, colorway selectors, SKU, meta tags, Shopify internals. All of this is handled automatically by Shopify's Liquid template engine -- no manual work per product. This is the foundation that makes the template reusable. Build the Liquid template once, and every product gets its data populated automatically.</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">2</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Editorial Descriptions (Highest Impact, Requires Copywriter)</p>
+            <p class="priority-item__desc">The product description is the single highest-impact piece of custom content. It is the first thing a customer reads after seeing the product image and price. A sensory, benefit-driven description creates desire; catalog spec copy does not. Each product needs a unique editorial description and a customized key features footnote. This is the bottleneck -- allocate copywriter time accordingly.</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">3</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Stock Status Logic (Affects Trust and Conversion)</p>
+            <p class="priority-item__desc">Implement the conditional display logic for in-stock vs. made-to-order states. This affects the stock badge, shipping estimate, "Delivers in Days" value prop card, and Shipping accordion answer. Getting this wrong -- showing "Ships Today" for a made-to-order product -- destroys trust. Build the conditional logic into the template early, with both copy variants pre-written.</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">4</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Reviews Curation (Social Proof Quality)</p>
+            <p class="priority-item__desc">Curate three reviews per product (or per category for products without enough reviews). Bad reviews are worse than no reviews -- a truncated review, a review mentioning sales, or a review for the wrong product type all erode trust. Build a library of pre-approved same-category reviews for the fallback state. This is ongoing work that scales with the product catalog.</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">5</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Collection Sections (Cross-Sell Effectiveness)</p>
+            <p class="priority-item__desc">Write collection editorial descriptions and select four cross-sell products per collection. This is a one-time-per-collection task that benefits every product in that collection. Prioritize the highest-traffic collections first. For products not in a named collection, implement the fallback state (hidden collection block, generic "Complete the Look" cross-sell).</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">6</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">Comfort Messaging Variants (Category-Specific)</p>
+            <p class="priority-item__desc">Write the six "Luxuriously Comfortable" value prop variants (one per product type: post earrings, lever-back earrings, stretch bracelets, clasp bracelets, necklaces, rings). This is a one-time writing task -- once the six variants exist, every product in that category uses the same copy. Low effort, moderate impact on purchase confidence.</p>
+          </div>
+        </div>
+
+        <div class="priority-item">
+          <span class="priority-item__number">7</span>
+          <div class="priority-item__content">
+            <p class="priority-item__title">FAQ Materials Answers (Product Accuracy)</p>
+            <p class="priority-item__desc">Customize the FAQ Q3 materials answer per product -- product name, finish, and specific materials. The template structure stays the same; only the variable details change. This can be partially automated if Shopify product metafields include materials data. Lowest priority because the FAQ sits deep in the scroll journey, but still important for accuracy and SEO (FAQ schema markup).</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="takeaway"><p><strong>The big picture:</strong> Steps 1 and 3 are engineering tasks (build once in Liquid, done). Steps 6 and 7 are one-time-per-category writing tasks (write once, reuse forever). Steps 2, 4, and 5 are the ongoing per-product and per-collection work that scales with the catalog. Allocate resources accordingly.</p></div>
+
+    </section>
+
+    <!-- Closing note -->
+    <p class="closing-note">This customization guide was prepared alongside the Sorrelli PDP redesign to ensure the template can be rolled out consistently across the full product catalog. It reflects the state of the redesign as of February 2026.</p>
+
+  </main>
+</div>
+
+<!-- ═══════ SCROLL-SPY JS ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  const sections = document.querySelectorAll('.doc-section[id]');
+  const tocLinks = document.querySelectorAll('.toc__link[data-section]');
+  const mobileLinks = document.querySelectorAll('.toc-mobile__link');
+
+  if (!sections.length || !tocLinks.length) return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+
+        tocLinks.forEach(function(link) {
+          link.classList.toggle('is-active', link.getAttribute('data-section') === id);
+        });
+
+        mobileLinks.forEach(function(link) {
+          const href = link.getAttribute('href');
+          link.classList.toggle('is-active', href === '#' + id);
+        });
+      }
+    });
+  }, {
+    rootMargin: '-80px 0px -60% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

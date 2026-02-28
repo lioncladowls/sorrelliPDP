@@ -24,7 +24,7 @@ The differentiators that matter:
 - **Premium crystal** -- genuine crystal and semi-precious stones, never plastics
 - **Inspected 7 times** before it ships -- quality is earned, not claimed
 - **Lifetime repair promise** -- if something goes wrong through normal wear, Sorrelli makes it wearable again (with a processing fee)
-- **93% female workforce** -- this isn't a marketing talking point, it's the reality of the studio
+- **Woman-founded, family-run** -- Lisa Oswald started the company; it's now a second-generation family business
 
 ### Brand Voice
 
@@ -70,7 +70,7 @@ These are the verified, current differentiators that the redesigned PDP leans on
 - **Handcrafted by an artisan team** -- pieces are assembled by hand in Kutztown, PA. Not a marketing abstraction -- this is how the jewelry is actually made.
 - **Premium crystal** -- genuine crystal, semi-precious stones, and natural materials like pearls. No plastics, ever. The honest framing avoids overclaiming while still communicating quality.
 - **Inspected 7 times before shipping** -- a specific, verifiable claim that communicates quality control without vague language.
-- **93% female workforce** -- authentic and meaningful to the self-purchasing female customer, without being performative.
+- **Woman-founded, family-run** -- founded by Lisa Oswald, now a second-generation family business. The origin story resonates with the self-purchasing female customer without making workforce composition claims that may change over time.
 
 ---
 

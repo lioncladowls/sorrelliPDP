@@ -251,6 +251,7 @@
         <div class="preview-nav__links">
           <a href="pdp-v2.html" class="preview-nav__link preview-nav__link--active">Product Page</a>
           <a href="design-philosophy.html" class="preview-nav__link">Design Philosophy</a>
+          <a href="customization-guide.html" class="preview-nav__link">Customization Guide</a>
         </div>
       </div>
     </nav>
@@ -2144,8 +2145,9 @@ Go to your shopping bag
                           <div class="pdp-accordion__content">
                             <p>A luminous emerald-cut crystal catches every shift of light, suspended from a crystal-studded lever back that stays comfortable from morning to evening. The warm Bright Gold-tone finish gives these earrings a richness that pairs effortlessly with everything from a casual sweater to a night out.</p>
                             <p>Part of the Panama Rose collection &mdash; a palette of warm rose, amber, and champagne tones inspired by golden-hour light.</p>
-                            <p style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Premium crystal &middot; Bright Gold-tone finish &middot; Lever back French wire &middot; 1&frac12;" L &times; &frac12;" W</p>
+                            <p style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Premium crystal &middot; Bright Gold-tone finish &middot; Lever back French wire</p>
                             <div class="pdp-meta">
+                              <p><strong>Dimensions:</strong> 1&frac12;" L &times; &frac12;" W</p>
                               <p><strong>SKU:</strong> EFF80BGPRO</p>
                             </div>
                           </div>
@@ -2233,17 +2235,22 @@ Go to your shopping bag
                       </div>
                     </div>
 
-                    <!-- Accordion toggle script -->
+                    <!-- Accordion toggle script (single-open) -->
                     <script>
                       (function() {
-                        document.querySelectorAll('.pdp-accordion__header').forEach(function(btn) {
+                        var allHeaders = document.querySelectorAll('.pdp-accordion__header');
+                        allHeaders.forEach(function(btn) {
                           btn.addEventListener('click', function() {
                             var item = this.closest('.pdp-accordion__item');
                             var isOpen = item.classList.contains('is-open');
-                            if (isOpen) {
-                              item.classList.remove('is-open');
-                              this.setAttribute('aria-expanded', 'false');
-                            } else {
+                            // Close all panels first
+                            allHeaders.forEach(function(otherBtn) {
+                              var otherItem = otherBtn.closest('.pdp-accordion__item');
+                              otherItem.classList.remove('is-open');
+                              otherBtn.setAttribute('aria-expanded', 'false');
+                            });
+                            // Open clicked panel if it wasn't already open
+                            if (!isOpen) {
                               item.classList.add('is-open');
                               this.setAttribute('aria-expanded', 'true');
                             }
@@ -3084,6 +3091,9 @@ Go to your shopping bag
                               </dd>
 
                             </dl>
+                            <p style="margin-top: 1rem; font-size: 14px; color: var(--color-text-secondary);">
+                              Have another question? <a href="https://www.sorrelli.com/pages/faq" style="color: var(--color-copper); text-decoration: underline; text-underline-offset: 2px;">Visit our full FAQ</a>
+                            </p>
                             <!-- FAQ accordion script (v2 — uses <button> triggers) -->
                             <script>
                               (function() {
