@@ -101,11 +101,15 @@
         object-fit: cover;
         object-position: center;
       }
-      /* Same ratio in Fancybox lightbox */
-      .fancybox-image {
-        aspect-ratio: 1080 / 1440;
-        object-fit: cover;
-        object-position: center;
+      /* Same ratio in Fancybox lightbox — !important needed to override inline styles */
+      .fancybox-slide img,
+      .fancybox-image,
+      .fancybox-content img {
+        aspect-ratio: 1080 / 1440 !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        max-height: 90vh !important;
+        width: auto !important;
       }
       /* Same ratio for thumbnails */
       .product-gallery__thumbnail img {
