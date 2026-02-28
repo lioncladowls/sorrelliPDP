@@ -114,6 +114,12 @@
 
 <!-- ═══════ PRODUCT GALLERY OVERRIDES — match original PDP arrow & thumbnail style ═══ -->
     <style type="text/css">
+      /* Hide all but the first gallery image until Flickity initializes —
+         prevents stacked-image flash on load */
+      .product-gallery__main:not(.flickity-enabled) .product-gallery__image:not(:first-child) {
+        display: none;
+      }
+
       /* Constrain all gallery images to 1080x1440 portrait ratio, center-crop */
       .product-gallery__main .image__container {
         aspect-ratio: 1080 / 1440;
@@ -196,12 +202,10 @@
 <!-- ═══════ THEME SCRIPTS (jQuery, vendors, app) ══════════════════════ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
-    <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/vendors.min.js?v=35010635720783076821646912539">
-    </script>
-    <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/utilities.min.js?v=75626243485030216531661514766">
-    </script>
-    <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/app.min.js?v=167060204016085567401600500122">
-    </script>
+    <!-- Shopify theme JS disabled — conflicts with standalone Flickity/Fancybox init -->
+    <!-- <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/vendors.min.js?v=35010635720783076821646912539"></script> -->
+    <!-- <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/utilities.min.js?v=75626243485030216531661514766"></script> -->
+    <!-- <script defer="" src="https://www.sorrelli.com/cdn/shop/t/4/assets/app.min.js?v=167060204016085567401600500122"></script> -->
     <noscript>
       <style>
         /* Insert styles for styles when JS is not loaded */
