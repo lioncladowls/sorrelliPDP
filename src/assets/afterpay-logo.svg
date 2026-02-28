@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 24" width="130" height="24">
+  <!-- Afterpay bondi icon (black rounded square with white triangle) -->
+  <rect x="0" y="0" width="24" height="24" rx="5" fill="#000"/>
+  <path d="M12 5.5l7.5 13h-15z" fill="#fff" stroke="#fff" stroke-width="0.5" stroke-linejoin="round"/>
+  <!-- Afterpay wordmark -->
+  <text x="30" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#000" letter-spacing="-0.3">Afterpay</text>
+</svg>

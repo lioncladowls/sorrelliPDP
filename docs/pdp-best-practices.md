@@ -137,27 +137,61 @@ Sorrelli sits in a specific pricing psychology zone: not cheap enough for impuls
 
 ---
 
-## 6. Color & Finish Swatches
+## 6. Color & Finish Swatches (Variant Selector)
 
 Swatch selection is a critical conversion touchpoint for Sorrelli since pieces come in multiple finishes and colorways.
 
-### UX requirements
+### Unified vs. separate selectors
+
+When a product's finish and color are **pre-combined into fixed SKUs** (each variant = one specific finish + color pairing), research strongly favors a **unified "colorway" selector** over separate Finish and Color dropdowns or swatch rows.
+
+- **NN/g recommends combined variant selectors** when there are fewer than ~10 combinations. Separate selectors imply independent configurability — if selecting "Rose Gold" finish and "Blue" color isn't a valid combo, showing both selectors creates a false expectation and dead-end frustration.
+- **Monica Vinader** moved away from separate finish/color listings after observing a "steep decline in engagement" — unified colorway swatches reduced confusion and improved conversion.
+- **Baymard Institute** notes that showing selectors for non-independent attributes is a top-10 PDP usability issue: "If a specific combination of options isn't available, users shouldn't be able to select it."
+
+### Labeling: "Color" not "Colorway"
+
+Use **"Color:"** as the customer-facing label, not "Colorway." Research is definitive:
+
+- **"Colorway" is industry jargon** — originated in sneaker culture, used in merchandising/buying. It is not mainstream consumer vocabulary. QVC community forums show real shoppers finding it confusing or pretentious.
+- **No luxury jewelry brand uses "Colorway"** on PDPs. Gorjana uses "Metal:", Mejuri uses "Material:", BaubleBar and David Yurman use "Color:". The term is absent from consumer-facing jewelry ecommerce.
+- **"Color" is universally understood** — zero comprehension friction, clean, elegant.
+
+The finish (e.g., "Bright Gold-tone") is still valuable context. Show it as lighter secondary text after the color name.
+
+### Recommended pattern: unified color selector
+```
+Color: [Color Name] · [Finish Name]
+[active swatch] | [alt swatch] [alt swatch] [alt swatch]
+View all colorways >
+```
+
+- **Combined label** — `Color: Panama Rose · Bright Gold-tone`. The color leads (primary visual differentiator); the finish follows as secondary context in lighter weight.
+- **Active / alternative separation** — the currently-selected swatch sits left of a thin vertical divider. Alternative swatches sit to the right. This communicates "this is what you're viewing" vs. "here are other options" without needing text headers like "This Color" / "More Colors."
+- **No micro-headers needed** — NN/g found that "+MORE" text links get missed by users. Baymard recommends showing all swatches directly and visually. The active swatch border + divider do the communicating — text labels like "This Color" or "More Colors" add visual noise without helping conversion.
+- **Single swatch row** — each swatch represents a complete color (finish + color together), not a partial attribute.
+- **"View all colorways >"** — links to the full collection page. Don't repeat the product name in the link text (it's already visible in the product title). Keep it concise.
+
+### Swatch UX requirements
+- **Small round swatches** — circular swatch images (~28px), not large square product thumbnails. Keeps the selector compact and elegant.
 - **Minimum swatch size: 7mm x 7mm** with 2mm spacing between swatches (Baymard)
 - **Interactive swatches** — clicking a swatch should update the product image immediately. Non-interactive swatches that force a page reload add friction.
 - **Show ALL available options** — 57% of top sites fail to display all swatches. Don't truncate.
-- **Label clearly** — show the finish/color name on hover (desktop) or on selection (mobile). Users need to know what "BG" means ("Bright Gold-tone").
-- **Indicate current selection** — clear visual state for the selected swatch (border highlight, checkmark)
-- **Link to other colorways** — "Shop All [Color]" links to the full color collection
+- **Label clearly** — show the color name on hover (desktop) or on selection (mobile). Users need to know what "BG" means ("Bright Gold-tone").
+- **Indicate current selection** — clear visual state for the selected swatch (border highlight with warm brand color)
+- **Swatch images** should show actual product material, not just a solid color dot
+- Consider tooltip previews showing the product in that color on hover
 
-### Jewelry-specific
-- Show finish AND color as separate selections (Sorrelli already does this well)
-- Swatch images should show actual product material, not just a solid color dot
-- Consider tooltip previews showing the product in that finish on hover
+### When separate selectors ARE appropriate
+- When finish and color are **truly independent** (any finish × any color = valid product)
+- When there are **many combinations** (10+) that would create an overwhelming single swatch row
+- When the two attributes serve **different cognitive purposes** (e.g., size + color — users think about them differently)
 
 **Sources:**
+- [NN/g — Product Page Variant Selection](https://www.nngroup.com/articles/ecommerce-product-pages/)
+- [Baymard — Mobile Color Swatches](https://baymard.com/blog/mobile-interactive-color-swatches)
+- [Baymard — Avoid Impossible Variant Combinations](https://baymard.com/blog/product-page-usability)
 - [Color Swatches UX — Searchanise](https://searchanise.io/blog/color-swatches/)
-- [Mobile Color Swatches — Baymard](https://baymard.com/blog/mobile-interactive-color-swatches)
-- [NNGroup Product Page Guidelines](https://www.nngroup.com/articles/ecommerce-product-pages/)
 
 ---
 
@@ -239,25 +273,37 @@ Based on the research, here's the optimal content flow for a jewelry PDP:
 2. Product name
 3. Star rating / review count
 4. Price + BNPL option
-5. Finish & color swatches
-6. Dimensions
-7. Add to Bag CTA
-8. Availability / shipping indicator
+5. Color selector (unified swatches + "View all colorways >")
 
-### First Scroll (Conviction Zone)
-9. Product description (expandable tabs: Description / Lifetime Promise / Shipping)
-10. Value proposition cards (Shipping, Returns, Lifetime Promise)
+### Pre-CTA Content (Conviction Zone)
+6. Product details accordion (collapsed by default — see Section 12)
+7. Stock status / availability signal
+8. Discount / exclusion notice (if applicable)
+9. Add to Bag CTA
+10. Secured checkout + payment icons (trust)
 
-### Second Scroll (Trust & Story Zone)
+### First Scroll (Trust & Story Zone)
 11. Craftsmanship / quality detail (image + text)
 12. Customer reviews with photos
 13. Brand story (Woman-Founded, Sisterhood)
 
-### Third Scroll (Discovery Zone)
+### Second Scroll (Discovery Zone)
 14. FAQ accordion
 15. "Wear It With" / cross-sell recommendations
 16. "You May Also Like" product slider
 17. Footer
+
+### Why content before CTA?
+For "achievable luxury" ($40-150), research supports placing product details, shipping info, and brand promise ABOVE the CTA rather than below it. This follows the luxury brand pattern (Vervaunt, Prada, Van Cleef & Arpels) where the narrative builds perceived value before the purchase ask. The sequence is: **educate → convince → convert**.
+
+**Critical mitigations:**
+- Content sections must be **collapsed by default** (accordion) to keep CTA close to viewport
+- **Sticky Add to Bag bar on mobile** is mandatory when content sits above CTA
+- Collapsed accordion should add no more than ~120-150px of vertical height
+
+**Sources:**
+- [Vervaunt — Product Page Best Practices for Luxury Brands](https://vervaunt.com/product-page-best-practices-for-luxury-and-premium-brands)
+- [GrowthRock — Sticky Add to Cart A/B Test](https://growthrock.co/sticky-add-to-cart-button-example/) (7.9% lift on desktop, 5.2% on mobile)
 
 ---
 
@@ -271,7 +317,47 @@ Based on the research, here's the optimal content flow for a jewelry PDP:
 
 ---
 
-## 12. Jewelry-Specific Insights
+## 12. Accordion vs Horizontal Tabs for Product Details
+
+Baymard Institute's usability testing provides definitive guidance here: **use accordions, not horizontal tabs.**
+
+### The data
+- **27% of users miss content** in horizontal tab layouts — they only read the default tab and never explore others
+- **8% miss content** in accordion layouts — a 3.4x improvement in content discovery
+- Accordions outperform tabs on both desktop and mobile
+
+### Why accordions win on PDP
+1. **All section titles visible at once** — users can scan "About This Piece", "The Sorrelli Promise", "Shipping & Returns" without clicking through tabs to discover what's available
+2. **Default-collapsed state** — keeps the page compact and CTA closer to viewport. Users who want info can expand; ready buyers skip to the button
+3. **Progressive disclosure** — aligns with mobile-first best practice. On small screens, tabs either truncate labels or require horizontal scrolling
+4. **Multiple sections can be open simultaneously** — users can compare description and shipping info side by side. Tabs force single-panel viewing
+5. **No "active tab blindness"** — with tabs, users assume the visible panel is the only content. With accordions, collapsed sections are clearly "more to explore"
+
+### Accordion UX requirements
+- **Descriptive titles** — use benefit-oriented labels, not generic ones:
+  - "Description" → "About This Piece"
+  - "Our Promise" → "The Sorrelli Promise"
+  - "Shipping" → "Shipping & Returns"
+- **Default state: all collapsed** — especially when placed above the CTA, to minimize vertical displacement
+- **Clear expand/collapse affordance** — use a +/− icon or chevron. Must be obvious that sections are interactive
+- **Smooth animation** — expand/collapse should be animated (200-300ms) to maintain spatial orientation
+- **Adequate touch targets** — full-width clickable header row, minimum 44px height for mobile
+
+### When tabs are acceptable
+- When there are only 2 sections (minimal discovery risk)
+- When content is long enough that switching between full panels is preferred over scrolling
+- On desktop when horizontal space is abundant and labels are short
+
+For Sorrelli's PDP with 3 content sections placed above the CTA, **accordions are the clear best practice.**
+
+**Sources:**
+- [Baymard — Avoid Horizontal Tabs on PDPs](https://baymard.com/blog/avoid-horizontal-tabs)
+- [Baymard — Accordion and Tab Design Pitfalls](https://baymard.com/blog/accordion-and-tab-design)
+- [NN/g — Accordions vs Tabs in UX](https://www.nngroup.com/articles/accordions-complex-content/)
+
+---
+
+## 13. Jewelry-Specific Insights
 
 - **Self-purchase framing** — women buying for themselves respond to self-reward and self-expression messaging, not gift/occasion framing. "Treat yourself" > "Perfect gift"
 - **Exclusivity matters** — limited editions and small-batch messaging drives urgency. Women have a stronger desire for unique pieces over mass-produced

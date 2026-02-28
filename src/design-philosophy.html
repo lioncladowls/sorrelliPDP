@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#ffffff" name="theme-color"/>
+  <title>Design Philosophy -- Sorrelli PDP Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════ DESIGN TOKENS ═══════════════════════════════════════════ */
+    :root {
+      --color-bg-page:       #ffffff;
+      --color-bg-cream:      #FAF3EE;
+      --color-bg-warm:       #f5f0eb;
+      --color-bg-card:       #ffffff;
+      --color-rose-gold:     #cab0a3;
+      --color-copper:        #B88B72;
+      --color-border-warm:   #eddfd3;
+      --color-border-light:  #e8e0da;
+      --color-text-primary:  #3D3531;
+      --color-text-body:     #504842;
+      --color-text-secondary:#6B605A;
+      --color-text-muted:    #9e8070;
+    }
+
+    /* ═══════ RESET & BASE ════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--color-text-body);
+      background-color: var(--color-bg-page);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ═══════ PREVIEW NAV (matches pdp-v2.html) ══════════════════════ */
+    .preview-nav {
+      background: var(--color-text-primary);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+    }
+    .preview-nav__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preview-nav__label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-rose-gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .preview-nav__links {
+      display: flex;
+      gap: 8px;
+    }
+    .preview-nav__link {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .preview-nav__link:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+    }
+    .preview-nav__link--active {
+      color: #ffffff;
+      background: rgba(255,255,255,0.12);
+    }
+    @media (max-width: 480px) {
+      .preview-nav__inner { padding: 8px 16px; }
+      .preview-nav__label { display: none; }
+      .preview-nav__links { width: 100%; justify-content: center; }
+    }
+
+    /* ═══════ HERO HEADER ════════════════════════════════════════════ */
+    .hero {
+      background: var(--color-bg-cream);
+      border-bottom: 1px solid var(--color-border-warm);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-rose-gold);
+      margin-bottom: 20px;
+    }
+    .hero__title {
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin: 0 auto 20px;
+    }
+    .hero__subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero__title { font-size: 26px; }
+      .hero__subtitle { font-size: 15px; }
+    }
+
+    /* ═══════ LAYOUT: SIDEBAR + CONTENT ══════════════════════════════ */
+    .page-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 56px;
+      padding: 56px 24px 80px;
+    }
+
+    /* ═══════ TABLE OF CONTENTS (SIDEBAR) ════════════════════════════ */
+    .toc {
+      position: sticky;
+      top: 72px;
+      align-self: flex-start;
+      width: 220px;
+      min-width: 220px;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .toc__heading {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .toc__list {
+      list-style: none;
+    }
+    .toc__item {
+      margin-bottom: 2px;
+    }
+    .toc__link {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .toc__link:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-rose-gold);
+    }
+    .toc__link.is-active {
+      color: var(--color-text-primary);
+      font-weight: 600;
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-copper);
+    }
+
+    @media (max-width: 860px) {
+      .toc { display: none; }
+      .page-layout {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 20px 64px;
+      }
+    }
+
+    /* Mobile TOC strip */
+    .toc-mobile {
+      display: none;
+    }
+    @media (max-width: 860px) {
+      .toc-mobile {
+        display: block;
+        position: sticky;
+        top: 44px;
+        z-index: 100;
+        background: var(--color-bg-page);
+        border-bottom: 1px solid var(--color-border-warm);
+        padding: 12px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .toc-mobile__inner {
+        display: flex;
+        gap: 4px;
+        padding: 0 16px;
+        min-width: max-content;
+      }
+      .toc-mobile__link {
+        font-size: 12px;
+        white-space: nowrap;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border-warm);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      .toc-mobile__link:hover,
+      .toc-mobile__link.is-active {
+        color: var(--color-text-primary);
+        background: var(--color-bg-cream);
+        border-color: var(--color-rose-gold);
+      }
+    }
+
+    /* ═══════ CONTENT AREA ═══════════════════════════════════════════ */
+    .content {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+
+    /* Major sections */
+    .doc-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+
+    /* Subsection headings (h3) */
+    .subsection-heading {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+
+    /* Body paragraphs */
+    .content p {
+      margin-bottom: 16px;
+      color: var(--color-text-body);
+    }
+
+    /* Strong / Bold */
+    .content strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* Italic */
+    .content em {
+      font-style: italic;
+    }
+
+    /* Links */
+    .content a {
+      color: var(--color-copper);
+      text-decoration: underline;
+      text-decoration-color: rgba(184, 139, 114, 0.3);
+      text-underline-offset: 2px;
+      transition: all 0.2s ease;
+    }
+    .content a:hover {
+      color: #9a7260;
+      text-decoration-color: #9a7260;
+    }
+
+    /* Bullet lists */
+    .content ul {
+      list-style: none;
+      margin-bottom: 20px;
+      padding-left: 0;
+    }
+    .content ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+    }
+    .content ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+
+    /* Ordered lists */
+    .content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+      color: var(--color-text-body);
+    }
+    .content ol li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .content ol li::marker {
+      color: var(--color-rose-gold);
+      font-weight: 600;
+    }
+
+    /* Blockquotes */
+    .content blockquote {
+      border-left: 3px solid var(--color-rose-gold);
+      background: var(--color-bg-cream);
+      margin: 24px 0;
+      padding: 20px 24px;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+    .content blockquote p {
+      margin-bottom: 0;
+      color: var(--color-text-secondary);
+    }
+
+    /* Horizontal dividers */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: var(--color-border-warm);
+      margin: 56px 0;
+    }
+
+    /* ═══════ SECTION CARDS (Sections 3-8) ═══════════════════════════ */
+    .section-card {
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+      padding: 36px 32px;
+      margin-bottom: 32px;
+    }
+    .section-card__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .section-card__badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-card__title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.3;
+    }
+    .section-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-copper);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card__label:first-of-type {
+      margin-top: 0;
+    }
+    .section-card p {
+      color: var(--color-text-body);
+      margin-bottom: 12px;
+    }
+    .section-card p:last-child {
+      margin-bottom: 0;
+    }
+    .section-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+    .section-card ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+    @media (max-width: 640px) {
+      .section-card { padding: 24px 20px; }
+    }
+
+    /* ═══════ INTRO TEXT (for the opening paragraph) ═════════════════ */
+    .intro-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--color-text-secondary);
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .intro-text strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ TAKEAWAY BLOCK ═════════════════════════════════════════ */
+    .takeaway {
+      background: var(--color-bg-cream);
+      border-left: 3px solid var(--color-copper);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0 20px;
+    }
+    .takeaway p {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: var(--color-text-secondary);
+    }
+    .takeaway strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ CLOSING NOTE ══════════════════════════════════════════ */
+    .closing-note {
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--color-border-warm);
+    }
+
+    /* ═══════ SCROLLBAR STYLING ═════════════════════════════════════ */
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--color-border-warm); border-radius: 4px; }
+
+    .toc-mobile::-webkit-scrollbar { height: 0; }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════ PREVIEW NAV ════════════════════════════════════════════ -->
+<nav class="preview-nav">
+  <div class="preview-nav__inner">
+    <span class="preview-nav__label">Sorrelli PDP Redesign</span>
+    <div class="preview-nav__links">
+      <a href="pdp-v2.html" class="preview-nav__link">Product Page</a>
+      <a href="design-philosophy.html" class="preview-nav__link preview-nav__link--active">Design Philosophy</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <p class="hero__eyebrow">Sorrelli PDP Redesign</p>
+  <h1 class="hero__title">Design Philosophy</h1>
+  <p class="hero__subtitle">A comprehensive guide to the thinking behind every section, every word, and every pixel.</p>
+</header>
+
+<!-- ═══════ MOBILE TOC STRIP ═════════════════════════════════════ -->
+<div class="toc-mobile">
+  <div class="toc-mobile__inner">
+    <a href="#brand-positioning" class="toc-mobile__link">1. Brand Positioning</a>
+    <a href="#differentiators" class="toc-mobile__link">2. Differentiators</a>
+    <a href="#page-architecture" class="toc-mobile__link">3. Page Architecture</a>
+    <a href="#what-we-removed" class="toc-mobile__link">4. What We Removed</a>
+    <a href="#what-we-added" class="toc-mobile__link">5. What We Added</a>
+    <a href="#copy-decisions" class="toc-mobile__link">6. Copy Decisions</a>
+    <a href="#visual-design" class="toc-mobile__link">7. Visual Design</a>
+    <a href="#conversion-strategy" class="toc-mobile__link">8. Conversion Strategy</a>
+    <a href="#lessons-learned" class="toc-mobile__link">9. Lessons Learned</a>
+  </div>
+</div>
+
+<!-- ═══════ PAGE LAYOUT ══════════════════════════════════════════ -->
+<div class="page-layout">
+
+  <!-- ─── SIDEBAR TOC ─── -->
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc__heading">Contents</p>
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#brand-positioning" class="toc__link" data-section="brand-positioning">1. Brand Positioning Summary</a></li>
+      <li class="toc__item"><a href="#differentiators" class="toc__link" data-section="differentiators">2. Confirmed Differentiators</a></li>
+      <li class="toc__item"><a href="#page-architecture" class="toc__link" data-section="page-architecture">3. Page Architecture</a></li>
+      <li class="toc__item"><a href="#what-we-removed" class="toc__link" data-section="what-we-removed">4. What We Removed</a></li>
+      <li class="toc__item"><a href="#what-we-added" class="toc__link" data-section="what-we-added">5. What We Added</a></li>
+      <li class="toc__item"><a href="#copy-decisions" class="toc__link" data-section="copy-decisions">6. Copy Decisions</a></li>
+      <li class="toc__item"><a href="#visual-design" class="toc__link" data-section="visual-design">7. Visual Design</a></li>
+      <li class="toc__item"><a href="#conversion-strategy" class="toc__link" data-section="conversion-strategy">8. Conversion Strategy</a></li>
+      <li class="toc__item"><a href="#lessons-learned" class="toc__link" data-section="lessons-learned">9. Lessons Learned</a></li>
+    </ul>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- Intro paragraph -->
+    <p class="intro-text">A comprehensive guide to the thinking behind the Sorrelli Product Detail Page redesign. This document explains not just what we built, but <strong>why</strong> -- the brand positioning, conversion strategy, and design decisions that shaped every section, every word, and every pixel.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1: BRAND POSITIONING SUMMARY                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="brand-positioning">
+      <h2 class="section-heading">1. Brand Positioning Summary</h2>
+
+      <h3 class="subsection-heading">Who Is the Sorrelli Customer?</h3>
+      <p>She is a woman who buys jewelry <strong>for herself</strong>. She's 30 to 65+, confident in her taste, and values craftsmanship over trend-chasing. She's not looking for the cheapest option or the flashiest piece -- she wants something that feels <em>right</em>. Something she'll reach for every morning without thinking about it.</p>
+      <p>She treats her jewelry as personal, intimate objects. She sets them on a ceramic tray on her nightstand. She catches the light in a crystal while getting ready in the morning. She doesn't need to be told what's stylish -- she already knows.</p>
+      <p>This customer isn't buying because someone told her to. She's treating herself. The entire page experience is designed around that truth: <strong>a woman making a considered, self-rewarding purchase</strong>.</p>
+
+      <h3 class="subsection-heading">What Makes Sorrelli Unique</h3>
+      <p>Sorrelli occupies a rare position in the market. It's not fine jewelry, and it's certainly not fast-fashion costume jewelry. It's <strong>handcrafted artisan fashion jewelry</strong> -- premium crystal, real design intent, and over 40 years of heritage behind every piece.</p>
+      <p>The differentiators that matter:</p>
+      <ul>
+        <li><strong>40+ years of heritage</strong> -- woman-founded, now a second-generation family business</li>
+        <li><strong>Handcrafted by an artisan team</strong> -- not mass-produced, not assembled on a factory line</li>
+        <li><strong>Premium crystal</strong> -- genuine crystal and semi-precious stones, never plastics</li>
+        <li><strong>Inspected 7 times</strong> before it ships -- quality is earned, not claimed</li>
+        <li><strong>Lifetime repair promise</strong> -- if something goes wrong through normal wear, Sorrelli makes it wearable again (with a processing fee)</li>
+        <li><strong>93% female workforce</strong> -- this isn't a marketing talking point, it's the reality of the studio</li>
+      </ul>
+
+      <h3 class="subsection-heading">Brand Voice</h3>
+      <p>Warm, confident, editorial but approachable. The voice should feel like a knowledgeable friend who works in fashion -- she gives you real information, not a sales pitch. She speaks with quiet authority.</p>
+      <p><strong>What the voice IS:</strong></p>
+      <ul>
+        <li>Specific and honest ("premium crystal" not "the finest crystals in the world")</li>
+        <li>Sensory and benefit-driven ("catches every shift of light" not "features crystal embellishment")</li>
+        <li>Self-assured without being loud ("Add to Bag" not "ADD TO BAG")</li>
+        <li>Conversational but polished</li>
+      </ul>
+      <p><strong>What the voice is NOT:</strong></p>
+      <ul>
+        <li>Shouty or aggressive (no all-caps CTAs, no countdown timers, no "HURRY!")</li>
+        <li>Corporate or cold (no "leveraging synergies" or "elevated solutions")</li>
+        <li>Vague or generic ("handcrafted" means something specific here -- it's not filler copy)</li>
+      </ul>
+
+      <h3 class="subsection-heading">What Sorrelli Is NOT</h3>
+      <p>It's important to be clear about what Sorrelli isn't, because the page design needs to avoid signals that pull the brand in wrong directions:</p>
+      <ul>
+        <li><strong>Not costume jewelry</strong> -- the craftsmanship, materials, and price point put it above the costume category</li>
+        <li><strong>Not fast fashion</strong> -- pieces aren't disposable trend items; they're designed to last years</li>
+        <li><strong>Not fine jewelry</strong> -- Sorrelli doesn't pretend to be Tiffany or Cartier, and it shouldn't. The settings are stamped brass, not cast precious metal. The honesty is a strength.</li>
+        <li><strong>Not a generic Shopify store</strong> -- the page shouldn't feel like a default template with a logo swap</li>
+      </ul>
+
+      <h3 class="subsection-heading">Key Corrections from Brand Research</h3>
+      <p>During research, we identified several claims that appeared frequently in Sorrelli's existing marketing but turned out to be outdated or inaccurate. These corrections shaped our copy decisions:</p>
+      <ul>
+        <li><strong>"Genuine Swarovski Crystal"</strong> -- Sorrelli no longer exclusively sources from Swarovski. We use <strong>"premium crystal"</strong> throughout. This is honest and avoids a factual claim the brand can't back up across all products.</li>
+        <li><strong>"Make-A-Mate" program</strong> -- This program is being retired. We don't reference it.</li>
+        <li><strong>"No-retirement policy" (products never discontinued)</strong> -- Products are now being retired. We removed all references to this policy.</li>
+        <li><strong>"Since 1985"</strong> -- The company was actually founded in 1983, not 1985. We use "over 40 years" as a more impactful and accurate framing.</li>
+      </ul>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2: CONFIRMED DIFFERENTIATORS                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="differentiators">
+      <h2 class="section-heading">2. Confirmed Differentiators (What's Still True)</h2>
+      <p>These are the verified, current differentiators that the redesigned PDP leans on. Each one has been fact-checked and confirmed:</p>
+      <ul>
+        <li><strong>Lifetime repair promise</strong> -- with a processing fee. This is honest and transparent. We don't hide the fee; we frame it positively: "If something goes wrong through normal wear, we'll make it right."</li>
+        <li><strong>40+ years of heritage</strong> -- woman-founded by Lisa Oswald, now a second-generation family business. This is rare in fashion jewelry and genuinely resonant with the target customer.</li>
+        <li><strong>Handcrafted by an artisan team</strong> -- pieces are assembled by hand in Kutztown, PA. Not a marketing abstraction -- this is how the jewelry is actually made.</li>
+        <li><strong>Premium crystal</strong> -- genuine crystal, semi-precious stones, and natural materials like pearls. No plastics, ever. The honest framing avoids overclaiming while still communicating quality.</li>
+        <li><strong>Inspected 7 times before shipping</strong> -- a specific, verifiable claim that communicates quality control without vague language.</li>
+        <li><strong>93% female workforce</strong> -- authentic and meaningful to the self-purchasing female customer, without being performative.</li>
+      </ul>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3: PAGE ARCHITECTURE & SECTION ORDER                  -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="page-architecture">
+      <h2 class="section-heading">3. Page Architecture &amp; Section Order</h2>
+      <p>The page is designed as a <strong>scroll journey</strong> -- a deliberate sequence that moves the customer from desire to confidence to action to discovery. Every section earns its position.</p>
+
+      <!-- Section 1: Header -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">1</span>
+          <h3 class="section-card__title">Header / Navigation</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>The standard Sorrelli Shopify theme header -- logo, navigation, cart, search.</p>
+        <p class="section-card__label">Why it's here</p>
+        <p>Unchanged from the production site. The header provides site-wide navigation and brand recognition. Redesigning it is outside the scope of this PDP project and would create inconsistency with the rest of the site.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Orients the customer. She knows she's on Sorrelli.com, she can navigate elsewhere, and the familiar header doesn't distract from the product.</p>
+      </div>
+
+      <!-- Section 2: Product Hero -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">2</span>
+          <h3 class="section-card__title">Product Hero (Gallery + Info Panel)</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>The primary above-fold experience. Gallery on the left (portrait-cropped product images with Flickity slider, thumbnail strip, zoom-on-click lightbox). Info panel on the right with product name, aggregate brand rating, price, BNPL breakdown, color selector, editorial product description in an accordion, and the Add to Bag CTA.</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>This is the decision zone. Research shows 60%+ of ecommerce traffic lands directly on PDPs. Everything needed to buy -- or to decide to keep scrolling -- must be visible without scrolling.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Identity + Trust + Action. The customer immediately knows: what is this product, can I trust this brand, what does it cost, and how do I buy it.</p>
+        <p class="section-card__label">What changed from the original</p>
+        <ul>
+          <li><strong>Aggregate brand rating added</strong> -- "Loved by thousands -- 4.8 average rating" sits between the product name and price. Research shows 60% of shoppers are more likely to buy an unreviewed product if the <em>brand</em> has strong ratings. Most Sorrelli products have zero reviews, so brand-wide social proof fills that trust gap. Per-product stars only appear when a product has 3+ reviews.</li>
+          <li><strong>Editorial product description</strong> -- The original Shopify PDP had catalog spec copy: "features a single emerald cut candy gem crystal dangling from a round crystal studded lever back French wire." Our version is sensory and benefit-driven: "A luminous emerald-cut crystal catches every shift of light, suspended from a crystal-studded lever back that stays comfortable from morning to evening." Same product. Different feeling.</li>
+          <li><strong>Accordion consolidates About / Promise / Shipping</strong> -- Instead of inline walls of text, the product details live in a three-panel accordion (About This Piece, The Sorrelli Promise, Shipping &amp; Returns). This keeps the CTA close to the viewport while letting curious shoppers expand what they need. Research from Baymard shows accordions have a 3.4x content discovery improvement over tabs.</li>
+          <li><strong>BNPL made prominent</strong> -- "4 interest-free payments of $20.00" with Afterpay and Shop Pay logos, plus an info modal. For the $40-150 price range, BNPL reframes the purchase from "$80 decision" to "$20 decision." This is proven effective for self-purchasers in this category.</li>
+        </ul>
+      </div>
+
+      <!-- Section 3: Brand Story -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">3</span>
+          <h3 class="section-card__title">Brand Story Editorial Block ("The Sorrelli Difference")</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A full-width split-layout editorial block. Image on the left (jewelry arranged on marble surface), content on the right. Eyebrow text: "The Sorrelli Difference." Headline: "Every crystal placed by hand. Every piece built to stay with you." Supporting copy about 40+ years of heritage and craftsmanship. Trust detail line: "Woman-Founded / Handcrafted / Inspected 7x / Lifetime Promise."</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>This is the <strong>first thing below the product hero</strong>. The customer has just seen the product and considered the price. Before we address objections (shipping, returns, durability), we create <strong>desire</strong>. The original PDP was roughly 80% objection-handling and 20% desire-building. This block rebalances that ratio.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Answers the question "Why Sorrelli?" with emotion, not logistics. Craftsmanship story creates perceived value that justifies the price. The woman-founded heritage resonates specifically with self-purchasing women.</p>
+        <p class="section-card__label">What was there before</p>
+        <p>Nothing equivalent. The original had a "Woman-Founded, Woman-Led" full section and a "Sisterhood" section much further down the page, but both were About-page-length content that slowed the scroll journey. The brand story editorial block distills the strongest emotional content into a single, visually striking moment.</p>
+      </div>
+
+      <!-- Section 4: Value Props -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">4</span>
+          <h3 class="section-card__title">Value Props ("Crafted for You, Made to Last")</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A cream-background section with a 4x1 grid of value proposition cards, each with a rose-gold icon, a title, and supporting copy. The four cards: Delivers in Days, Try It On Risk Free, Luxuriously Comfortable, Backed by Our Lifetime Promise. Below the grid: a trust badge line -- "Woman-Founded &amp; Handcrafted for Over 40 Years."</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>After the brand story creates desire, the value props address the four biggest purchase anxieties: <em>Will it arrive quickly? What if I don't like it? Will it be comfortable? Will it last?</em> This is where conversion psychology meets practical reassurance.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Objection handling in a compact, scannable format. Each card answers a specific worry with a specific answer. The trust badge condenses the woman-founded messaging into a single line rather than a full section.</p>
+        <p class="section-card__label">What was there before</p>
+        <p>The original had two separate sections for this content -- "Hand Crafted to Last a Lifetime" (Section A, with six 1200x900 background images for what should have been CSS colors) and a "Craftsmanship Features" section (Section D) that repeated the lifetime message for the fourth time. We consolidated both into a single 4-card grid, merged the unique "Luxuriously Comfortable" content from Section D, and eliminated the redundancy.</p>
+        <p class="section-card__label">What we changed</p>
+        <ul>
+          <li>4x1 grid instead of 2x2 -- single row scans faster, collapses to 2x2 on tablet and single column on mobile</li>
+          <li>"Crafted for You, Made to Last" heading uses self-purchase framing</li>
+          <li>Removed six background images (pure CSS now)</li>
+          <li>Woman-Founded full section condensed to a trust badge line</li>
+        </ul>
+      </div>
+
+      <!-- Section 5: Reviews -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">5</span>
+          <h3 class="section-card__title">Reviews Carousel ("What Our Customers Are Saying")</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A horizontal carousel of three customer review cards with product images, star ratings, review titles, review text, and "Verified Buyer" badges. Previous/next navigation buttons. Three cards visible on desktop, one on mobile with transform-based sliding.</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>Social proof follows objection handling. The customer has seen the product, felt the brand story, and had her practical worries addressed. Now she needs to hear from other women who've already bought.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Peer validation. The reviews are specifically curated to address the self-purchase use case and the key concerns of the Sorrelli customer: comfort for all-day wear, versatility across occasions, and the emotional satisfaction of treating yourself.</p>
+        <p class="section-card__label">What was there before</p>
+        <p>The original had two review states: an empty product review section ("Be the first to review this item" with five gray stars) and a cross-product review carousel that pulled from unrelated product types (a ring, a necklace, different earrings). The empty state was actively harmful -- research from PowerReviews shows 80% of consumers are less likely to buy products with no reviews. The cross-product reviews included a truncated necklace review that mentioned waiting for a sale (planting delay behavior).</p>
+        <p class="section-card__label">What we changed</p>
+        <ul>
+          <li>Empty product review state hidden entirely (<code>display: none !important</code>)</li>
+          <li>Reviews curated for same-product and same-category relevance</li>
+          <li>Replaced the sale-waiting necklace review with a self-purchase earring review</li>
+          <li>Removed SKUs from review product names (customers don't think in SKUs)</li>
+          <li>Added "Verified Buyer" badges consistently</li>
+          <li>White background to create visual separation from the cream value props section above</li>
+        </ul>
+      </div>
+
+      <!-- Section 6: FAQ -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">6</span>
+          <h3 class="section-card__title">FAQ Accordion</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A two-column layout with a decorative image on the left and a four-question accordion on the right. Questions: How long does shipping take? What is your return policy? What are these earrings made of? How do I care for my Sorrelli jewelry?</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>FAQs serve research-mode shoppers -- people who are interested but need specific answers before committing. Positioning the FAQ after social proof means it catches customers who weren't fully convinced by reviews and need more detail.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Removes the final barriers to purchase. Shipping, returns, materials, and care are the four most common questions for jewelry purchases in this price range.</p>
+        <p class="section-card__label">What was there before</p>
+        <p>The original FAQ had five questions, including a duplicate returns question (Q3 and Q5 were identical) and a brand-story Q1 ("How is Sorrelli Different?") that repeated messaging already covered in three other sections.</p>
+        <p class="section-card__label">What we changed</p>
+        <ul>
+          <li>Removed duplicate returns question</li>
+          <li>Replaced brand-story Q1 with product-specific materials question ("What are these earrings made of?") -- shoppers want to know what <em>this product</em> is made of, not get another brand pitch</li>
+          <li>Added care instructions question (new)</li>
+          <li>Fixed shipping threshold to $150 (was inconsistent in original)</li>
+          <li>CSS chevron indicators replace +/- text for a more polished feel</li>
+          <li>Reordered: shipping first (most asked), returns second, materials third, care fourth</li>
+        </ul>
+      </div>
+
+      <!-- Section 7: Collection Story -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">7</span>
+          <h3 class="section-card__title">Collection Story Editorial Block ("Panama Rose")</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A full-width split-layout editorial block, mirrored from the brand story block -- content on the left, image on the right. Eyebrow: "The Collection." Headline: "Panama Rose." Copy describes the collection's inspiration (golden-hour light, warm rose and champagne tones) and who it's for. CTA link: "Explore the Collection."</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>This block sits directly above the cross-sell cards. Its purpose is to <strong>contextualize the cross-sell</strong>. Without this block, the cross-sell section is just "here are four more things to buy." With it, Panama Rose becomes a story -- a curated world the customer can explore. The cross-sell transforms from merchandising into aspiration.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Desire-building that serves commerce. The collection narrative makes the customer want to see more, and the cross-sell cards below deliver on that wanting.</p>
+        <p class="section-card__label">What was there before</p>
+        <p>Nothing. The original PDP had two empty recommendation sections ("Shop All" and "You May Also Like") with no narrative context and no products loaded.</p>
+      </div>
+
+      <!-- Section 8: Cross-Sell -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">8</span>
+          <h3 class="section-card__title">Cross-Sell ("Complete the Look")</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>A 4-card product grid of Panama Rose collection pieces: Matilda Choker Necklace ($165), Sienna Tennis Bracelet ($85), Cushion-Cut Round Dangle Earrings ($75), Anika Adjustable Cocktail Ring ($78). Each card has a product image, name, collection name, and price. Below: "Shop All Panama Rose" CTA button.</p>
+        <p class="section-card__label">Why it's in this position</p>
+        <p>Cross-sell is positioned at the end of the content journey, after the customer has been through desire, trust, social proof, research, and more desire. She's either ready to buy the original product or ready to explore. Either way, these four cards offer expansion within the same collection -- cohesive, not random.</p>
+        <p class="section-card__label">What it accomplishes</p>
+        <p>Same-collection cross-sell outperforms generic "You May Also Like" recommendations. The customer sees matching pieces she can pair with her earrings -- a necklace, a bracelet, a ring -- creating the natural impulse to "complete the look."</p>
+        <p class="section-card__label">What was there before</p>
+        <p>Two consecutive empty recommendation containers (Sections I and J). One was "Shop All" and the other was "You May Also Like." Both were empty because Shopify's recommendation JS doesn't work outside the Shopify environment. Even on production, having two separate recommendation sections is redundant.</p>
+        <p class="section-card__label">What we changed</p>
+        <ul>
+          <li>Consolidated two empty sections into one working section with real products</li>
+          <li>"Complete the Look" framing (proven to outperform generic recommendations per industry research)</li>
+          <li>Same-collection cohesion (all Panama Rose) rather than random assortment</li>
+          <li>Four products (the sweet spot -- enough to browse, not enough for decision paralysis)</li>
+          <li>Removed broken Shopify recommendation JS</li>
+        </ul>
+      </div>
+
+      <!-- Section 9: Footer -->
+      <div class="section-card">
+        <div class="section-card__header">
+          <span class="section-card__badge">9</span>
+          <h3 class="section-card__title">Footer</h3>
+        </div>
+        <p class="section-card__label">What it is</p>
+        <p>The standard Sorrelli Shopify theme footer -- site links, social media, newsletter signup, legal.</p>
+        <p class="section-card__label">Why it's here</p>
+        <p>Unchanged from the production site, for the same reasons as the header. Consistency with the rest of the site.</p>
+      </div>
+
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4: WHAT WE REMOVED                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="what-we-removed">
+      <h2 class="section-heading">4. What We Removed (and Why)</h2>
+      <p>Every removal was deliberate. Nothing was cut for the sake of cutting -- each item either actively hurt the shopping experience or added weight without value.</p>
+
+      <ul>
+        <li><strong>"Excluded from discounts" notice</strong> -- This sat directly above the Add to Bag button. Research on framing effects is unequivocal: 72% of consumers choose positively-framed options versus 22% for negatively-framed ones. Worse, the notice introduces the <em>concept</em> of discounts to someone who wasn't thinking about them, potentially driving her to the sale section instead. No comparable accessible-luxury jewelry brand (Mejuri, Monica Vinader, Kendra Scott, Gorjana) does this on PDPs. We handle it reactively at checkout instead.</li>
+        <li><strong>Hidden second CTA (Section B)</strong> -- Completely invisible dead code (<code>class="is-hidden"</code>). Added page weight with zero benefit. The mobile sticky CTA solves the repeated-CTA need properly.</li>
+        <li><strong>Unboxing video section (Section C)</strong> -- The weakest section on the original page. An iPhone X mockup (2017 device) using a "Marvel Devices" CSS library to frame a generic brand unboxing video. The testimonial quote was an unedited Instagram comment: "Support businesses online, do some online shopping!" The copy was boilerplate: "It's no secret that Sorrelli jewelry is second to none." This section was antithetical to the brand's "editorial but approachable" identity -- it felt like a 2019 growth hack, not aspirational luxury. External CSS dependency just for the phone frame. 600px tall on desktop, 1020px on mobile.</li>
+        <li><strong>Woman-Founded full section (Section F)</strong> -- Genuinely resonant content, but a full image-and-text founder story is About page content, not PDP content. No comparable brand includes this on PDPs. Condensed to a trust badge in the value props section: "Woman-Founded &amp; Handcrafted for Over 40 Years."</li>
+        <li><strong>Sisterhood section (Section G)</strong> -- Two consecutive full-width brand narrative sections with family photos is definitively About page content. The copy tried to hit too many notes in four sentences (sisterhood, connection, confidence, durability, sustainability). "Handcrafted to last a lifetime" appeared here for the fifth time on the page. Moved to About page.</li>
+        <li><strong>Empty review state ("Be the first to review this item")</strong> -- Negative social proof. Five gray empty stars and an invitation to be the first reviewer communicates "nobody has bought or liked this product." Hidden entirely. The brand-wide aggregate rating above the fold handles social proof for unreviewed products.</li>
+        <li><strong>Duplicate FAQ question</strong> -- Q3 and Q5 were both about returns. Q1 was a brand story question ("How is Sorrelli Different?") that repeated messaging from three other sections. Replaced Q1 with a product-specific materials question. Removed duplicate Q5.</li>
+        <li><strong>Two empty cross-sell sections</strong> -- Both containers were empty in the prototype and would only populate on the live Shopify environment. Consolidated into one section with real, curated product cards.</li>
+        <li><strong>Broken Shopify recommendation JS</strong> -- The recommendation engine requires Shopify's server-side infrastructure. In a standalone prototype, it's dead code.</li>
+      </ul>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 5: WHAT WE ADDED                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="what-we-added">
+      <h2 class="section-heading">5. What We Added (and Why)</h2>
+
+      <h3 class="subsection-heading">Design Tokens (CSS Custom Properties)</h3>
+      <p>A systematic warm color palette defined in <code>:root</code> variables, replacing cold grays throughout the page. Every instance of #333, #444, #555 -- the default Shopify text colors -- was replaced with warm brown equivalents (#3D3531, #504842, #6B605A). Rose-gold (#cab0a3) serves as the accent color.</p>
+      <p><strong>Why:</strong> Cold grays feel generic and clinical. The "Hollywood Beige" brand identity calls for warmth in every detail. Design tokens also create maintainability -- changing a color once in <code>:root</code> updates it everywhere, rather than hunting through thousands of lines of inline styles.</p>
+
+      <h3 class="subsection-heading">Aggregate Rating Above the Fold</h3>
+      <p>"Loved by thousands -- 4.8 average rating" with five warm rose-gold stars, positioned between the product name and price.</p>
+      <p><strong>Why:</strong> Most Sorrelli products have zero individual reviews. Research from PowerReviews shows 80% of consumers are less likely to buy products with no reviews, but 60% are more likely to buy an unreviewed product if the brand has strong ratings. This brand-wide aggregate fills the trust gap without faking product-specific reviews.</p>
+
+      <h3 class="subsection-heading">Editorial Product Description</h3>
+      <p>Replaced catalog spec copy with sensory, benefit-driven language. Instead of listing features, the description paints a picture of how the product looks, feels, and fits into the customer's life:</p>
+      <blockquote>
+        <p>"A luminous emerald-cut crystal catches every shift of light, suspended from a crystal-studded lever back that stays comfortable from morning to evening. The warm Bright Gold-tone finish gives these earrings a richness that pairs effortlessly with everything from a casual sweater to a night out."</p>
+      </blockquote>
+      <p><strong>Why:</strong> The original description was written for a product database, not a person. For aspirational purchases, the copy needs to create desire, not just inform. The specs still appear -- crystal type, finish, dimensions, SKU -- but they follow the story, they don't lead it.</p>
+
+      <h3 class="subsection-heading">Brand Story Editorial Block</h3>
+      <p>A full-width split-layout section that tells the Sorrelli craftsmanship story in a single, visually impactful moment.</p>
+      <p><strong>Why:</strong> The original PDP was roughly 80% objection-handling (trust, shipping, returns, guarantees) and 20% desire-building. That ratio doesn't match how aspirational purchases work. Customers need to <em>want</em> before they need reassurance. This block creates emotional connection between the product consideration zone (above fold) and the trust reinforcement zone (value props). It fills the desire gap.</p>
+
+      <h3 class="subsection-heading">Collection Story Editorial Block</h3>
+      <p>A narrative introduction to the Panama Rose collection, positioned directly above the cross-sell.</p>
+      <p><strong>Why:</strong> Without context, cross-sell products are just "more stuff to buy." With a collection narrative, they become "a curated world to explore." "Panama Rose" transforms from a color name into a story about golden-hour light and effortless warmth. The cross-sell cards below become more compelling because the customer understands what connects them.</p>
+
+      <h3 class="subsection-heading">Mobile Gallery Dot Indicators</h3>
+      <p>Dot indicators synced to Flickity slides, visible only on mobile (where the thumbnail strip is hidden).</p>
+      <p><strong>Why:</strong> On mobile, the original gallery showed images in a swipeable slider but gave no indication of how many images existed. Customers had no reason to swipe. Dot indicators are the standard mobile gallery pattern -- they communicate "there's more to see" with zero cognitive load.</p>
+
+      <h3 class="subsection-heading">Mobile Sticky CTA</h3>
+      <p>An IntersectionObserver-based sticky bar that appears when the main Add to Bag button scrolls out of view. Includes product thumbnail, name, price, and an "Add to Bag" button. Slides up with a 300ms animation. iPhone safe-area-inset padding for the home bar.</p>
+      <p><strong>Why:</strong> Over 70% of jewelry ecommerce traffic is mobile. Once a customer scrolls past the main CTA to read more about the product, she loses access to the purchase button. The sticky bar keeps the CTA always available without being intrusive (it only appears when the primary button is off-screen).</p>
+
+      <h3 class="subsection-heading">CSS Chevron FAQ Indicators</h3>
+      <p>Animated CSS chevrons that rotate when accordion items expand/collapse, replacing the original +/- text indicators.</p>
+      <p><strong>Why:</strong> A small polish detail that contributes to the overall feeling of quality. The +/- text indicators looked utilitarian. The chevrons animate smoothly (0.25s ease) and feel more refined.</p>
+
+      <h3 class="subsection-heading">Working Reviews Carousel</h3>
+      <p>A functional carousel with prev/next navigation buttons using transform-based sliding. Three cards visible on desktop, one on mobile.</p>
+      <p><strong>Why:</strong> The original review carousel had navigation buttons that didn't work. Wiring them with a simple transform-based slide mechanism ensures customers can actually browse reviews.</p>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 6: COPY DECISIONS & RATIONALE                         -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="copy-decisions">
+      <h2 class="section-heading">6. Copy Decisions &amp; Rationale</h2>
+
+      <h3 class="subsection-heading">"Add to Bag" not "ADD TO BAG"</h3>
+      <p>Title case matches the brand's quiet confidence. All-caps reads as aggressive and shouty -- the typographic equivalent of a salesperson raising her voice. Research on CTA text for fashion and luxury consistently shows "Add to Bag" outperforms "Add to Cart" (the "bag" framing feels more fashion-forward).</p>
+
+      <h3 class="subsection-heading">"View all colors" not "View all colorways"</h3>
+      <p>"Colorway" is industry jargon that originated in sneaker culture and is used in merchandising and buying. It is not mainstream consumer vocabulary -- QVC community forums show real shoppers finding it confusing or pretentious. No luxury jewelry brand uses "Colorway" on PDPs. Gorjana uses "Metal:", Mejuri uses "Material:", BaubleBar and David Yurman use "Color:". We use "Color:" as the selector label and consumer-friendly language in the link text.</p>
+
+      <h3 class="subsection-heading">"Secured Checkout" not "Shopify Secured Checkout"</h3>
+      <p>"Shopify" is platform jargon that means nothing to customers. The customer doesn't know or care what Shopify is. "Secured Checkout" communicates the same trust signal without the noise.</p>
+
+      <h3 class="subsection-heading">"Premium crystal" not "Genuine Swarovski"</h3>
+      <p>Honest framing. Sorrelli no longer exclusively sources from Swarovski, so claiming "Genuine Swarovski" across all products would be inaccurate. "Premium crystal" is truthful, still communicates quality, and avoids a factual liability. The FAQ answer specifies further: "genuine crystal, semi-precious stones, and natural materials like pearls."</p>
+
+      <h3 class="subsection-heading">"Woman-Founded &amp; Handcrafted for Over 40 Years"</h3>
+      <p>More impactful than "Since 1985." The "over 40 years" framing communicates scale and endurance. It also corrects a date error in the original site -- Sorrelli was founded in 1983, not 1985. The combined "Woman-Founded &amp; Handcrafted" phrasing delivers two differentiators in a single line.</p>
+
+      <h3 class="subsection-heading">Returns Language: Specific Conditions Instead of "Certain Restrictions Apply"</h3>
+      <p>Vague restrictions create distrust. When a customer reads "certain restrictions apply," she assumes the worst. "Unworn and in original packaging" is transparent and still protective -- she knows exactly what's expected, and the specificity actually builds confidence rather than suspicion.</p>
+
+      <h3 class="subsection-heading">Self-Purchase Framing</h3>
+      <p>This is a deliberate strategic choice that runs through the entire page:</p>
+      <ul>
+        <li><strong>Section heading:</strong> "Crafted for You, Made to Last" -- not "Gift Guide" or "Perfect for Her"</li>
+        <li><strong>Review curation:</strong> Review 2 is titled "Bought for Myself, No Regrets" -- directly validates the self-purchase decision</li>
+        <li><strong>Product description:</strong> Written for the woman wearing the earrings, not someone buying them as a gift. "Stays comfortable from morning to evening" speaks to her daily experience.</li>
+        <li><strong>Collection story:</strong> "Designed for the woman who wants her jewelry to feel effortless" -- second person, self-directed</li>
+      </ul>
+      <p>Research on jewelry ecommerce shows women buying for themselves respond to self-reward and self-expression messaging, not gift/occasion framing. The entire copy strategy is built around this insight.</p>
+
+      <h3 class="subsection-heading">Review Curation</h3>
+      <p>The original carousel included a truncated necklace review that mentioned waiting for a sale -- this plants delay behavior in other shoppers. It also included "Love it" (two words of nothing) and reviews for unrelated product types.</p>
+      <p>Our curated reviews:</p>
+      <ol>
+        <li><strong>"My Go-To Everyday Earrings"</strong> -- addresses comfort, versatility, and the compliment factor</li>
+        <li><strong>"Bought for Myself, No Regrets"</strong> -- validates self-purchase, mentions comfort (lever backs), describes the crystal quality</li>
+        <li><strong>"Simplicity At Its Best"</strong> -- short but genuine, same-category earring review</li>
+      </ol>
+      <p>We also removed SKUs from review product names (customers don't think in SKU codes) and added "Verified Buyer" badges consistently to reinforce authenticity.</p>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 7: VISUAL DESIGN RATIONALE                            -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="visual-design">
+      <h2 class="section-heading">7. Visual Design Rationale</h2>
+
+      <h3 class="subsection-heading">Warm Color System</h3>
+      <p>The original Shopify theme used cold grays (#333, #444, #555) for text and borders. These are Shopify defaults -- functional but completely disconnected from Sorrelli's "Hollywood Beige" visual identity.</p>
+      <p><strong>Our replacements:</strong></p>
+      <ul>
+        <li><code>--color-text-primary: #3D3531</code> (warm dark brown, replaces #333)</li>
+        <li><code>--color-text-body: #504842</code> (warm medium brown, replaces #444)</li>
+        <li><code>--color-text-secondary: #6B605A</code> (warm light brown, replaces #555)</li>
+        <li><code>--color-rose-gold: #cab0a3</code> (accent color for icons, stars, borders, CTAs)</li>
+        <li><code>--color-copper: #B88B72</code> (hover state for rose-gold elements)</li>
+        <li><code>--color-bg-cream: #FAF3EE</code> (featured section backgrounds)</li>
+        <li><code>--color-border-warm: #eddfd3</code> (warm borders throughout)</li>
+      </ul>
+      <p>The difference is subtle but pervasive. When you replace cold gray text with warm brown text across an entire page, the entire feeling shifts. The page stops reading as "generic ecommerce" and starts reading as "intentional, branded experience."</p>
+
+      <h3 class="subsection-heading">White Page Background</h3>
+      <p>We tested a warm page background (#FDFBF9) as recommended in the initial review. It didn't work. The subtle cream cast made the page feel yellowed and aged rather than warm and luxurious. <strong>White background with warm accent sections</strong> (cream value props, cream collection story) provides better contrast and lets the product photography stand out.</p>
+      <p>This was a user preference, confirmed after testing. The lesson: warmth should be applied strategically, not uniformly.</p>
+
+      <h3 class="subsection-heading">Cream (#FAF3EE) for Featured Sections</h3>
+      <p>The value props section and collection story editorial block use cream backgrounds. This creates <strong>visual rhythm</strong> as the customer scrolls -- white, then cream, then white, then cream. The alternation gives each section its own identity and prevents the page from feeling like a single continuous wall of content.</p>
+
+      <h3 class="subsection-heading">Section Heading Consistency</h3>
+      <p>All section headings use the same treatment: 24px, font-weight 300 (light), <code>--color-text-primary</code>. This matches the heading style from the original Shopify theme. Consistency in heading weight creates a visual system -- the customer doesn't need to re-learn how to read the page at each new section.</p>
+
+      <h3 class="subsection-heading">Typography: Open Sans Throughout</h3>
+      <p>We tested serif fonts (Cormorant Garamond) for headings as recommended in the initial review. The serif looked beautiful in isolation but felt wrong against the existing Open Sans body text and the rest of the Shopify theme. Typography needs to work with the whole page, not just the elements we control.</p>
+      <p>Open Sans remains the sole typeface. All redundant <code>font-family</code> declarations were removed -- elements inherit from the body, and <code>font-family</code> is only declared when overriding. This reduces maintenance burden and prevents the "which font is this supposed to be?" confusion that comes from dozens of explicit declarations.</p>
+
+      <h3 class="subsection-heading">Letter-Spacing Normalized</h3>
+      <p>The original had four different letter-spacing values for uppercase elements (0.05em, 0.08em, 0.1em, 0.15em) with no apparent logic. All uppercase elements now use <strong>0.06em</strong> -- consistent, subtle, and readable.</p>
+
+      <h3 class="subsection-heading">Editorial Blocks: Split Layout</h3>
+      <p>Both editorial blocks (brand story and collection story) use a 50/50 grid: image and content side by side.</p>
+      <ul>
+        <li><strong>Brand story:</strong> Image left, content right</li>
+        <li><strong>Collection story:</strong> Content left, image right</li>
+      </ul>
+      <p>This mirroring creates visual rhythm. The first editorial block introduces you to the image on the left; the second flips the pattern so the scroll journey doesn't feel repetitive. Both collapse to single-column (image on top, content below) on mobile.</p>
+
+      <h3 class="subsection-heading">Generous Whitespace Between Sections</h3>
+      <p>Approximately 56px of vertical spacing between major sections (via <code>margin-bottom: 3.5rem</code> or explicit padding). The page needs to breathe. Tight spacing between sections makes the experience feel rushed and cluttered -- the opposite of luxurious. Each section should feel like a distinct moment, not a paragraph in a wall of text.</p>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 8: CONVERSION STRATEGY                                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="conversion-strategy">
+      <h2 class="section-heading">8. Conversion Strategy</h2>
+
+      <h3 class="subsection-heading">Above the Fold: Identity + Trust + Action</h3>
+      <p>Everything needed to buy without scrolling:</p>
+      <ul>
+        <li><strong>Product name</strong> -- what is this?</li>
+        <li><strong>Aggregate rating</strong> -- can I trust this brand?</li>
+        <li><strong>Price + BNPL</strong> -- what does it cost? (and reframed: "only $20 today")</li>
+        <li><strong>Color selector</strong> -- is this the right colorway for me?</li>
+        <li><strong>Product description</strong> (accordion) -- tell me more</li>
+        <li><strong>Add to Bag</strong> -- I'm in</li>
+      </ul>
+      <p>This follows the research-backed principle: above the fold is for conversion mechanics. Below the fold is for storytelling, trust-building, and cross-selling. Shoppers who are ready buy from the top of the page. Shoppers who need convincing scroll.</p>
+
+      <h3 class="subsection-heading">Below the Fold: Desire -- Trust -- Social Proof -- Research -- Desire -- Cross-sell</h3>
+      <p>The below-fold sequence is an intentional rhythm:</p>
+      <ol>
+        <li><strong>Brand Story</strong> (desire) -- "Why Sorrelli?" answered with emotion</li>
+        <li><strong>Value Props</strong> (trust) -- "Why should I feel safe buying?" answered with specifics</li>
+        <li><strong>Reviews</strong> (social proof) -- "Do other women like me love this?" answered by peers</li>
+        <li><strong>FAQ</strong> (research) -- "What do I still need to know?" answered directly</li>
+        <li><strong>Collection Story</strong> (desire) -- "What's the world this product lives in?" answered with narrative</li>
+        <li><strong>Cross-sell</strong> (expansion) -- "What else might I love?" answered with curated picks</li>
+      </ol>
+      <p>The page doesn't just answer objections -- <strong>it creates wanting</strong>. The desire-trust-desire sandwich means that no matter where a customer stops scrolling, she's encountered both emotional and rational reasons to buy. The sections alternate between "make me want it" and "make me trust it," creating a compelling pull toward purchase.</p>
+
+      <h3 class="subsection-heading">Repeated Trust Signals at Different Depths</h3>
+      <p>The lifetime promise appears in three locations: the product accordion ("The Sorrelli Promise"), the trust strip below the CTA ("Lifetime Promise"), and the value props section ("Backed by Our Lifetime Promise"). A customer who scrolls to any depth encounters this differentiator.</p>
+      <p><strong>Crucially, each instance uses different framing.</strong> The accordion has the full story with icons and details. The trust strip is a compact three-word signal. The value props card is a mid-length reassurance. The message is consistent; the delivery is varied. This avoids the "why do they keep saying the same thing?" fatigue that plagued the original (which literally had "handcrafted to last a lifetime" five times in identical phrasing).</p>
+
+      <h3 class="subsection-heading">Dynamic Urgency</h3>
+      <p>"Ships Today" / "Ships Tomorrow" / "Ships Monday" is calculated from the Kutztown, PA warehouse timezone using real business hours (weekdays before 1 PM ET = "Ships Today," after that = "Ships Tomorrow," weekends = "Ships Monday").</p>
+      <p><strong>Why this matters:</strong> This is authentic urgency. Fake countdown timers and "Only 3 left!" warnings erode trust -- especially for a brand that positions itself on honesty. Real shipping speed based on actual warehouse operations is a genuine service to the customer, not a manipulation.</p>
+
+      <h3 class="subsection-heading">BNPL Reframing</h3>
+      <p>$80 becomes "4 interest-free payments of $20.00." For the price-conscious self-purchaser who's debating between Sorrelli and a fast-fashion alternative, the BNPL framing makes the purchase feel manageable. The info modal breaks down the payment schedule transparently (Today, 2 Weeks, 4 Weeks, 6 Weeks) for both Afterpay and Shop Pay.</p>
+    </section>
+
+    <hr class="section-divider"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 9: LESSONS LEARNED                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="doc-section" id="lessons-learned">
+      <h2 class="section-heading">9. Lessons Learned</h2>
+      <p>These are the things we got wrong on the first try, or assumptions that didn't survive contact with the actual design. Each one shaped a specific decision in the final product.</p>
+
+      <h3 class="subsection-heading">Serif Fonts Didn't Land</h3>
+      <p>Cormorant Garamond was beautiful in isolation -- elegant, warm, perfect for "aspirational achievable luxury." But when applied to headings on the actual page alongside Open Sans body text, it felt disconnected. The serif headings competed with the sans-serif body rather than complementing it. Typography needs to work with the whole page ecosystem, not just the headings.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Don't make typography decisions from a font specimen. Test in context.</p></div>
+
+      <h3 class="subsection-heading">Warm Page Background Was Too Much</h3>
+      <p>#FDFBF9 (a very subtle warm white) was recommended in the initial review to replace the cold #ffffff. In practice, the warm cast made the page look aged or yellowed -- "warm" crossed into "dingy." White background with warm <em>accent sections</em> (cream) provides better contrast and lets the product photography pop.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Warmth is more effective when applied strategically to specific sections than when applied uniformly to the entire page.</p></div>
+
+      <h3 class="subsection-heading">Font-Weight 500 Is a Serif Artifact</h3>
+      <p>When we reverted from Cormorant Garamond (serif) to Open Sans (sans-serif), all instances of <code>font-weight: 500</code> needed to change. 500 looks elegant and intentional on a serif face -- it's a comfortable reading weight. On Open Sans, 500 looks thin and awkward, barely distinguishable from 400. The correct weights for Open Sans are 300 (light), 400 (regular), 600 (semi-bold), 700 (bold), and 800 (extra-bold).</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Font weights aren't universal. When changing typefaces, audit every weight declaration.</p></div>
+
+      <h3 class="subsection-heading">Don't Rely on Reviews for Messaging</h3>
+      <p>Customer reviews are unpredictable. The original carousel included a review that mentioned waiting for sales, a two-word review ("Love it"), and reviews for unrelated product types. The page's own content must do the selling. Reviews serve as <em>social proof</em> -- validation that real people agree with what the page already said. They're not sales copy.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Curate reviews carefully. Never let user-generated content contradict the page's conversion strategy.</p></div>
+
+      <h3 class="subsection-heading">Differentiators Need Fact-Checking</h3>
+      <p>Three of the initial differentiators surfaced in brand research turned out to be outdated: Swarovski exclusivity (no longer true), Make-A-Mate program (being retired), and the no-retirement product policy (no longer active). If we had committed these to copy without verification, the page would contain factual errors.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Always verify claims with the brand team before committing to copy. Heritage brands evolve, and marketing materials don't always keep up.</p></div>
+
+      <h3 class="subsection-heading">2x2 Grids Are Too Tall</h3>
+      <p>The initial value props layout used a 2x2 grid -- two cards per row, two rows. It was technically correct but felt unnecessarily tall, especially on desktop where horizontal space is abundant. The 4x1 layout (single row) is more compact, scans faster horizontally, and still collapses gracefully to 2x2 on tablet and single column on mobile.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Use the full width. Desktop screens are wide; vertical scroll is expensive.</p></div>
+
+      <h3 class="subsection-heading">Redundant Font-Family Declarations Add Maintenance Burden</h3>
+      <p>When both <code>--font-heading</code> and <code>--font-body</code> resolve to the same font stack (Open Sans), explicitly declaring <code>font-family</code> on every element creates noise. If you later want to change the heading font, you'd need to update dozens of declarations instead of one variable. Let elements inherit; only declare <code>font-family</code> when overriding.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> CSS inheritance exists for a reason. Don't fight it.</p></div>
+
+      <h3 class="subsection-heading">"Muddy" vs. "Warm" Backgrounds</h3>
+      <p>The reviews section originally used <code>--color-bg-warm</code> (#f5f0eb) as its background, matching the warm palette. But placed between the cream value props above and the white FAQ below, it looked muddy -- there wasn't enough contrast between the cream and the warm gray. Switching the reviews to a white background created cleaner visual separation.</p>
+      <div class="takeaway"><p><strong>The takeaway:</strong> Colors don't exist in isolation. They exist next to other colors. Always evaluate backgrounds in the context of the surrounding sections.</p></div>
+
+    </section>
+
+    <!-- Closing note -->
+    <p class="closing-note">This document was prepared as a foundation for the Sorrelli PDP redesign presentation to the marketing and broader Sorrelli team. It reflects the state of the redesign as of February 2026.</p>
+
+  </main>
+</div>
+
+<!-- ═══════ SCROLL-SPY JS ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  const sections = document.querySelectorAll('.doc-section[id]');
+  const tocLinks = document.querySelectorAll('.toc__link[data-section]');
+  const mobileLinks = document.querySelectorAll('.toc-mobile__link');
+
+  if (!sections.length || !tocLinks.length) return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+
+        tocLinks.forEach(function(link) {
+          link.classList.toggle('is-active', link.getAttribute('data-section') === id);
+        });
+
+        mobileLinks.forEach(function(link) {
+          const href = link.getAttribute('href');
+          link.classList.toggle('is-active', href === '#' + id);
+        });
+      }
+    });
+  }, {
+    rootMargin: '-80px 0px -60% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
