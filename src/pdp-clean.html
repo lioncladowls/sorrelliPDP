@@ -102,12 +102,16 @@
         object-position: center;
       }
       /* Same ratio in Fancybox lightbox — override inline styles on container + image */
+      .fancybox-slide {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
       .fancybox-content {
         width: auto !important;
         height: 90vh !important;
         aspect-ratio: 1080 / 1440 !important;
         overflow: hidden !important;
-        margin: 0 auto !important;
       }
       .fancybox-slide img,
       .fancybox-image,
