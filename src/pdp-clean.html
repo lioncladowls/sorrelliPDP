@@ -90,6 +90,24 @@
 
 <!-- ═══════ PRODUCT GALLERY OVERRIDES — match original PDP arrow & thumbnail style ═══ -->
     <style type="text/css">
+      /* Constrain all gallery images to 1080x1440 portrait ratio, center-crop */
+      .product-gallery__main .image__container {
+        aspect-ratio: 1080 / 1440;
+        overflow: hidden;
+      }
+      .product-gallery__main .image__container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      /* Same ratio for thumbnails */
+      .product-gallery__thumbnail img {
+        aspect-ratio: 1080 / 1440;
+        object-fit: cover;
+        object-position: center;
+      }
+
       /* Small, subtle prev/next arrows like the original Sorrelli PDP */
       .product-gallery .flickity-prev-next-button {
         width: 40px;
@@ -1639,47 +1657,47 @@ Go to your shopping bag
 <!-- ═══════ PRODUCT GALLERY ════════════════════════════════════════════ -->
                     <div class="product-gallery product-gallery--left-thumbnails product-gallery--image-amount-4">
                       <div class="product-gallery__main">
-                        <div class="product-gallery__image" data-image-height="1024px" data-image-width="1024px" data-title="Kathleen Studded Dangle Earrings - EFF80BGPRO">
-                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-a.jpg">
-                            <div class="image__container" style="max-width: 1024px">
-                              <img alt="Kathleen Studded Dangle Earrings - EFF80BGPRO" class="lazyloaded" data-index="0" src="../sorrelli-images/EFF80BGPRO-a.jpg"/>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="product-gallery__image" data-image-height="1024px" data-image-width="1024px" data-title="Kathleen Studded Dangle Earrings - Lifestyle">
-                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-b.jpg">
-                            <div class="image__container" style="max-width: 1024px">
-                              <img alt="Kathleen Studded Dangle Earrings - Lifestyle" class="lazyloaded" data-index="1" src="../sorrelli-images/EFF80BGPRO-b.jpg"/>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="product-gallery__image" data-image-height="1024px" data-image-width="1024px" data-title="Kathleen Studded Dangle Earrings - Detail">
-                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-c.jpg">
-                            <div class="image__container" style="max-width: 1024px">
-                              <img alt="Kathleen Studded Dangle Earrings - Detail" class="lazyloaded" data-index="2" src="../sorrelli-images/EFF80BGPRO-c.jpg"/>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="product-gallery__image" data-image-height="1024px" data-image-width="1024px" data-title="Kathleen Studded Dangle Earrings - Product Shot">
+                        <div class="product-gallery__image" data-image-height="1440px" data-image-width="1080px" data-title="Kathleen Studded Dangle Earrings - Product Shot">
                           <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO.jpg">
-                            <div class="image__container" style="max-width: 1024px">
-                              <img alt="Kathleen Studded Dangle Earrings - Product Shot" class="lazyloaded" data-index="3" src="../sorrelli-images/EFF80BGPRO.jpg"/>
+                            <div class="image__container" style="max-width: 1080px">
+                              <img alt="Kathleen Studded Dangle Earrings - Product Shot" class="lazyloaded" data-index="0" src="../sorrelli-images/EFF80BGPRO.jpg"/>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="product-gallery__image" data-image-height="1440px" data-image-width="1080px" data-title="Kathleen Studded Dangle Earrings - EFF80BGPRO">
+                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-a.jpg">
+                            <div class="image__container" style="max-width: 1080px">
+                              <img alt="Kathleen Studded Dangle Earrings - EFF80BGPRO" class="lazyloaded" data-index="1" src="../sorrelli-images/EFF80BGPRO-a.jpg"/>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="product-gallery__image" data-image-height="1440px" data-image-width="1080px" data-title="Kathleen Studded Dangle Earrings - Lifestyle">
+                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-b.jpg">
+                            <div class="image__container" style="max-width: 1080px">
+                              <img alt="Kathleen Studded Dangle Earrings - Lifestyle" class="lazyloaded" data-index="2" src="../sorrelli-images/EFF80BGPRO-b.jpg"/>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="product-gallery__image" data-image-height="1440px" data-image-width="1080px" data-title="Kathleen Studded Dangle Earrings - Detail">
+                          <a class="product-gallery__link" data-fancybox="product__main-20230210GH" href="../sorrelli-images/EFF80BGPRO-c.jpg">
+                            <div class="image__container" style="max-width: 1080px">
+                              <img alt="Kathleen Studded Dangle Earrings - Detail" class="lazyloaded" data-index="3" src="../sorrelli-images/EFF80BGPRO-c.jpg"/>
                             </div>
                           </a>
                         </div>
                       </div>
                       <div class="product-gallery__thumbnails product-gallery__thumbnails--left-thumbnails is-slide-nav--true is-hidden-mobile-only">
+                        <div class="product-gallery__thumbnail one-fifth column" data-title="EFF80BGPRO">
+                          <img alt="Kathleen Studded Dangle Earrings - Product Shot" data-index="0" src="../sorrelli-images/EFF80BGPRO.jpg"/>
+                        </div>
                         <div class="product-gallery__thumbnail one-fifth column" data-title="EFF80BGPRO-a">
-                          <img alt="Kathleen Studded Dangle Earrings - EFF80BGPRO" data-index="0" src="../sorrelli-images/EFF80BGPRO-a.jpg"/>
+                          <img alt="Kathleen Studded Dangle Earrings - EFF80BGPRO" data-index="1" src="../sorrelli-images/EFF80BGPRO-a.jpg"/>
                         </div>
                         <div class="product-gallery__thumbnail one-fifth column" data-title="EFF80BGPRO-b">
-                          <img alt="Kathleen Studded Dangle Earrings - Lifestyle" data-index="1" src="../sorrelli-images/EFF80BGPRO-b.jpg"/>
+                          <img alt="Kathleen Studded Dangle Earrings - Lifestyle" data-index="2" src="../sorrelli-images/EFF80BGPRO-b.jpg"/>
                         </div>
                         <div class="product-gallery__thumbnail one-fifth column" data-title="EFF80BGPRO-c">
-                          <img alt="Kathleen Studded Dangle Earrings - Detail" data-index="2" src="../sorrelli-images/EFF80BGPRO-c.jpg"/>
-                        </div>
-                        <div class="product-gallery__thumbnail one-fifth column" data-title="EFF80BGPRO">
-                          <img alt="Kathleen Studded Dangle Earrings - Product Shot" data-index="3" src="../sorrelli-images/EFF80BGPRO.jpg"/>
+                          <img alt="Kathleen Studded Dangle Earrings - Detail" data-index="3" src="../sorrelli-images/EFF80BGPRO-c.jpg"/>
                         </div>
                       </div>
                     </div>
