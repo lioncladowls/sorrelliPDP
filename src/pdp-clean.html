@@ -15,6 +15,10 @@
     <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/custom_stampedio_carousel.css?v=114384192815208101591669032874" media="all" rel="stylesheet" type="text/css"/>
     <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/styles.scss.css?v=163401241389274262621765143371" media="all" rel="stylesheet" type="text/css"/>
     <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/stackable.css?v=154925656024025995881637236194" media="all" rel="stylesheet" type="text/css"/>
+
+<!-- ═══════ FLICKITY (gallery slider) — loaded directly since Shopify vendor bundle doesn't init locally ═══ -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css"/>
+
     <style type="text/css">
       @media screen and (min-width:1024px) {
             [data-tooltip-title] {
@@ -87,7 +91,7 @@
       const $$_global_page_query_parameters = new URLSearchParams(window.location.search);
     </script>
     <script>
-      $$_search_loader_image_url = '//www.sorrelli.com/cdn/shop/t/4/assets/search_loader.gif?v=63110613156864894481601366469';
+      $$_search_loader_image_url = 'https://www.sorrelli.com/cdn/shop/t/4/assets/search_loader.gif?v=63110613156864894481601366469';
     </script>
 
 <!-- ═══════ THEME SCRIPTS (jQuery, vendors, app) ══════════════════════ -->
@@ -107,7 +111,7 @@
     <meta content="The Kathleen Studded Dangle Earrings feature a single emerald cut candy gem crystal dangling from a round crystal studded lever back French wire. From Sorrelli's Panama Rose collection in our Bright Gold-tone finish." name="description">
 
 <!-- ═══════ FAVICON LINKS ═══════════════════════════════════════════ -->
-      <link href="www.sorrelli.com/cdn/shop/files/favicon-2_180x180.png?v=1613796624" rel="shortcut icon" type="image/x-icon"/>
+      <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_180x180.png?v=1613796624" rel="shortcut icon" type="image/x-icon"/>
       <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_180x180.png?v=1613796624" rel="apple-touch-icon">
         <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_57x57.png?v=1613796624" rel="apple-touch-icon" sizes="57x57"/>
         <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_60x60.png?v=1613796624" rel="apple-touch-icon" sizes="60x60"/>
@@ -4210,5 +4214,56 @@ $(document).ready(function(){
 				}
 			}
 	});
+  </script>
+
+<!-- ═══════ LOCAL GALLERY & LIGHTBOX FIX ═════════════════════════════════ -->
+<!-- Shopify theme JS (app.min.js / z__jsProduct.js) doesn't initialize outside
+     of Shopify's environment. Load Flickity + Fancybox directly from CDN and
+     initialize them manually so the gallery slider and lightbox work locally. -->
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+
+      // ── Flickity: turn stacked gallery images into a slider ──
+      var galleryEl = document.querySelector('.product-gallery__main');
+      if (typeof Flickity !== 'undefined' && galleryEl && !galleryEl.classList.contains('flickity-enabled')) {
+        var gallery = new Flickity(galleryEl, {
+          cellAlign: 'center',
+          contain: true,
+          pageDots: false,
+          prevNextButtons: true,
+          wrapAround: true,
+          adaptiveHeight: true,
+          imagesLoaded: true
+        });
+
+        // Wire up thumbnail clicks → gallery navigation
+        var thumbs = document.querySelectorAll('.product-gallery__thumbnail');
+        thumbs.forEach(function(thumb, i) {
+          thumb.style.cursor = 'pointer';
+          thumb.addEventListener('click', function() {
+            gallery.select(i);
+          });
+        });
+
+        // Highlight active thumbnail on slide change
+        gallery.on('change', function(index) {
+          thumbs.forEach(function(t) { t.classList.remove('is-nav-selected'); });
+          if (thumbs[index]) thumbs[index].classList.add('is-nav-selected');
+        });
+        if (thumbs[0]) thumbs[0].classList.add('is-nav-selected');
+      }
+
+      // ── Fancybox: enable lightbox on gallery image clicks ──
+      if (typeof jQuery !== 'undefined' && jQuery.fancybox) {
+        jQuery('[data-fancybox]').fancybox({
+          loop: true,
+          buttons: ['zoom', 'close'],
+          thumbs: { autoStart: false }
+        });
+      }
+
+    });
   </script>
 </html>
