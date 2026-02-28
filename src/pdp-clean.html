@@ -101,15 +101,21 @@
         object-fit: cover;
         object-position: center;
       }
-      /* Same ratio in Fancybox lightbox — !important needed to override inline styles */
+      /* Same ratio in Fancybox lightbox — override inline styles on container + image */
+      .fancybox-content {
+        width: auto !important;
+        height: 90vh !important;
+        aspect-ratio: 1080 / 1440 !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+      }
       .fancybox-slide img,
       .fancybox-image,
       .fancybox-content img {
-        aspect-ratio: 1080 / 1440 !important;
+        width: 100% !important;
+        height: 100% !important;
         object-fit: cover !important;
         object-position: center !important;
-        max-height: 90vh !important;
-        margin: 0 auto !important;
       }
       /* Same ratio for thumbnails */
       .product-gallery__thumbnail img {
