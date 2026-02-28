@@ -164,15 +164,23 @@
       .product-gallery .flickity-prev-next-button.previous { left: 8px; }
       .product-gallery .flickity-prev-next-button.next { right: 8px; }
 
-      /* Force thumbnail strip visible — theme CSS hides it until Shopify JS inits */
-      .product-gallery__thumbnails {
-        display: flex !important;
-        flex-direction: column;
-        visibility: visible !important;
-        opacity: 1 !important;
-        gap: 8px;
-        max-height: 600px;
-        overflow-y: auto;
+      /* Hide thumbnails on mobile — only show dot indicators */
+      @media (max-width: 798px) {
+        .product-gallery__thumbnails {
+          display: none !important;
+        }
+      }
+      /* Force thumbnail strip visible on desktop — theme CSS hides it until Shopify JS inits */
+      @media (min-width: 799px) {
+        .product-gallery__thumbnails {
+          display: flex !important;
+          flex-direction: column;
+          visibility: visible !important;
+          opacity: 1 !important;
+          gap: 8px;
+          max-height: 600px;
+          overflow-y: auto;
+        }
       }
       .product-gallery__thumbnails img {
         display: block;
@@ -3134,7 +3142,7 @@ Go to your shopping bag
             </div>
             <!-- ── Sticky mobile CTA — IntersectionObserver (v2) ── -->
             <script type="text/javascript">
-              (function() {
+              document.addEventListener('DOMContentLoaded', function() {
                 if (window.innerWidth >= 799) return; // desktop — skip entirely
                 var ctaButton = document.querySelector('.button--add-to-cart');
                 var stickyBar = document.getElementById('sticky-cta');
@@ -3163,7 +3171,7 @@ Go to your shopping bag
                 stickyBar.querySelector('.sticky-cta-bar__btn').addEventListener('click', function() {
                   ctaButton.click();
                 });
-              })();
+              });
             </script>
             <script type="text/javascript">
               $(document).ready(function(){
