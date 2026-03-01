@@ -2431,6 +2431,18 @@ Go to your shopping bag
                       .pdp-trust-strip__sep {
                         width: 1px; height: 12px; background: #ddd; flex-shrink: 0;
                       }
+                      /* Mobile: drop icons, text-only with middot seps, 2+1 wrap */
+                      @media (max-width: 798px) {
+                        .pdp-trust-strip {
+                          flex-wrap: wrap; gap: 0.25rem 0; justify-content: center;
+                        }
+                        .pdp-trust-strip__item svg { display: none; }
+                        .pdp-trust-strip__sep { display: none; }
+                        .pdp-trust-strip__item::after {
+                          content: "\00A0\00B7"; color: var(--color-border-light); font-weight: 700;
+                        }
+                        .pdp-trust-strip__item:last-child::after { content: none; }
+                      }
                     </style>
                     <div class="pdp-trust-strip">
                       <span class="pdp-trust-strip__item">
@@ -2456,6 +2468,10 @@ Go to your shopping bag
 		.pdp_shopify_secured_checkout hr { position: absolute; height: 6px; top: 0; left: 0; width: 100%; display: block; border-bottom: 1px solid var(--color-border-light); margin: 0; }
 		.pdp_shopify_secured_checkout span { position: absolute; top: 0; left: calc(50% - 90px); display: block; width: 180px; color: var(--color-text-muted); background: var(--color-bg-page); text-align: center; font-size: 12px; line-height: 12px; }
 		.pdp_enabled_payment_methods { text-align: center; }
+		/* Mobile: shrink payment icons to fit single row */
+		@media (max-width: 798px) {
+		  .pdp_enabled_payment_methods .payment-icon { width: 30px; height: 19px; }
+		}
                       </style>
                       <span class="pdp_shopify_secured_checkout">
                         <hr/>
