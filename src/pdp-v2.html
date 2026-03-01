@@ -2298,6 +2298,22 @@ Go to your shopping bag
                         .purchase-details .purchase-details__spb--false .button--add-to-cart,
 .purchase-details .purchase-details__spb--true .button--add-to-cart { width: 100%; }
 
+/* ── Action button color (replaces Shopify Liquid-injected theme CSS) ── */
+.action_button.button--add-to-cart {
+  background-color: #cab0a3 !important;
+  background-color: var(--color-rose-gold) !important;
+  border-color: #cab0a3 !important;
+  border-color: var(--color-rose-gold) !important;
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: opacity 0.2s ease;
+}
+.action_button.button--add-to-cart:hover,
+.action_button.button--add-to-cart:focus {
+  opacity: 0.9;
+}
+
 /* ── Sticky mobile CTA (v2 — IntersectionObserver) ── */
 .sticky-cta-bar {
   display: none; /* hidden by default, shown via JS on mobile */
@@ -2349,9 +2365,10 @@ Go to your shopping bag
 }
 .sticky-cta-bar__btn {
   flex-shrink: 0;
-  background: var(--color-text-primary);
-  color: #fff;
-  border: none;
+  background: #cab0a3 !important;
+  background: var(--color-rose-gold) !important;
+  color: #fff !important;
+  border: none !important;
   padding: 0.75rem 1.25rem;
   font-size: 14px;
   font-weight: 600;
@@ -2359,8 +2376,9 @@ Go to your shopping bag
   text-transform: none;
   cursor: pointer;
   border-radius: 2px;
+  transition: opacity 0.2s ease;
 }
-.sticky-cta-bar__btn:active { background: var(--color-text-body); }
+.sticky-cta-bar__btn:active { opacity: 0.85; }
 @media (min-width: 799px) {
   .sticky-cta-bar { display: none !important; }
 }
