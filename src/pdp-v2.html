@@ -257,138 +257,7 @@
     </div>
 
 <!-- ═══════ PREVIEW NAV BAR ═════════════════════════════════════════════ -->
-    <nav class="preview-nav">
-      <div class="preview-nav__inner">
-        <span class="preview-nav__label">Sorrelli Redesign</span>
-        <div class="preview-nav__groups">
-          <div class="preview-nav__group" data-nav-group>
-            <button class="preview-nav__group-btn preview-nav__group-btn--active" data-nav-toggle>
-              Product Page
-              <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-            </button>
-            <div class="preview-nav__dropdown">
-              <a href="pdp-v2.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--active">Mockup</a>
-              <a href="design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
-              <a href="customization-guide.html" class="preview-nav__dropdown-link">Customization Guide</a>
-            </div>
-          </div>
-          <div class="preview-nav__sep"></div>
-          <div class="preview-nav__group" data-nav-group>
-            <button class="preview-nav__group-btn" data-nav-toggle>
-              Cart Page
-              <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-            </button>
-            <div class="preview-nav__dropdown">
-              <a href="cart.html" class="preview-nav__dropdown-link">Mockup</a>
-              <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <style>
-      .preview-nav {
-        background: var(--color-text-primary);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        position: sticky;
-        top: 0;
-        z-index: 9999;
-      }
-      .preview-nav__inner {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 10px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .preview-nav__label {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--color-rose-gold);
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
-      .preview-nav__groups {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-      }
-      .preview-nav__group {
-        position: relative;
-      }
-      .preview-nav__group-btn {
-        font-size: 13px;
-        font-family: 'Open Sans', sans-serif;
-        color: rgba(255,255,255,0.6);
-        background: none;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .preview-nav__group-btn:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
-      .preview-nav__group-btn--active { color: #ffffff; background: rgba(255,255,255,0.12); }
-      .preview-nav__group-btn svg {
-        width: 10px; height: 10px;
-        fill: currentColor;
-        opacity: 0.6;
-        transition: transform 0.2s ease;
-      }
-      .preview-nav__group.is-open .preview-nav__group-btn svg { transform: rotate(180deg); }
-      .preview-nav__dropdown {
-        position: absolute;
-        top: calc(100% + 6px);
-        left: 0;
-        min-width: 200px;
-        background: #2a2222;
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 6px;
-        padding: 6px 0;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-4px);
-        transition: all 0.2s ease;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      }
-      .preview-nav__group.is-open .preview-nav__dropdown {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-      .preview-nav__dropdown-link {
-        display: block;
-        font-size: 13px;
-        color: rgba(255,255,255,0.6);
-        text-decoration: none;
-        padding: 8px 16px;
-        transition: all 0.15s ease;
-      }
-      .preview-nav__dropdown-link:hover {
-        color: #ffffff;
-        background: rgba(255,255,255,0.08);
-      }
-      .preview-nav__dropdown-link--active {
-        color: #ffffff;
-      }
-      .preview-nav__sep {
-        width: 1px;
-        height: 20px;
-        background: rgba(255,255,255,0.12);
-        margin: 0 4px;
-      }
-      @media (max-width: 480px) {
-        .preview-nav__inner { padding: 8px 16px; }
-        .preview-nav__label { display: none; }
-        .preview-nav__groups { width: 100%; justify-content: center; }
-      }
-    </style>
+    <div id="preview-nav"></div>
 
 <!-- ═══════ HEADER ════════════════════════════════════════════════════ -->
     <div class="shopify-section header--centered jsHeader header-section" id="shopify-section-header-centered">
@@ -568,15 +437,10 @@
                     </span>
                   </a>
                   <div class="header-cart action-area__link" data-ajax-cart-trigger="">
-                    <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
+                    <a class="header__link" href="cart.html" style="text-decoration:none;">
                       <span class="header-cart__icon">
                         <span class="icon header__icon tooltip-left tooltip-dark" data-icon="bag" data-tooltip-title="My Shopping Bag">
-                          <svg title="
-Go to your shopping bag
-
-  (your shopping bag is currently empty)
-
-" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                             <g id="bag">
                               <path d="M78.66,29.38H68.14V23.14a18.14,18.14,0,0,0-36.28,0v6.24H21.34L17.55,95h64.9ZM38.79,23.14a11.21,11.21,0,1,1,22.42,0v6.24H38.79Z">
                               </path>
@@ -590,7 +454,7 @@ Go to your shopping bag
                       <span class="header-cart__caption icon-caption">
                         Bag
                       </span>
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div class="header__menu" style="z-index: 41;">
@@ -702,15 +566,10 @@ Go to your shopping bag
                   </span>
                 </a>
                 <div class="header-cart action-area__link" data-ajax-cart-trigger="">
-                  <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
+                  <a class="header__link" href="cart.html" style="text-decoration:none;">
                     <span class="header-cart__icon">
                       <span class="icon header__icon tooltip-left tooltip-dark" data-icon="bag" data-tooltip-title="My Shopping Bag">
-                        <svg title="
-Go to your shopping bag
-
-  (your shopping bag is currently empty)
-
-" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                           <g id="bag">
                             <path d="M78.66,29.38H68.14V23.14a18.14,18.14,0,0,0-36.28,0v6.24H21.34L17.55,95h64.9ZM38.79,23.14a11.21,11.21,0,1,1,22.42,0v6.24H38.79Z">
                             </path>
@@ -724,7 +583,7 @@ Go to your shopping bag
                     <span class="header-cart__caption icon-caption">
                       Bag
                     </span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </section>
@@ -939,10 +798,10 @@ Go to your shopping bag
                 </span>
               </a>
               <div class="header-cart action-area__link" data-ajax-cart-trigger="">
-                <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
+                <a class="header__link" href="cart.html" style="text-decoration:none;">
                   <span class="header-cart__icon">
                     <span class="icon header__icon" data-icon="bag">
-                      <svg title="" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <g id="bag">
                           <path d="M78.66,29.38H68.14V23.14a18.14,18.14,0,0,0-36.28,0v6.24H21.34L17.55,95h64.9ZM38.79,23.14a11.21,11.21,0,1,1,22.42,0v6.24H38.79Z">
                           </path>
@@ -956,7 +815,7 @@ Go to your shopping bag
                   <span class="header-cart__caption icon-caption">
                     Bag
                   </span>
-                </button>
+                </a>
 
 <!-- ═══════ AJAX CART DRAWER ════════════════════════════════════════ -->
                 <div class="theme-ajax-cart shopify-section jsAjaxCart is-drawer theme-ajax-cart--header-centered" data-ajax-cart-drawer="" id="theme-ajax-cart">
@@ -4863,20 +4722,6 @@ $(document).ready(function(){
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
   <script>
-    // ── Nav dropdown toggles ──
-    document.querySelectorAll('[data-nav-toggle]').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var group = btn.closest('[data-nav-group]');
-        var wasOpen = group.classList.contains('is-open');
-        document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
-        if (!wasOpen) group.classList.add('is-open');
-      });
-    });
-    document.addEventListener('click', function() {
-      document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
-    });
-
     window.addEventListener('load', function() {
 
       // ── Flickity: turn stacked gallery images into a slider ──
@@ -4950,4 +4795,5 @@ $(document).ready(function(){
 
     });
   </script>
+  <script src="preview-nav.js"></script>
 </html>

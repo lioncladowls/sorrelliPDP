@@ -72,26 +72,6 @@
       }
     </style>
 
-<!-- ═══════ PREVIEW NAV STYLES ════════════════════════════════════════ -->
-    <style>
-      .preview-nav { background: var(--color-text-primary); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 9999; }
-      .preview-nav__inner { max-width: 1200px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-      .preview-nav__label { font-size: 13px; font-weight: 600; color: var(--color-rose-gold); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-      .preview-nav__groups { display: flex; gap: 4px; align-items: center; }
-      .preview-nav__group { position: relative; }
-      .preview-nav__group-btn { font-size: 13px; font-family: 'Open Sans', sans-serif; color: rgba(255,255,255,0.6); background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; }
-      .preview-nav__group-btn:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
-      .preview-nav__group-btn--active { color: #ffffff; background: rgba(255,255,255,0.12); }
-      .preview-nav__group-btn svg { width: 10px; height: 10px; fill: currentColor; opacity: 0.6; transition: transform 0.2s ease; }
-      .preview-nav__group.is-open .preview-nav__group-btn svg { transform: rotate(180deg); }
-      .preview-nav__dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #2a2222; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-      .preview-nav__group.is-open .preview-nav__dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-      .preview-nav__dropdown-link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 8px 16px; transition: all 0.15s ease; }
-      .preview-nav__dropdown-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
-      .preview-nav__dropdown-link--active { color: #ffffff; }
-      .preview-nav__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 4px; }
-      @media (max-width: 480px) { .preview-nav__inner { padding: 8px 16px; } .preview-nav__label { display: none; } .preview-nav__groups { width: 100%; justify-content: center; } }
-    </style>
 
 <!-- ═══════ JQUERY ════════════════════════════════════════════════════ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -101,35 +81,7 @@
   <body class="template-cart" data-money-format="${{amount}}">
 
 <!-- ═══════ PREVIEW NAV ═══════════════════════════════════════════════ -->
-    <nav class="preview-nav">
-      <div class="preview-nav__inner">
-        <span class="preview-nav__label">Sorrelli Redesign</span>
-        <div class="preview-nav__groups">
-          <div class="preview-nav__group" data-nav-group>
-            <button class="preview-nav__group-btn" data-nav-toggle>
-              Product Page
-              <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-            </button>
-            <div class="preview-nav__dropdown">
-              <a href="pdp-v2.html" class="preview-nav__dropdown-link">Mockup</a>
-              <a href="design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
-              <a href="customization-guide.html" class="preview-nav__dropdown-link">Customization Guide</a>
-            </div>
-          </div>
-          <div class="preview-nav__sep"></div>
-          <div class="preview-nav__group" data-nav-group>
-            <button class="preview-nav__group-btn preview-nav__group-btn--active" data-nav-toggle>
-              Cart Page
-              <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-            </button>
-            <div class="preview-nav__dropdown">
-              <a href="cart.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--active">Mockup</a>
-              <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <div id="preview-nav"></div>
 
 <!-- ═══════ HEADER ════════════════════════════════════════════════════ -->
     <div class="shopify-section header--centered jsHeader header-section" id="shopify-section-header-centered">
@@ -219,7 +171,7 @@
                     <span class="icon-caption">Account</span>
                   </a>
                   <div class="header-cart action-area__link" id="header-cart-trigger">
-                    <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
+                    <a class="header__link" href="cart.html" style="text-decoration:none;">
                       <span class="header-cart__icon">
                         <span class="icon header__icon tooltip-left tooltip-dark" data-icon="bag" data-tooltip-title="My Shopping Bag">
                           <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -229,7 +181,7 @@
                         <span class="header-cart__count header-cart__count--badge badge" data-bind="itemCount">4</span>
                       </span>
                       <span class="header-cart__caption icon-caption">Bag</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div class="header__menu" style="z-index: 41;">
@@ -355,7 +307,7 @@
                 <span class="icon-caption">Account</span>
               </a>
               <div class="header-cart action-area__link">
-                <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
+                <a class="header__link" href="cart.html" style="text-decoration:none;">
                   <span class="header-cart__icon">
                     <span class="icon header__icon" data-icon="bag">
                       <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -365,7 +317,7 @@
                     <span class="header-cart__count header-cart__count--badge badge">4</span>
                   </span>
                   <span class="header-cart__caption icon-caption">Bag</span>
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -739,6 +691,7 @@
       }
       .cart-summary__line--savings { color: var(--color-accent-blue); font-weight: 600; }
       .cart-summary__line--free { color: var(--color-accent-blue); font-weight: 600; }
+      .cart-summary__line--tax { }
       .cart-summary__divider { height: 1px; background: var(--color-border-light); margin: 12px 0; }
       .cart-summary__total-line {
         display: flex;
@@ -1354,6 +1307,17 @@
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+        margin-bottom: 6px;
+      }
+      .cart-drawer__detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        margin-bottom: 4px;
+      }
+      .cart-drawer__tax-row {
         margin-bottom: 10px;
       }
       .cart-drawer__subtotal-label {
@@ -1498,7 +1462,7 @@
             <h1 class="cart-main__heading">Your Cart <span>(4 items)</span></h1>
 
             <!-- ITEM 1: Kathleen Studded Dangle Earrings -->
-            <div class="cart-item" data-cart-item data-item-price="80.00">
+            <div class="cart-item" data-cart-item data-item-id="1" data-item-price="80.00">
               <a href="pdp-v2.html" class="cart-item__img-wrap">
                 <img class="cart-item__img" src="https://www.sorrelli.com/cdn/shop/files/EFF80BGPRO_480x.jpg?v=1769720072" alt="Kathleen Studded Dangle Earrings" loading="lazy"/>
               </a>
@@ -1523,7 +1487,7 @@
             </div>
 
             <!-- ITEM 2: Sienna Tennis Bracelet (Clearance / Final Sale) -->
-            <div class="cart-item" data-cart-item data-item-price="59.50">
+            <div class="cart-item" data-cart-item data-item-id="2" data-item-price="59.50" data-item-original-price="85.00">
               <a href="pdp-v2.html" class="cart-item__img-wrap">
                 <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/BGA2BGPRO_480x.jpg" alt="Sienna Tennis Bracelet" loading="lazy"/>
               </a>
@@ -1554,7 +1518,7 @@
             </div>
 
             <!-- ITEM 3: Iris Pendant Necklace (Excluded from discount — new Candy Pop collection) -->
-            <div class="cart-item" data-cart-item data-item-price="99.00">
+            <div class="cart-item" data-cart-item data-item-id="3" data-item-price="99.00">
               <a href="pdp-v2.html" class="cart-item__img-wrap">
                 <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGI5BGCPO.jpg?v=1772727086" alt="Iris Pendant Necklace" loading="lazy"/>
               </a>
@@ -1581,7 +1545,7 @@
             </div>
 
             <!-- ITEM 4: Matilda Choker Necklace (Low stock) -->
-            <div class="cart-item" data-cart-item data-item-price="165.00">
+            <div class="cart-item" data-cart-item data-item-id="4" data-item-price="165.00">
               <a href="pdp-v2.html" class="cart-item__img-wrap">
                 <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NFJ80BGPRO_480x.jpg" alt="Matilda Choker Necklace" loading="lazy"/>
               </a>
@@ -1634,13 +1598,17 @@
                 <span>Subtotal (4 items)</span>
                 <span>$403.50</span>
               </div>
-              <div class="cart-summary__line cart-summary__line--savings">
+              <div class="cart-summary__line cart-summary__line--savings" id="cart-savings-line">
                 <span>Clearance Savings</span>
-                <span>−$25.50</span>
+                <span id="cart-savings-amount">−$25.50</span>
               </div>
               <div class="cart-summary__line cart-summary__line--free">
                 <span>Shipping</span>
                 <span>FREE</span>
+              </div>
+              <div class="cart-summary__line cart-summary__line--tax">
+                <span>Tax</span>
+                <span>Calculated at checkout</span>
               </div>
               <div class="cart-summary__divider"></div>
               <div class="cart-summary__total-line">
@@ -1921,7 +1889,7 @@
       <div class="cart-drawer__body">
 
         <!-- Drawer Item 1 -->
-        <div class="cart-drawer__item" data-drawer-item>
+        <div class="cart-drawer__item" data-drawer-item data-item-id="1">
           <img class="cart-drawer__item-img" src="https://www.sorrelli.com/cdn/shop/files/EFF80BGPRO_480x.jpg?v=1769720072" alt="Kathleen Studded Dangle Earrings" loading="lazy"/>
           <div class="cart-drawer__item-details">
             <p class="cart-drawer__item-name">Kathleen Studded Dangle Earrings</p>
@@ -1942,7 +1910,7 @@
         </div>
 
         <!-- Drawer Item 2 -->
-        <div class="cart-drawer__item" data-drawer-item>
+        <div class="cart-drawer__item" data-drawer-item data-item-id="2">
           <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/BGA2BGPRO_480x.jpg" alt="Sienna Tennis Bracelet" loading="lazy"/>
           <div class="cart-drawer__item-details">
             <p class="cart-drawer__item-name">Sienna Tennis Bracelet <span class="cart-item__final-sale-badge--sm">Final Sale</span></p>
@@ -1962,7 +1930,7 @@
         </div>
 
         <!-- Drawer Item 3 -->
-        <div class="cart-drawer__item" data-drawer-item>
+        <div class="cart-drawer__item" data-drawer-item data-item-id="3">
           <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGI5BGCPO.jpg?v=1772727086" alt="Iris Pendant Necklace" loading="lazy"/>
           <div class="cart-drawer__item-details">
             <p class="cart-drawer__item-name">Iris Pendant Necklace</p>
@@ -1983,7 +1951,7 @@
         </div>
 
         <!-- Drawer Item 4 -->
-        <div class="cart-drawer__item" data-drawer-item>
+        <div class="cart-drawer__item" data-drawer-item data-item-id="4">
           <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NFJ80BGPRO_480x.jpg" alt="Matilda Choker Necklace" loading="lazy"/>
           <div class="cart-drawer__item-details">
             <p class="cart-drawer__item-name">Matilda Choker Necklace</p>
@@ -2038,6 +2006,14 @@
         <div class="cart-drawer__subtotal-row">
           <span class="cart-drawer__subtotal-label">Subtotal</span>
           <span class="cart-drawer__subtotal-amount">$403.50</span>
+        </div>
+        <div class="cart-drawer__detail-row">
+          <span>Shipping</span>
+          <span class="cart-drawer__shipping-val" style="color:var(--color-accent-blue);font-weight:600;">FREE</span>
+        </div>
+        <div class="cart-drawer__detail-row cart-drawer__tax-row">
+          <span>Tax</span>
+          <span>Calculated at checkout</span>
         </div>
         <div class="cart-drawer__bnpl">
           or 4 payments of <strong>$100.88</strong> with <img src="assets/afterpay-logo.svg" alt="Afterpay" style="height:13px;vertical-align:middle;margin-left:2px;"/>
@@ -2099,20 +2075,6 @@
     <script>
     (function() {
 
-      // ── Nav dropdown toggles ──
-      document.querySelectorAll('[data-nav-toggle]').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          var group = btn.closest('[data-nav-group]');
-          var wasOpen = group.classList.contains('is-open');
-          document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
-          if (!wasOpen) group.classList.add('is-open');
-        });
-      });
-      document.addEventListener('click', function() {
-        document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
-      });
-
       // ── Constants ──
       var FREE_SHIP_THRESHOLD = 150;
       var trashSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
@@ -2154,12 +2116,29 @@
       function recalculate() {
         var total = 0;
         var count = 0;
+        var savings = 0;
         document.querySelectorAll('[data-cart-item]').forEach(function(item) {
           var price = parseFloat(item.getAttribute('data-item-price') || 0);
+          var originalPrice = parseFloat(item.getAttribute('data-item-original-price') || 0);
           var qty = parseInt(item.querySelector('[data-qty-val]').textContent, 10);
           total += price * qty;
           count += qty;
+          if (originalPrice > price) {
+            savings += (originalPrice - price) * qty;
+          }
         });
+
+        // Update clearance savings line
+        var savingsLine = document.getElementById('cart-savings-line');
+        var savingsAmount = document.getElementById('cart-savings-amount');
+        if (savingsLine && savingsAmount) {
+          if (savings > 0) {
+            savingsAmount.textContent = '−$' + savings.toFixed(2);
+            savingsLine.style.display = '';
+          } else {
+            savingsLine.style.display = 'none';
+          }
+        }
 
         var remaining = FREE_SHIP_THRESHOLD - total;
         var pct = Math.min(100, (total / FREE_SHIP_THRESHOLD) * 100);
@@ -2195,8 +2174,8 @@
         }
 
         // Update totals across surfaces
-        var shipping = qualified ? 'FREE' : '$9.99';
-        var grandTotal = qualified ? total : total + 9.99;
+        var shipping = qualified ? 'FREE' : '$9.95';
+        var grandTotal = qualified ? total : total + 9.95;
         if (summarySubtotalLabel) summarySubtotalLabel.textContent = 'Subtotal (' + count + ' item' + (count !== 1 ? 's' : '') + ')';
         if (summarySubtotalVal) summarySubtotalVal.textContent = fmt(total);
         if (summaryTotal) summaryTotal.textContent = fmt(grandTotal);
@@ -2206,6 +2185,12 @@
         }
         if (stickyTotal) stickyTotal.textContent = 'Total: ' + fmt(grandTotal);
         if (drawerSubtotal) drawerSubtotal.textContent = fmt(total);
+        var drawerShipVal = document.querySelector('.cart-drawer__shipping-val');
+        if (drawerShipVal) {
+          drawerShipVal.textContent = shipping;
+          drawerShipVal.style.color = qualified ? 'var(--color-accent-blue)' : 'var(--color-text-secondary)';
+          drawerShipVal.style.fontWeight = qualified ? '600' : '400';
+        }
         if (cartHeading) cartHeading.textContent = '(' + count + ' item' + (count !== 1 ? 's' : '') + ')';
 
         // Update BNPL amounts
@@ -2230,24 +2215,48 @@
 
         minusBtn.addEventListener('click', function() {
           var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
           if (v <= 1) {
             item.classList.add('is-removing');
+            var drawerMatch = document.querySelector('[data-drawer-item][data-item-id="' + itemId + '"]');
+            if (drawerMatch) { drawerMatch.classList.add('is-removing'); setTimeout(function() { drawerMatch.remove(); }, 320); }
             setTimeout(function() { item.remove(); recalculate(); }, 380);
           } else {
             valEl.textContent = v - 1;
             updateMinusBtn(minusBtn, v - 1);
+            syncToDrawer(itemId, v - 1);
             recalculate();
           }
         });
         plusBtn.addEventListener('click', function() {
           var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
           if (v < 99) {
             valEl.textContent = v + 1;
             updateMinusBtn(minusBtn, v + 1);
+            syncToDrawer(itemId, v + 1);
             recalculate();
           }
         });
       });
+
+      // ── Sync helpers ──
+      function syncToDrawer(itemId, qty) {
+        var drawerItem = document.querySelector('[data-drawer-item][data-item-id="' + itemId + '"]');
+        if (!drawerItem) return;
+        var drawerVal = drawerItem.querySelector('[data-drawer-qty-val]');
+        var drawerMinus = drawerItem.querySelector('[data-drawer-qty-minus]');
+        if (drawerVal) drawerVal.textContent = qty;
+        if (drawerMinus) updateMinusBtn(drawerMinus, qty);
+      }
+      function syncToCart(itemId, qty) {
+        var cartItem = document.querySelector('[data-cart-item][data-item-id="' + itemId + '"]');
+        if (!cartItem) return;
+        var cartVal = cartItem.querySelector('[data-qty-val]');
+        var cartMinus = cartItem.querySelector('[data-qty-minus]');
+        if (cartVal) cartVal.textContent = qty;
+        if (cartMinus) updateMinusBtn(cartMinus, qty);
+      }
 
       // 3. Drawer open/close
       var drawer   = document.getElementById('cart-drawer');
@@ -2267,7 +2276,7 @@
         drawer.setAttribute('aria-hidden', 'true');
       }
 
-      // All bag icons open the drawer
+      // Preview nav "Open Drawer" button (cart icon links to /cart page in production)
       document.querySelectorAll('[data-open-drawer]').forEach(function(btn) {
         btn.addEventListener('click', function(e) { e.preventDefault(); openDrawer(); });
       });
@@ -2282,7 +2291,7 @@
         history.replaceState(null, '', window.location.pathname);
       }
 
-      // 4. Drawer qty buttons
+      // 4. Drawer qty buttons (synced to cart page)
       document.querySelectorAll('[data-drawer-item]').forEach(function(item) {
         var minusBtn = item.querySelector('[data-drawer-qty-minus]');
         var plusBtn  = item.querySelector('[data-drawer-qty-plus]');
@@ -2290,19 +2299,27 @@
 
         minusBtn.addEventListener('click', function() {
           var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
           if (v <= 1) {
             item.classList.add('is-removing');
-            setTimeout(function() { item.remove(); }, 320);
+            var cartMatch = document.querySelector('[data-cart-item][data-item-id="' + itemId + '"]');
+            if (cartMatch) { cartMatch.classList.add('is-removing'); setTimeout(function() { cartMatch.remove(); }, 380); }
+            setTimeout(function() { item.remove(); recalculate(); }, 320);
           } else {
             valEl.textContent = v - 1;
             updateMinusBtn(minusBtn, v - 1);
+            syncToCart(itemId, v - 1);
+            recalculate();
           }
         });
         plusBtn.addEventListener('click', function() {
           var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
           if (v < 99) {
             valEl.textContent = v + 1;
             updateMinusBtn(minusBtn, v + 1);
+            syncToCart(itemId, v + 1);
+            recalculate();
           }
         });
       });
@@ -2441,6 +2458,7 @@
 
     })();
     </script>
+    <script src="preview-nav.js"></script>
 
   </body>
 </html>

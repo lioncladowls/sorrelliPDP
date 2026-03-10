@@ -37,24 +37,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ═══════ PREVIEW NAV (matches pdp-v2.html) ══════════════════════ */
-    .preview-nav { background: var(--color-text-primary); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 9999; }
-    .preview-nav__inner { max-width: 1200px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .preview-nav__label { font-size: 13px; font-weight: 600; color: var(--color-rose-gold); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-    .preview-nav__groups { display: flex; gap: 4px; align-items: center; }
-    .preview-nav__group { position: relative; }
-    .preview-nav__group-btn { font-size: 13px; font-family: 'Open Sans', sans-serif; color: rgba(255,255,255,0.6); background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; }
-    .preview-nav__group-btn:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
-    .preview-nav__group-btn--active { color: #ffffff; background: rgba(255,255,255,0.12); }
-    .preview-nav__group-btn svg { width: 10px; height: 10px; fill: currentColor; opacity: 0.6; transition: transform 0.2s ease; }
-    .preview-nav__group.is-open .preview-nav__group-btn svg { transform: rotate(180deg); }
-    .preview-nav__dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #2a2222; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .preview-nav__group.is-open .preview-nav__dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-    .preview-nav__dropdown-link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 8px 16px; transition: all 0.15s ease; }
-    .preview-nav__dropdown-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
-    .preview-nav__dropdown-link--active { color: #ffffff; }
-    .preview-nav__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 4px; }
-    @media (max-width: 480px) { .preview-nav__inner { padding: 8px 16px; } .preview-nav__label { display: none; } .preview-nav__groups { width: 100%; justify-content: center; } }
 
     /* ═══════ HERO HEADER ════════════════════════════════════════════ */
     .hero {
@@ -451,36 +433,7 @@
 
 <body>
 
-<!-- ═══════ PREVIEW NAV ════════════════════════════════════════════ -->
-<nav class="preview-nav">
-  <div class="preview-nav__inner">
-    <span class="preview-nav__label">Sorrelli Redesign</span>
-    <div class="preview-nav__groups">
-      <div class="preview-nav__group" data-nav-group>
-        <button class="preview-nav__group-btn" data-nav-toggle>
-          Product Page
-          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-        </button>
-        <div class="preview-nav__dropdown">
-          <a href="pdp-v2.html" class="preview-nav__dropdown-link">Mockup</a>
-          <a href="design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
-          <a href="customization-guide.html" class="preview-nav__dropdown-link">Customization Guide</a>
-        </div>
-      </div>
-      <div class="preview-nav__sep"></div>
-      <div class="preview-nav__group" data-nav-group>
-        <button class="preview-nav__group-btn preview-nav__group-btn--active" data-nav-toggle>
-          Cart Page
-          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
-        </button>
-        <div class="preview-nav__dropdown">
-          <a href="cart.html" class="preview-nav__dropdown-link">Mockup</a>
-          <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--active">Design Philosophy</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+<div id="preview-nav"></div>
 
 <!-- ═══════ HERO ══════════════════════════════════════════════════ -->
 <header class="hero">
@@ -548,6 +501,14 @@
 
         <p class="section-card__label">The Data</p>
         <p>Internal A/B data from comparable jewelry brands shows drawer-first carts produce <strong>+17% add-to-cart engagement</strong> (customers continue browsing and adding), while dedicated cart pages show <strong>+13% checkout completion</strong> (customers who arrive are more committed). Running both surfaces — with "View Full Cart" in the drawer — captures both effects.</p>
+
+        <p class="section-card__label">When Each Surface Appears</p>
+        <p>The drawer and cart page serve different intents, so they're triggered differently:</p>
+        <ul>
+          <li><strong>"Add to Cart" button →</strong> Opens the drawer. The customer just made a decision. The drawer confirms it, offers a path to checkout, and lets them continue browsing. This is a momentum moment — don't break it with a full page redirect.</li>
+          <li><strong>Cart icon click →</strong> Navigates to the /cart page. Clicking the cart icon is a deliberate signal: "I want to review my order." That intent deserves the full deliberation surface — totals, express checkout, promo codes, gift options, cross-sell.</li>
+        </ul>
+        <p>This pattern is validated by CRO testing across comparable DTC brands: drawers hurt mobile conversion by <strong>-8.4%</strong> when used as the primary cart surface, but excel as transient add-to-cart confirmation. The /cart page is where considered-purchase shoppers — Sorrelli's core audience — make their final commitment.</p>
       </div>
     </section>
 
@@ -562,12 +523,12 @@
         </div>
 
         <p class="section-card__label">The Core Principle</p>
-        <p>Every element between the last added item and the checkout CTA is friction. The drawer should confirm the add, show the path to checkout, and disappear. We stripped it to exactly what's necessary: a free shipping progress bar, line items with quantity controls, subtotal, BNPL line, the primary CTA, a compact trust line, and a "View Full Cart" link.</p>
+        <p>The drawer opens only when a customer adds an item to cart — never from the cart icon. Its job is to confirm the action, show the path to checkout, and get out of the way. We stripped it to exactly what's necessary: a free shipping progress bar, line items with quantity controls, subtotal, shipping cost, BNPL line, the primary CTA, a compact trust line, a compact gift checkbox, and a "View Full Cart" link.</p>
 
         <p class="section-card__label">What We Removed From the Drawer</p>
         <ul>
           <li><strong>Promo code field.</strong> On mobile, expanding a promo input opens the keyboard, disrupts scroll position, and sends 8% of users off-site hunting for a code they may never find. The resulting abandonment is measurable. Promo codes live on the /cart page — a deliberation surface where customers expect to spend time.</li>
-          <li><strong>Gift option.</strong> Sorrelli's customer base skews 80%+ self-purchasers, and the standard Shopify checkout has no gift option — so the cart is the only surface for it. But the drawer isn't the right place: it adds cognitive overhead for the majority to serve the minority. The gift option lives on the /cart page sidebar, where there's room for it. The drawer's "View Full Cart" link is the escape hatch.</li>
+          <li><strong>Full gift option card.</strong> Sorrelli's customer base skews 80%+ self-purchasers, and the standard Shopify checkout has no gift option — so the cart is the only surface for it. The /cart page sidebar has the full gift option card with details. The drawer carries a minimal compact checkbox with an (i) info modal — enough for gift buyers to act without burdening the 80% who are buying for themselves.</li>
           <li><strong>Delivery estimate.</strong> Pre-checkout delivery timing is addressable on the /cart page and at checkout. In the drawer, it's a distraction — and a potential hesitation point if timelines are uncertain.</li>
           <li><strong>Full trust strip.</strong> A row of badges mid-drawer competes with the CTA for visual attention and adds scroll depth. Condensed to a single trust line below the CTA.</li>
         </ul>
@@ -630,6 +591,9 @@
 
         <p class="section-card__label">The Lift</p>
         <p>Progress-bar-based free shipping nudges increase threshold conversion by <strong>15-25%</strong> in controlled tests. For a jewelry brand with well-defined product categories, this is one of the highest-ROI cart interventions available.</p>
+
+        <p class="section-card__label">Shipping &amp; Tax in the Order Summary</p>
+        <p>Beyond the progress bar, both surfaces show the actual shipping cost in the order summary: <strong>FREE</strong> when the threshold is met, <strong>$9.95</strong> when it isn't. Tax shows as "Calculated at checkout" — the industry-standard line used by Amazon, Mejuri, Gorjana, and every major retailer. This is honest: sales tax requires a shipping address to calculate, and shoppers understand this. The critical thing is setting the expectation that tax <em>will</em> be added, not surprising them at checkout. Between the progress bar and the explicit shipping line, both of the top two abandonment triggers — "extra costs too high" (48%) and "couldn't see total cost up-front" (21%) — are addressed before the customer ever reaches checkout.</p>
       </div>
     </section>
 
@@ -739,8 +703,8 @@
         <p class="section-card__label">Removed: Policy Info Strip</p>
         <p>Detailed above in section 7. Redundant with other elements on the page, and the asterisk on return policy was a net negative for conversion.</p>
 
-        <p class="section-card__label">Removed From Drawer: Gift Option</p>
-        <p>80%+ of Sorrelli customers are self-purchasers, and the standard Shopify checkout has no native gift option — making the cart the only surface for it. But the compact drawer isn't the right place. The gift option lives on the /cart page sidebar where there's room, and the drawer's "View Full Cart" link routes gift buyers to it.</p>
+        <p class="section-card__label">Minimized in Drawer: Gift Option</p>
+        <p>80%+ of Sorrelli customers are self-purchasers, and the standard Shopify checkout has no native gift option — making the cart the only surface for it. The /cart page has a full gift option card. In the drawer, we added a minimal compact checkbox with an (i) info modal — just enough for the 20% who need it, invisible to the rest. The full gift experience lives on the /cart page sidebar.</p>
 
         <p class="section-card__label">Removed From Drawer: Promo Code</p>
         <p>On mobile, the promo input opens the keyboard and disrupts the scroll state. More importantly, displaying a promo field to customers who don't have a code signals that codes exist — sending approximately 8% of users off-site to find one. Most never return. Promo codes are available on the /cart page, where the customer is already in a deliberation mindset.</p>
@@ -752,11 +716,6 @@
 
   </main>
 </div>
-
-<script>
-document.querySelectorAll('[data-nav-toggle]').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();var g=btn.closest('[data-nav-group]'),w=g.classList.contains('is-open');document.querySelectorAll('[data-nav-group]').forEach(function(x){x.classList.remove('is-open')});if(!w)g.classList.add('is-open')})});
-document.addEventListener('click',function(){document.querySelectorAll('[data-nav-group]').forEach(function(g){g.classList.remove('is-open')})});
-</script>
 
 <script>
 (function(){
@@ -784,5 +743,6 @@ document.addEventListener('click',function(){document.querySelectorAll('[data-na
 })();
 </script>
 
+<script src="preview-nav.js"></script>
 </body>
 </html>
