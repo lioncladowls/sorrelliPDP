@@ -37,6 +37,7 @@
         --color-text-secondary:#6B605A;
         --color-text-muted:    #9e8070;
         --color-success:       #4a7c59;
+        --color-accent-blue:   #41a1e6;
         --color-amber:         #c4842d;
       }
       *, *::before, *::after { box-sizing: border-box; }
@@ -417,7 +418,7 @@
       .free-shipping-bar__fill {
         height: 100%;
         width: 100%;
-        background: var(--color-success);
+        background: var(--color-accent-blue);
         border-radius: 99px;
         transition: width 0.4s ease;
       }
@@ -434,8 +435,8 @@
         height: 15px;
         flex-shrink: 0;
       }
-      .free-shipping-bar--qualified .free-shipping-bar__msg { color: var(--color-success); }
-      .free-shipping-bar--qualified .free-shipping-bar__fill { background: var(--color-success); }
+      .free-shipping-bar--qualified .free-shipping-bar__msg { color: var(--color-accent-blue); }
+      .free-shipping-bar--qualified .free-shipping-bar__fill { background: var(--color-accent-blue); }
       .free-shipping-bar--progress .free-shipping-bar__msg { color: var(--color-copper); }
       .free-shipping-bar--progress .free-shipping-bar__fill { background: var(--color-rose-gold); }
     </style>
@@ -443,7 +444,7 @@
       <div class="free-shipping-bar__inner">
         <div class="free-shipping-bar__msg" id="shipping-bar-msg">
           <svg id="shipping-bar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#4a7c59"/>
+            <circle cx="12" cy="12" r="10" fill="#41a1e6"/>
             <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span id="shipping-bar-text">You've unlocked FREE shipping!</span>
@@ -642,7 +643,7 @@
       }
       .cart-item__price--save {
         font-size: 11px;
-        color: var(--color-success);
+        color: var(--color-accent-blue);
         font-weight: 600;
         text-align: right;
       }
@@ -757,8 +758,8 @@
         font-size: 14px;
         color: var(--color-text-body);
       }
-      .cart-summary__line--savings { color: var(--color-success); font-weight: 600; }
-      .cart-summary__line--free { color: var(--color-success); font-weight: 600; }
+      .cart-summary__line--savings { color: var(--color-accent-blue); font-weight: 600; }
+      .cart-summary__line--free { color: var(--color-accent-blue); font-weight: 600; }
       .cart-summary__divider { height: 1px; background: var(--color-border-light); margin: 12px 0; }
       .cart-summary__total-line {
         display: flex;
@@ -769,12 +770,12 @@
       .cart-summary__total-label { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
       .cart-summary__total-amount { font-size: 18px; font-weight: 700; color: var(--color-text-primary); }
       .cart-summary__savings-box {
-        background: #f0f7f3;
-        border: 1px solid #b8d9c6;
+        background: #edf6fd;
+        border: 1px solid #a8d1f0;
         border-radius: 6px;
         padding: 10px 12px;
         font-size: 13px;
-        color: var(--color-success);
+        color: var(--color-accent-blue);
         font-weight: 600;
         text-align: center;
         margin-bottom: 14px;
@@ -1105,7 +1106,7 @@
       }
       .cart-drawer__shipping-msg {
         font-size: 12px;
-        color: var(--color-success);
+        color: var(--color-accent-blue);
         font-weight: 600;
         display: flex;
         align-items: center;
@@ -1123,7 +1124,7 @@
       .cart-drawer__shipping-fill {
         height: 100%;
         width: 100%;
-        background: var(--color-success);
+        background: var(--color-accent-blue);
         border-radius: 99px;
       }
       .cart-drawer__body {
@@ -1360,6 +1361,7 @@
                 <p class="cart-item__variant">Panama Rose &middot; Bright Gold-tone</p>
                 <div class="cart-item__final-sale-notice">
                   <strong>Final Sale</strong> &mdash; This item cannot be returned or exchanged
+                  <button class="cart-item__exclusion-info" data-final-sale-info aria-label="Why is this final sale?">i</button>
                 </div>
                 <div class="cart-item__status cart-item__status--green" style="margin-top:4px;">
                   <span class="cart-item__status-dot cart-item__status-dot--green"></span>
@@ -1730,7 +1732,7 @@
       <div class="cart-drawer__shipping-bar">
         <div class="cart-drawer__shipping-msg">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#4a7c59"/>
+            <circle cx="12" cy="12" r="10" fill="#41a1e6"/>
             <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Free shipping unlocked!
@@ -1867,6 +1869,15 @@
       </div>
     </div>
 
+<!-- ═══════ FINAL SALE INFO MODAL ═══════════════════════════════════ -->
+    <div class="exclusion-modal-backdrop" id="final-sale-modal-backdrop">
+      <div class="exclusion-modal">
+        <button class="exclusion-modal__close" id="final-sale-modal-close" aria-label="Close">&times;</button>
+        <p class="exclusion-modal__title">What does Final Sale mean?</p>
+        <p class="exclusion-modal__body">This piece is offered at a special price and is final sale — no returns or exchanges. Take a moment to make sure it's the one. Questions before purchasing? Our team is always happy to help.</p>
+      </div>
+    </div>
+
 <!-- ═══════ STICKY MOBILE CHECKOUT BAR ══════════════════════════════ -->
     <div class="cart-sticky-bar" id="cart-sticky-bar" aria-hidden="true">
       <div class="cart-sticky-bar__inner">
@@ -1882,7 +1893,7 @@
       // ── Constants ──
       var FREE_SHIP_THRESHOLD = 150;
       var trashSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
-      var checkSVG = '<circle cx="12" cy="12" r="10" fill="#4a7c59"/><path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+      var checkSVG = '<circle cx="12" cy="12" r="10" fill="#41a1e6"/><path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
       var truckSVG = '<circle cx="12" cy="12" r="10" fill="#B88B72" opacity="0.2"/><path d="M7 12h6m0 0l-2.5-2.5M13 12l-2.5 2.5" stroke="#B88B72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
       var minusSym = '\u2212';
 
@@ -2084,6 +2095,21 @@
       exModalClose.addEventListener('click', closeExModal);
       exModalBackdrop.addEventListener('click', function(e) {
         if (e.target === exModalBackdrop) closeExModal();
+      });
+
+      // 5b. Final sale info modal
+      var fsModalBackdrop = document.getElementById('final-sale-modal-backdrop');
+      var fsModalClose = document.getElementById('final-sale-modal-close');
+      document.querySelectorAll('[data-final-sale-info]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          fsModalBackdrop.classList.add('is-open');
+        });
+      });
+      function closeFsModal() { fsModalBackdrop.classList.remove('is-open'); }
+      fsModalClose.addEventListener('click', closeFsModal);
+      fsModalBackdrop.addEventListener('click', function(e) {
+        if (e.target === fsModalBackdrop) closeFsModal();
       });
 
       // 6. Promo code toggle
