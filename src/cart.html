@@ -146,7 +146,7 @@
         <div class="preview-nav__links">
           <a href="pdp-v2.html" class="preview-nav__link">Product Page</a>
           <a href="cart.html" class="preview-nav__link preview-nav__link--active">Cart Page</a>
-          <button class="preview-nav__btn" id="open-drawer-btn">Open Drawer</button>
+          <a href="pdp-v2.html" class="preview-nav__link">Design Philosophy</a>
         </div>
       </div>
     </nav>
@@ -239,7 +239,7 @@
                     <span class="icon-caption">Account</span>
                   </a>
                   <div class="header-cart action-area__link" id="header-cart-trigger">
-                    <a class="header__link" href="cart.html">
+                    <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
                       <span class="header-cart__icon">
                         <span class="icon header__icon tooltip-left tooltip-dark" data-icon="bag" data-tooltip-title="My Shopping Bag">
                           <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -249,7 +249,7 @@
                         <span class="header-cart__count header-cart__count--badge badge" data-bind="itemCount">4</span>
                       </span>
                       <span class="header-cart__caption icon-caption">Bag</span>
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div class="header__menu" style="z-index: 41;">
@@ -375,7 +375,7 @@
                 <span class="icon-caption">Account</span>
               </a>
               <div class="header-cart action-area__link">
-                <a class="header__link" href="cart.html">
+                <button class="header__link" data-open-drawer style="background:none;border:none;cursor:pointer;padding:0;">
                   <span class="header-cart__icon">
                     <span class="icon header__icon" data-icon="bag">
                       <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -385,7 +385,7 @@
                     <span class="header-cart__count header-cart__count--badge badge">4</span>
                   </span>
                   <span class="header-cart__caption icon-caption">Bag</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -2008,7 +2008,6 @@
       // 3. Drawer open/close
       var drawer   = document.getElementById('cart-drawer');
       var backdrop = document.getElementById('cart-drawer-backdrop');
-      var openBtn  = document.getElementById('open-drawer-btn');
       var closeBtn = document.getElementById('cart-drawer-close');
 
       function openDrawer() {
@@ -2024,12 +2023,20 @@
         drawer.setAttribute('aria-hidden', 'true');
       }
 
-      openBtn.addEventListener('click', openDrawer);
+      // All bag icons open the drawer
+      document.querySelectorAll('[data-open-drawer]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) { e.preventDefault(); openDrawer(); });
+      });
       closeBtn.addEventListener('click', closeDrawer);
       backdrop.addEventListener('click', closeDrawer);
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeDrawer();
       });
+      // Auto-open drawer if arriving from PDP with ?drawer=1
+      if (window.location.search.indexOf('drawer=1') !== -1) {
+        openDrawer();
+        history.replaceState(null, '', window.location.pathname);
+      }
 
       // 4. Drawer qty buttons
       document.querySelectorAll('[data-drawer-item]').forEach(function(item) {
