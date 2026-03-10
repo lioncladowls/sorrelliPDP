@@ -785,15 +785,19 @@
         font-size: 13px;
         color: var(--color-text-secondary);
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 5px;
-        flex-wrap: wrap;
+        gap: 4px;
         margin-bottom: 14px;
         line-height: 1.4;
         text-align: center;
       }
       .cart-summary__bnpl strong { color: var(--color-text-primary); }
+      .cart-summary__bnpl-logos {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
       .bnpl-logo--afterpay { height: 15px; vertical-align: middle; }
       .bnpl-logo--shoppay { height: 15px; vertical-align: middle; }
       .bnpl-sep { color: var(--color-text-muted); font-size: 10px; }
@@ -1475,10 +1479,14 @@
               </div>
 
               <!-- BNPL line -->
-              <p class="cart-summary__bnpl" data-bnpl-line>
-                or 4 interest-free payments of <strong data-bnpl-amount>$100.88</strong><br/>
-                with <img src="assets/afterpay-logo.svg" alt="Afterpay" class="bnpl-logo bnpl-logo--afterpay"/> <span class="bnpl-sep">&middot;</span> <svg class="bnpl-logo bnpl-logo--shoppay" aria-label="Shop Pay" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="18" rx="4" fill="#5A31F4"/><text x="7" y="13" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="-0.1">Shop Pay</text></svg>
-              </p>
+              <div class="cart-summary__bnpl" data-bnpl-line>
+                <span class="cart-summary__bnpl-text">or 4 interest-free payments of <strong data-bnpl-amount>$100.88</strong> with</span>
+                <span class="cart-summary__bnpl-logos">
+                  <img src="assets/afterpay-logo.svg" alt="Afterpay" class="bnpl-logo bnpl-logo--afterpay"/>
+                  <span class="bnpl-sep">&middot;</span>
+                  <svg class="bnpl-logo bnpl-logo--shoppay" aria-label="Shop Pay" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="18" rx="4" fill="#5A31F4"/><text x="7" y="13" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="-0.1">Shop Pay</text></svg>
+                </span>
+              </div>
 
               <!-- CTA -->
               <a href="#" class="cart-summary__cta" id="cart-checkout-cta">Proceed to Checkout</a>
