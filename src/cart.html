@@ -912,6 +912,81 @@
       .cart-promo__apply:hover { background: var(--color-border-warm); }
       .cart-promo__row { display: flex; gap: 8px; }
 
+      /* ── Gift option ── */
+      .cart-gift__label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+      .cart-gift__checkbox {
+        accent-color: var(--color-rose-gold);
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+      .cart-gift__text {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+      .cart-gift__note {
+        font-size: 11px;
+        color: var(--color-text-muted);
+        line-height: 1.5;
+        margin: 6px 0 0 24px;
+      }
+      .cart-drawer__gift-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      /* ── Drawer returns bar ── */
+      .cart-drawer__returns-bar {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        text-align: center;
+        padding: 6px 20px;
+        border-bottom: 1px solid var(--color-border-light);
+        flex-shrink: 0;
+      }
+      .cart-drawer__returns-link {
+        color: var(--color-rose-gold);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .cart-drawer__returns-link:hover { text-decoration: underline; }
+
+      /* ── Policy info strip ── */
+      .cart-policy-strip {
+        display: flex;
+        gap: 24px;
+        max-width: 1100px;
+        margin: 2rem auto 0;
+        padding: 24px;
+        border: 1px solid var(--color-border-light);
+        border-radius: 8px;
+        background: var(--color-bg-cream);
+      }
+      .cart-policy-strip__item {
+        flex: 1;
+        display: flex;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--color-text-body);
+        line-height: 1.5;
+      }
+      .cart-policy-strip__icon {
+        width: 28px;
+        height: 28px;
+        fill: var(--color-rose-gold);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
       /* ── Cross-sell ── */
       .cart-cross-sell {
         padding: 0 24px 64px;
@@ -1312,6 +1387,7 @@
         .cart-item__img-wrap { width: 80px; height: 80px; }
         .cart-cross-sell__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
         .cart-cross-sell { padding: 0 16px 48px; }
+        .cart-policy-strip { flex-direction: column; gap: 16px; margin: 1.5rem 16px 0; padding: 16px; }
         .cart-sticky-bar { display: block !important; }
         .cart-page-content { padding-bottom: 100px; }
       }
@@ -1336,7 +1412,7 @@
                 <p class="cart-item__variant">Panama Rose &middot; Bright Gold-tone</p>
                 <div class="cart-item__status cart-item__status--green">
                   <span class="cart-item__status-dot cart-item__status-dot--green"></span>
-                  In Stock — Ships in 1–3 business days
+                  In Stock
                 </div>
               </div>
               <div class="cart-item__right">
@@ -1523,8 +1599,35 @@
               </div>
             </div>
 
+            <!-- Gift Option -->
+            <div class="cart-sidebar__card" style="padding: 14px 20px;">
+              <label class="cart-gift__label">
+                <input type="checkbox" class="cart-gift__checkbox"/>
+                <span class="cart-gift__text">Make this order a gift</span>
+              </label>
+              <p class="cart-gift__note">If selected, the receipt will not include pricing, and the order will be shipped with gift boxes for full-price and clearance purchases at 25% off or less.</p>
+            </div>
+
           </div><!-- /.cart-sidebar -->
         </div><!-- /.cart-layout -->
+
+        <!-- ── POLICY INFO STRIP ── -->
+        <div class="cart-policy-strip">
+          <div class="cart-policy-strip__item">
+            <svg class="cart-policy-strip__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6H4l-1 5v2h1v6h10v-6h4v6h2v-6h1v-2l-1-5zM6 17v-4h6v4H6z"/><path d="M4 4h16v2H4z"/></svg>
+            <div>
+              <strong>FREE Standard Shipping</strong> on orders $150+<br/>
+              $9.95 Flat-Rate Shipping on other orders
+            </div>
+          </div>
+          <div class="cart-policy-strip__item">
+            <svg class="cart-policy-strip__icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,5.5S24.74,15,15.26,15V48.46a39,39,0,0,0,2.23,13.1A60,60,0,0,0,50,95.5,60,60,0,0,0,82.51,61.56a39,39,0,0,0,2.23-13.1V15C75.26,15,50,5.5,50,5.5Zm-3,62.71L31.38,52.54,37,46.88l9.59,9.6L64.35,36l6,5.24Z"/></svg>
+            <div>
+              <strong>30-Day Any Reason Returns</strong> for most items*<br/>
+              <span style="font-size:11px;">If you don't absolutely love it, return it — no questions asked. Final sale items excluded. <a href="https://www.sorrelli.com/pages/returns" target="_blank" style="color:var(--color-rose-gold);">Read the full returns policy.</a></span>
+            </div>
+          </div>
+        </div>
 
         <!-- ── CROSS-SELL ── -->
         <div class="cart-cross-sell">
@@ -1729,6 +1832,9 @@
         <h2 class="cart-drawer__title">Your Cart (4)</h2>
         <button class="cart-drawer__close" id="cart-drawer-close" aria-label="Close cart">&times;</button>
       </div>
+      <div class="cart-drawer__returns-bar">
+        30-Day Any Reason Returns <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-drawer__returns-link">more info</a>
+      </div>
       <div class="cart-drawer__shipping-bar">
         <div class="cart-drawer__shipping-msg">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1751,7 +1857,7 @@
             <p class="cart-drawer__item-variant">Panama Rose &middot; Bright Gold-tone</p>
             <div class="cart-drawer__item-status cart-item__status--green" style="font-size:11px;display:flex;align-items:center;gap:4px;">
               <span class="cart-item__status-dot cart-item__status-dot--green"></span>
-              In Stock — Ships in 1–3 days
+              In Stock
             </div>
             <div class="cart-drawer__item-price-row">
               <div class="cart-drawer__item-qty">
@@ -1856,6 +1962,10 @@
             Pay in 4
           </span>
         </div>
+        <label class="cart-drawer__gift-label">
+          <input type="checkbox" class="cart-gift__checkbox"/>
+          <span style="font-size:12px;color:var(--color-text-secondary);">Make this order a gift</span>
+        </label>
         <a href="cart.html" class="cart-drawer__view-cart">View Full Cart</a>
       </div>
     </div><!-- /.cart-drawer -->
