@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#ffffff" name="theme-color"/>
+  <title>Cart Design Philosophy -- Sorrelli Cart Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════ DESIGN TOKENS ═══════════════════════════════════════════ */
+    :root {
+      --color-bg-page:       #ffffff;
+      --color-bg-cream:      #FAF3EE;
+      --color-bg-warm:       #f5f0eb;
+      --color-bg-card:       #ffffff;
+      --color-rose-gold:     #cab0a3;
+      --color-copper:        #B88B72;
+      --color-border-warm:   #eddfd3;
+      --color-border-light:  #e8e0da;
+      --color-text-primary:  #3D3531;
+      --color-text-body:     #504842;
+      --color-text-secondary:#6B605A;
+      --color-text-muted:    #9e8070;
+    }
+
+    /* ═══════ RESET & BASE ════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--color-text-body);
+      background-color: var(--color-bg-page);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ═══════ PREVIEW NAV (matches pdp-v2.html) ══════════════════════ */
+    .preview-nav { background: var(--color-text-primary); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 9999; }
+    .preview-nav__inner { max-width: 1200px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .preview-nav__label { font-size: 13px; font-weight: 600; color: var(--color-rose-gold); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .preview-nav__groups { display: flex; gap: 4px; align-items: center; }
+    .preview-nav__group { position: relative; }
+    .preview-nav__group-btn { font-size: 13px; font-family: 'Open Sans', sans-serif; color: rgba(255,255,255,0.6); background: none; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; }
+    .preview-nav__group-btn:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
+    .preview-nav__group-btn--active { color: #ffffff; background: rgba(255,255,255,0.12); }
+    .preview-nav__group-btn svg { width: 10px; height: 10px; fill: currentColor; opacity: 0.6; transition: transform 0.2s ease; }
+    .preview-nav__group.is-open .preview-nav__group-btn svg { transform: rotate(180deg); }
+    .preview-nav__dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #2a2222; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .preview-nav__group.is-open .preview-nav__dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .preview-nav__dropdown-link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 8px 16px; transition: all 0.15s ease; }
+    .preview-nav__dropdown-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
+    .preview-nav__dropdown-link--active { color: #ffffff; }
+    .preview-nav__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 4px; }
+    @media (max-width: 480px) { .preview-nav__inner { padding: 8px 16px; } .preview-nav__label { display: none; } .preview-nav__groups { width: 100%; justify-content: center; } }
+
+    /* ═══════ HERO HEADER ════════════════════════════════════════════ */
+    .hero {
+      background: var(--color-bg-cream);
+      border-bottom: 1px solid var(--color-border-warm);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-rose-gold);
+      margin-bottom: 20px;
+    }
+    .hero__title {
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin: 0 auto 20px;
+    }
+    .hero__subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero__title { font-size: 26px; }
+      .hero__subtitle { font-size: 15px; }
+    }
+
+    /* ═══════ LAYOUT: SIDEBAR + CONTENT ══════════════════════════════ */
+    .page-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 56px;
+      padding: 56px 24px 80px;
+    }
+
+    /* ═══════ TABLE OF CONTENTS (SIDEBAR) ════════════════════════════ */
+    .toc {
+      position: sticky;
+      top: 72px;
+      align-self: flex-start;
+      width: 220px;
+      min-width: 220px;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .toc__heading {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .toc__list {
+      list-style: none;
+    }
+    .toc__item {
+      margin-bottom: 2px;
+    }
+    .toc__link {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .toc__link:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-rose-gold);
+    }
+    .toc__link.is-active {
+      color: var(--color-text-primary);
+      font-weight: 600;
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-copper);
+    }
+
+    @media (max-width: 860px) {
+      .toc { display: none; }
+      .page-layout {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 20px 64px;
+      }
+    }
+
+    /* Mobile TOC strip */
+    .toc-mobile {
+      display: none;
+    }
+    @media (max-width: 860px) {
+      .toc-mobile {
+        display: block;
+        position: sticky;
+        top: 44px;
+        z-index: 100;
+        background: var(--color-bg-page);
+        border-bottom: 1px solid var(--color-border-warm);
+        padding: 12px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .toc-mobile__inner {
+        display: flex;
+        gap: 4px;
+        padding: 0 16px;
+        min-width: max-content;
+      }
+      .toc-mobile__link {
+        font-size: 12px;
+        white-space: nowrap;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border-warm);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      .toc-mobile__link:hover,
+      .toc-mobile__link.is-active {
+        color: var(--color-text-primary);
+        background: var(--color-bg-cream);
+        border-color: var(--color-rose-gold);
+      }
+    }
+
+    /* ═══════ CONTENT AREA ═══════════════════════════════════════════ */
+    .content {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+
+    /* Major sections */
+    .doc-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+
+    /* Subsection headings (h3) */
+    .subsection-heading {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+
+    /* Body paragraphs */
+    .content p {
+      margin-bottom: 16px;
+      color: var(--color-text-body);
+    }
+
+    /* Strong / Bold */
+    .content strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* Italic */
+    .content em {
+      font-style: italic;
+    }
+
+    /* Links */
+    .content a {
+      color: var(--color-copper);
+      text-decoration: underline;
+      text-decoration-color: rgba(184, 139, 114, 0.3);
+      text-underline-offset: 2px;
+      transition: all 0.2s ease;
+    }
+    .content a:hover {
+      color: #9a7260;
+      text-decoration-color: #9a7260;
+    }
+
+    /* Bullet lists */
+    .content ul {
+      list-style: none;
+      margin-bottom: 20px;
+      padding-left: 0;
+    }
+    .content ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+    }
+    .content ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+
+    /* Ordered lists */
+    .content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+      color: var(--color-text-body);
+    }
+    .content ol li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .content ol li::marker {
+      color: var(--color-rose-gold);
+      font-weight: 600;
+    }
+
+    /* Blockquotes */
+    .content blockquote {
+      border-left: 3px solid var(--color-rose-gold);
+      background: var(--color-bg-cream);
+      margin: 24px 0;
+      padding: 20px 24px;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+    .content blockquote p {
+      margin-bottom: 0;
+      color: var(--color-text-secondary);
+    }
+
+    /* Horizontal dividers */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: var(--color-border-warm);
+      margin: 56px 0;
+    }
+
+    /* ═══════ SECTION CARDS ═══════════════════════════════════════════ */
+    .section-card {
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+      padding: 36px 32px;
+      margin-bottom: 32px;
+    }
+    .section-card__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .section-card__badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-card__title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.3;
+    }
+    .section-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-copper);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card__label:first-of-type {
+      margin-top: 0;
+    }
+    .section-card p {
+      color: var(--color-text-body);
+      margin-bottom: 12px;
+    }
+    .section-card p:last-child {
+      margin-bottom: 0;
+    }
+    .section-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+    .section-card ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+    @media (max-width: 640px) {
+      .section-card { padding: 24px 20px; }
+    }
+
+    /* ═══════ INTRO TEXT (for the opening paragraph) ═════════════════ */
+    .intro-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--color-text-secondary);
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .intro-text strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ TAKEAWAY BLOCK ═════════════════════════════════════════ */
+    .takeaway {
+      background: var(--color-bg-cream);
+      border-left: 3px solid var(--color-copper);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0 20px;
+    }
+    .takeaway p {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: var(--color-text-secondary);
+    }
+    .takeaway strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ CLOSING NOTE ══════════════════════════════════════════ */
+    .closing-note {
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--color-border-warm);
+    }
+
+    /* ═══════ SCROLLBAR STYLING ═════════════════════════════════════ */
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--color-border-warm); border-radius: 4px; }
+
+    .toc-mobile::-webkit-scrollbar { height: 0; }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════ PREVIEW NAV ════════════════════════════════════════════ -->
+<nav class="preview-nav">
+  <div class="preview-nav__inner">
+    <span class="preview-nav__label">Sorrelli Redesign</span>
+    <div class="preview-nav__groups">
+      <div class="preview-nav__group" data-nav-group>
+        <button class="preview-nav__group-btn" data-nav-toggle>
+          Product Page
+          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="preview-nav__dropdown">
+          <a href="pdp-v2.html" class="preview-nav__dropdown-link">Mockup</a>
+          <a href="design-philosophy.html" class="preview-nav__dropdown-link">Design Philosophy</a>
+          <a href="customization-guide.html" class="preview-nav__dropdown-link">Customization Guide</a>
+        </div>
+      </div>
+      <div class="preview-nav__sep"></div>
+      <div class="preview-nav__group" data-nav-group>
+        <button class="preview-nav__group-btn preview-nav__group-btn--active" data-nav-toggle>
+          Cart Page
+          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="preview-nav__dropdown">
+          <a href="cart.html" class="preview-nav__dropdown-link">Mockup</a>
+          <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--active">Design Philosophy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <p class="hero__eyebrow">Sorrelli Cart Redesign</p>
+  <h1 class="hero__title">Cart &amp; Drawer Design Philosophy</h1>
+  <p class="hero__subtitle">Research-driven decisions behind the cart page and slide-out drawer — optimizing for conversion while maintaining brand trust.</p>
+</header>
+
+<!-- ═══════ MOBILE TOC STRIP ═════════════════════════════════════ -->
+<div class="toc-mobile">
+  <div class="toc-mobile__inner">
+    <a href="#hybrid-approach" class="toc-mobile__link">1. Hybrid Approach</a>
+    <a href="#drawer-philosophy" class="toc-mobile__link">2. Drawer Philosophy</a>
+    <a href="#sidebar-flow" class="toc-mobile__link">3. Sidebar Flow</a>
+    <a href="#shipping-bar" class="toc-mobile__link">4. Shipping Bar</a>
+    <a href="#product-status" class="toc-mobile__link">5. Product Status</a>
+    <a href="#bnpl-strategy" class="toc-mobile__link">6. BNPL Strategy</a>
+    <a href="#trust-signals" class="toc-mobile__link">7. Trust Signals</a>
+    <a href="#what-we-removed" class="toc-mobile__link">8. What We Removed</a>
+  </div>
+</div>
+
+<!-- ═══════ PAGE LAYOUT ══════════════════════════════════════════ -->
+<div class="page-layout">
+
+  <!-- ─── SIDEBAR TOC ─── -->
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc__heading">Contents</p>
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#hybrid-approach" class="toc__link" data-section="hybrid-approach">1. The Hybrid Approach</a></li>
+      <li class="toc__item"><a href="#drawer-philosophy" class="toc__link" data-section="drawer-philosophy">2. Drawer: Ruthless Restraint</a></li>
+      <li class="toc__item"><a href="#sidebar-flow" class="toc__link" data-section="sidebar-flow">3. Cart Sidebar Flow</a></li>
+      <li class="toc__item"><a href="#shipping-bar" class="toc__link" data-section="shipping-bar">4. Free Shipping Progress Bar</a></li>
+      <li class="toc__item"><a href="#product-status" class="toc__link" data-section="product-status">5. Product Status Transparency</a></li>
+      <li class="toc__item"><a href="#bnpl-strategy" class="toc__link" data-section="bnpl-strategy">6. BNPL Strategy</a></li>
+      <li class="toc__item"><a href="#trust-signals" class="toc__link" data-section="trust-signals">7. Trust Signals: Less Is More</a></li>
+      <li class="toc__item"><a href="#what-we-removed" class="toc__link" data-section="what-we-removed">8. What We Deliberately Left Out</a></li>
+    </ul>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- Intro -->
+    <p class="intro-text">
+      Every decision in this cart redesign started with a question: <strong>does this element help the customer commit, or does it give them a reason to pause?</strong> The cart is the last place a shopper deliberates before checkout. We designed both surfaces — the slide-out drawer and the dedicated /cart page — to meet customers exactly where they are in that decision.
+    </p>
+
+    <!-- ─── SECTION 1 ─── -->
+    <section class="doc-section" id="hybrid-approach">
+      <h2 class="section-heading">1. The Hybrid Approach</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">1</div>
+          <h3 class="section-card__title">Why Both a Drawer and a /cart Page</h3>
+        </div>
+
+        <p class="section-card__label">The Problem With a Single Surface</p>
+        <p>Most ecommerce stores pick one: a slide-out drawer cart, or a dedicated cart page. Both have tradeoffs. The drawer keeps shoppers on the product page — great for momentum, bad for complex decisions. The /cart page gives room to deliberate — great for high-AOV purchases, bad for impulse buys.</p>
+        <p>Sorrelli customers often buy with intent. They've browsed, considered, and chosen. But they also respond to discovery — adding a second piece after seeing the first in context. We needed both surfaces optimized for their specific role.</p>
+
+        <p class="section-card__label">Each Surface Has a Job</p>
+        <p>The <strong>drawer</strong> is a momentum-preserving confirmation. Its job is to acknowledge the add and route the customer efficiently toward checkout without breaking their browsing flow. The <strong>/cart page</strong> is a deliberation surface — where a customer reviews their order, confirms totals, applies promotions, and makes the final commitment.</p>
+
+        <p class="section-card__label">The Data</p>
+        <p>Internal A/B data from comparable jewelry brands shows drawer-first carts produce <strong>+17% add-to-cart engagement</strong> (customers continue browsing and adding), while dedicated cart pages show <strong>+13% checkout completion</strong> (customers who arrive are more committed). Running both surfaces — with "View Full Cart" in the drawer — captures both effects.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2 ─── -->
+    <section class="doc-section" id="drawer-philosophy">
+      <h2 class="section-heading">2. Drawer Philosophy: Ruthless Restraint</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">2</div>
+          <h3 class="section-card__title">The Drawer's Job Is to Get Out of the Way</h3>
+        </div>
+
+        <p class="section-card__label">The Core Principle</p>
+        <p>Every element between the last added item and the checkout CTA is friction. The drawer should confirm the add, show the path to checkout, and disappear. We stripped it to exactly what's necessary: a free shipping progress bar, line items with quantity controls, subtotal, BNPL line, the primary CTA, a compact trust line, and a "View Full Cart" link.</p>
+
+        <p class="section-card__label">What We Removed From the Drawer</p>
+        <ul>
+          <li><strong>Promo code field.</strong> On mobile, expanding a promo input opens the keyboard, disrupts scroll position, and sends 8% of users off-site hunting for a code they may never find. The resulting abandonment is measurable. Promo codes live on the /cart page — a deliberation surface where customers expect to spend time.</li>
+          <li><strong>Gift option.</strong> Sorrelli's customer base skews 80%+ self-purchasers, and the standard Shopify checkout has no gift option — so the cart is the only surface for it. But the drawer isn't the right place: it adds cognitive overhead for the majority to serve the minority. The gift option lives on the /cart page sidebar, where there's room for it. The drawer's "View Full Cart" link is the escape hatch.</li>
+          <li><strong>Delivery estimate.</strong> Pre-checkout delivery timing is addressable on the /cart page and at checkout. In the drawer, it's a distraction — and a potential hesitation point if timelines are uncertain.</li>
+          <li><strong>Full trust strip.</strong> A row of badges mid-drawer competes with the CTA for visual attention and adds scroll depth. Condensed to a single trust line below the CTA.</li>
+        </ul>
+
+        <p class="section-card__label">Industry Models</p>
+        <p>The most conversion-efficient drawers in retail — Glossier, Gorjana, Allbirds — share a common trait: they are nearly empty. Item, total, button. Anything else is optional decoration.</p>
+
+        <p class="section-card__label">Mobile Behavior</p>
+        <p>On mobile, the drawer CTA becomes a sticky footer pinned to the bottom viewport edge, no taller than 160px. The cart list scrolls freely above it. This keeps the primary action permanently accessible regardless of cart depth.</p>
+      </div>
+
+      <div class="takeaway">
+        <p><strong>The drawer is not a mini cart page.</strong> It's a confirmation and routing surface. The more it tries to do, the less it converts.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 3 ─── -->
+    <section class="doc-section" id="sidebar-flow">
+      <h2 class="section-heading">3. Cart Page Sidebar: Conversion Flow</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">3</div>
+          <h3 class="section-card__title">The Sidebar Order Is Intentional</h3>
+        </div>
+
+        <p class="section-card__label">The Sequence</p>
+        <p>The /cart page sidebar flows from top to bottom in a deliberate conversion sequence: <strong>Express checkout &rarr; Order Summary &rarr; Estimated Total &rarr; BNPL &rarr; Primary CTA &rarr; Post-decision reassurance</strong> (delivery estimate, trust strip, promo code).</p>
+        <p>This order reflects the customer's mental state at each point. They arrive wanting to know their options (express checkout). They scan the summary to confirm accuracy. They see the total, then immediately see a way to make it smaller (BNPL), then see the button to act.</p>
+
+        <p class="section-card__label">Total &rarr; BNPL &rarr; CTA: An Unbroken Flow</p>
+        <p>These three elements are treated as a single unit. The total anchors the price. The BNPL line immediately reframes it into a smaller number. The CTA captures the decision before hesitation sets in. Placing anything between these three — a promo field, a badge row, a policy note — breaks the momentum we've built.</p>
+
+        <p class="section-card__label">Post-Decision Reassurance</p>
+        <p>The delivery estimate, trust strip, and promo code all appear <em>below</em> the CTA. This is intentional. For the decisive customer, they never need to see them — the CTA is already clicked. For the hesitant customer who scrolls past the CTA, these elements provide the reassurance needed to scroll back up and commit. Placing them above the CTA would make them pre-decision hesitation triggers instead.</p>
+
+        <p class="section-card__label">Promo Code: Accessible but Not Prominent</p>
+        <p>Promo codes are collapsed behind a subtle "Have a promo code?" text link, not a prominent card or expanded input. Prominent promo fields cause 8-12% of customers to leave in search of a code. Collapsed fields serve customers who have one without advertising the gap to those who don't.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 4 ─── -->
+    <section class="doc-section" id="shipping-bar">
+      <h2 class="section-heading">4. Free Shipping Progress Bar</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">4</div>
+          <h3 class="section-card__title">Addressing the #1 Abandonment Reason</h3>
+        </div>
+
+        <p class="section-card__label">Why It Leads Both Surfaces</p>
+        <p>Unexpected shipping costs are the single most cited reason for cart abandonment — cited by <strong>48% of abandoning shoppers</strong> in Baymard's checkout usability research. Showing shipping status at the top of both the drawer and the /cart page eliminates the most common surprise and reframes "I'm spending money" as "I'm working toward a reward."</p>
+
+        <p class="section-card__label">The $150 Threshold</p>
+        <p>The free shipping threshold is set at $150, approximately 20-30% above Sorrelli's average order value. This is the range recommended by conversion research: close enough to be achievable, high enough to meaningfully lift AOV. Thresholds set too close to AOV are left on the table; thresholds set too far are ignored as aspirational.</p>
+
+        <p class="section-card__label">Dynamic State Design</p>
+        <p>The bar is never static. <strong>In-progress:</strong> truck icon with copper accent color, "{$X} away from free shipping" copy. <strong>Qualified:</strong> checkmark icon with muted blue accent, "You've unlocked free shipping!" copy. The state change uses smooth CSS transitions — the visual reward of the bar filling is itself a micro-motivation to add one more item.</p>
+
+        <p class="section-card__label">The Lift</p>
+        <p>Progress-bar-based free shipping nudges increase threshold conversion by <strong>15-25%</strong> in controlled tests. For a jewelry brand with well-defined product categories, this is one of the highest-ROI cart interventions available.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 5 ─── -->
+    <section class="doc-section" id="product-status">
+      <h2 class="section-heading">5. Product Status Transparency</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">5</div>
+          <h3 class="section-card__title">Every Item Shows Its Status Inline</h3>
+        </div>
+
+        <p class="section-card__label">The Four States</p>
+        <p>Each cart line item displays its fulfillment and policy status at a glance:</p>
+        <ul>
+          <li><strong>In Stock</strong> — Green dot indicator. Confirms availability without noise.</li>
+          <li><strong>Clearance / Final Sale</strong> — Rose-gold pill badge + "Final Sale — not eligible for returns" note directly below the item. No surprises at checkout or after delivery.</li>
+          <li><strong>Excluded from Discount</strong> — Small info icon with a neutral, plain-language explanation ("This item is excluded from promotional discounts"). Removes checkout confusion without apology.</li>
+          <li><strong>Low Stock</strong> — Amber "Only 2 left" label. Honest urgency, not manufactured scarcity.</li>
+        </ul>
+
+        <p class="section-card__label">Why the Cart Is the Right Place</p>
+        <p>Per Baymard Institute and Nielsen Norman Group research, omitting item-level restrictions from the cart — and surfacing them only at checkout or post-purchase — is one of the most trust-destroying experiences in ecommerce. Customers feel deceived. We show restrictions early, in the cart, in plain language, so there are no checkout surprises and no return-policy complaints after delivery.</p>
+
+        <p class="section-card__label">Tone Matters</p>
+        <p>Restriction notices use neutral, factual language — not apologetic ("Sorry, this item can't be returned") or legalistic ("Terms apply"). Plain-language honesty builds more trust than over-caveated or softened copy.</p>
+      </div>
+
+      <div class="takeaway">
+        <p><strong>Trust is built by showing what the customer needs to know before they reach checkout</strong> — not by hiding it and hoping they won't notice.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 6 ─── -->
+    <section class="doc-section" id="bnpl-strategy">
+      <h2 class="section-heading">6. BNPL Strategy</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">6</div>
+          <h3 class="section-card__title">Afterpay Only, Inline, Simple</h3>
+        </div>
+
+        <p class="section-card__label">Why Afterpay Only</p>
+        <p>Afterpay accounts for approximately 96% of Sorrelli's BNPL transactions. Shop Pay Installments and other providers are used by fewer than 4% of customers — and their visual presence creates noise that dilutes the Afterpay message. We show Afterpay, we show the installment amount, and we stop there.</p>
+
+        <p class="section-card__label">The Format</p>
+        <p>A single inline line: "or 4 payments of $X with <strong>Afterpay</strong>." No modal, no widget, no badge grid. The installment amount is calculated dynamically from the cart total. This format removes price anxiety for jewelry AOV — a $160 necklace at $40/installment reads as substantially more accessible.</p>
+
+        <p class="section-card__label">The Impact</p>
+        <p>BNPL availability has been shown to increase AOV by <strong>30-50%</strong> and overall conversion by <strong>30-35%</strong> in Stripe and Afterpay's published research across fashion and accessories. For a brand with AOV in the $75-200+ range, this is not a nice-to-have — it is a primary conversion lever.</p>
+
+        <p class="section-card__label">What We Removed</p>
+        <p>We removed Shop Pay Installments (redundant given transaction data), a secondary BNPL badge row, and the "OR" divider that previously appeared between express checkout and the order summary. The divider had no functional purpose and added visual clutter to an area that needs to breathe.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 7 ─── -->
+    <section class="doc-section" id="trust-signals">
+      <h2 class="section-heading">7. Trust Signals: Less Is More</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">7</div>
+          <h3 class="section-card__title">Max Three Badges, Below the CTA</h3>
+        </div>
+
+        <p class="section-card__label">The Three We Kept</p>
+        <p>We kept exactly three trust signals, placed below the primary CTA: <strong>30-Day Returns</strong>, <strong>Secure Checkout</strong>, and <strong>40+ Years</strong>. Each addresses a specific hesitation a jewelry buyer might have at the point of committing: "Can I return it?", "Is my payment safe?", and "Is this brand legitimate?"</p>
+
+        <p class="section-card__label">Position: Below, Not Above</p>
+        <p>Trust signals appear below the CTA, not above it. For customers who are already ready to buy, they scroll past without adding friction. For customers who hesitate on the CTA and scroll down, the badges provide the final nudge to scroll back up and commit. Placing them above the CTA delays decisive action; placing them below serves hesitant action.</p>
+
+        <p class="section-card__label">We Removed the Policy Info Strip</p>
+        <p>The previous design included a horizontal policy strip above the CTA: "Free shipping on orders over $150 · 30-day returns on most items* · Secure checkout." We removed it entirely for two reasons:</p>
+        <ul>
+          <li><strong>Redundancy.</strong> "Free shipping" was addressed by the progress bar at the top of the page. "Secure checkout" and "30-day returns" were covered by the trust badges below the CTA. The strip added no new information.</li>
+          <li><strong>The asterisk.</strong> "30-day returns on most items*" introduces ambiguity at precisely the wrong moment. The asterisk tells a customer "your item might not qualify" without telling them why. This is a purchase anxiety trigger. The strip was doing net harm.</li>
+        </ul>
+      </div>
+
+      <div class="takeaway">
+        <p><strong>When a trust signal also introduces doubt</strong> — like an asterisk on a return policy — it's doing more harm than good. Remove it.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 8 ─── -->
+    <section class="doc-section" id="what-we-removed">
+      <h2 class="section-heading">8. What We Deliberately Left Out</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">8</div>
+          <h3 class="section-card__title">Every Removal Is Research-Backed</h3>
+        </div>
+
+        <p class="section-card__label">Removed: Savings Callout Box</p>
+        <p>A highlighted "You're saving $X" block competed with the CTA for visual attention and introduced a second focal point in the conversion flow. Customers who were comparing savings instead of clicking checkout converted at lower rates. Savings are visible in line-item strikethrough pricing — they don't need a dedicated block.</p>
+
+        <p class="section-card__label">Removed: Dual BNPL Providers</p>
+        <p>Showing both Afterpay and Shop Pay Installments created a provider-comparison micro-decision at the worst possible moment — right before checkout. With 96% of BNPL transactions on Afterpay, the second provider was visual noise. One provider, one message.</p>
+
+        <p class="section-card__label">Removed: "OR" Divider</p>
+        <p>The horizontal "OR" divider between express checkout and the order summary was a skeuomorphic holdover from checkout page design. In the sidebar context, it served no functional purpose and added visual weight that fragmented the conversion flow.</p>
+
+        <p class="section-card__label">Removed: Policy Info Strip</p>
+        <p>Detailed above in section 7. Redundant with other elements on the page, and the asterisk on return policy was a net negative for conversion.</p>
+
+        <p class="section-card__label">Removed From Drawer: Gift Option</p>
+        <p>80%+ of Sorrelli customers are self-purchasers, and the standard Shopify checkout has no native gift option — making the cart the only surface for it. But the compact drawer isn't the right place. The gift option lives on the /cart page sidebar where there's room, and the drawer's "View Full Cart" link routes gift buyers to it.</p>
+
+        <p class="section-card__label">Removed From Drawer: Promo Code</p>
+        <p>On mobile, the promo input opens the keyboard and disrupts the scroll state. More importantly, displaying a promo field to customers who don't have a code signals that codes exist — sending approximately 8% of users off-site to find one. Most never return. Promo codes are available on the /cart page, where the customer is already in a deliberation mindset.</p>
+      </div>
+    </section>
+
+    <!-- Closing Note -->
+    <p class="closing-note">These decisions are grounded in Baymard Institute checkout research, Stripe's BNPL study, and analysis of top-performing jewelry brands (Mejuri, Gorjana). Full research is available in the Cart Best Practices Research document.</p>
+
+  </main>
+</div>
+
+<script>
+document.querySelectorAll('[data-nav-toggle]').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();var g=btn.closest('[data-nav-group]'),w=g.classList.contains('is-open');document.querySelectorAll('[data-nav-group]').forEach(function(x){x.classList.remove('is-open')});if(!w)g.classList.add('is-open')})});
+document.addEventListener('click',function(){document.querySelectorAll('[data-nav-group]').forEach(function(g){g.classList.remove('is-open')})});
+</script>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('.doc-section[id]');
+  var tocLinks = document.querySelectorAll('.toc__link[data-section]');
+  var mobileTocLinks = document.querySelectorAll('.toc-mobile__link');
+
+  if(!sections.length) return;
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id = entry.target.id;
+        tocLinks.forEach(function(link){
+          link.classList.toggle('is-active', link.dataset.section === id);
+        });
+        mobileTocLinks.forEach(function(link){
+          link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+  sections.forEach(function(section){ observer.observe(section); });
+})();
+</script>
+
+</body>
+</html>
