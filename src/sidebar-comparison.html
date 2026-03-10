@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Cart Sidebar — 3 Variants Comparison</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Open Sans', -apple-system, sans-serif;
+      background: #f0ebe5;
+      padding: 24px 16px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 300;
+      color: #3c2f2f;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #7a6e6e;
+      margin-bottom: 32px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+    .variant {
+      display: flex;
+      flex-direction: column;
+    }
+    .variant__label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #7a6e6e;
+      margin-bottom: 8px;
+    }
+    .variant__desc {
+      text-align: center;
+      font-size: 12px;
+      color: #a89e9e;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .variant iframe {
+      width: 100%;
+      min-height: 700px;
+      border: 1px solid #e8e0da;
+      border-radius: 8px;
+      background: #FAF3EE;
+    }
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cart Sidebar Redesign — Variant Comparison</h1>
+  <p class="subtitle">Same data, 3 approaches to visual hierarchy and information density</p>
+
+  <div class="grid">
+    <div class="variant">
+      <p class="variant__label">A — Minimal</p>
+      <p class="variant__desc">Gorjana-inspired. Strip to essentials. Brand is the trust signal. No savings box, no delivery, no promo.</p>
+      <iframe src="sidebar-variant-a.html" title="Variant A"></iframe>
+    </div>
+    <div class="variant">
+      <p class="variant__label">B — Structured Sections</p>
+      <p class="variant__desc">Same info, better grouping. Express checkout, order summary, and promo/gift in 3 separate cards.</p>
+      <iframe src="sidebar-variant-b.html" title="Variant B"></iframe>
+    </div>
+    <div class="variant">
+      <p class="variant__label">C — Progressive Disclosure</p>
+      <p class="variant__desc">Collapsed by default. Breakdown expands on click. Shortest initial height.</p>
+      <iframe src="sidebar-variant-c.html" title="Variant C"></iframe>
+    </div>
+  </div>
+</body>
+</html>
