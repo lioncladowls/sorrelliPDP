@@ -2637,6 +2637,124 @@ Go to your shopping bag
   transition: color 0.15s;
 }
 .cart-drawer__view-cart:hover { color: var(--color-text-primary); text-decoration: underline; }
+.cart-drawer__returns-bar {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-warm);
+}
+.cart-drawer__returns-link {
+  color: var(--color-rose-gold);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.cart-drawer__cross-sell {
+  margin-top: 12px;
+  padding: 16px 16px 8px;
+  background: var(--color-bg-warm);
+  border-radius: 6px;
+}
+.cart-drawer__cross-sell-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+  margin: 0 0 12px;
+}
+.cart-drawer__cross-sell-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-border);
+}
+.cart-drawer__cross-sell-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--color-bg-cream);
+  flex-shrink: 0;
+}
+.cart-drawer__cross-sell-details { flex: 1; min-width: 0; }
+.cart-drawer__cross-sell-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-drawer__cross-sell-price {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin: 2px 0 0;
+}
+.cart-drawer__cross-sell-add {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--color-rose-gold);
+  color: var(--color-rose-gold);
+  padding: 5px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+.cart-drawer__cross-sell-add:hover {
+  background: var(--color-rose-gold);
+  color: #fff;
+}
+.cart-drawer__cross-sell-add.is-added {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  pointer-events: none;
+}
+.cart-drawer__gift-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 7px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cart-drawer__gift-toggle:hover { border-color: var(--color-rose-gold); }
+.cart-drawer__gift-toggle.is-active {
+  border-color: var(--color-rose-gold);
+  background: var(--color-bg-warm);
+}
+.cart-drawer__gift-toggle input { display: none; }
+.cart-drawer__gift-icon {
+  width: 14px; height: 14px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+.cart-drawer__gift-toggle.is-active .cart-drawer__gift-icon { color: var(--color-rose-gold); }
+.cart-drawer__gift-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  transition: color 0.2s;
+}
+.cart-drawer__gift-toggle.is-active .cart-drawer__gift-text { color: var(--color-rose-gold); }
 .cart-item__final-sale-badge--sm {
   display: inline-block;
   font-size: 9px;
@@ -3637,6 +3755,24 @@ Go to your shopping bag
     exModalBackdrop.addEventListener('click', function(e) {
       if (e.target === exModalBackdrop) closeExModal();
     });
+
+    // Drawer cross-sell add buttons
+    document.querySelectorAll('[data-drawer-cross-sell-add]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btn.textContent = 'Added ✓';
+        btn.classList.add('is-added');
+      });
+    });
+
+    // Drawer gift toggle
+    (function() {
+      var toggle = document.getElementById('drawer-gift-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function() {
+        toggle.classList.toggle('is-active');
+      });
+    })();
+
   })();
             </script>
             <script type="text/javascript">
@@ -4444,6 +4580,9 @@ Go to your shopping bag
           <div class="cart-drawer__shipping-fill"></div>
         </div>
       </div>
+      <div class="cart-drawer__returns-bar">
+        30-Day Any Reason Returns <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-drawer__returns-link">more info</a>
+      </div>
       <div class="cart-drawer__body">
 
         <!-- Drawer Item 1 -->
@@ -4454,7 +4593,7 @@ Go to your shopping bag
             <p class="cart-drawer__item-variant">Panama Rose &middot; Bright Gold-tone</p>
             <div class="cart-drawer__item-status" style="font-size:11px;display:flex;align-items:center;gap:4px;color:var(--color-success);">
               <span class="cart-item__status-dot cart-item__status-dot--green"></span>
-              In Stock — Ships in 1–3 days
+              In Stock
             </div>
             <div class="cart-drawer__item-price-row">
               <div class="cart-drawer__item-qty">
@@ -4529,6 +4668,35 @@ Go to your shopping bag
           </div>
         </div>
 
+        <!-- Drawer Cross-sell -->
+        <div class="cart-drawer__cross-sell">
+          <h3 class="cart-drawer__cross-sell-title">Complete The Look</h3>
+          <div class="cart-drawer__cross-sell-item">
+            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/EGB8BGPRO_480x.jpg" alt="Cushion-Cut Round Dangle Earrings" loading="lazy"/>
+            <div class="cart-drawer__cross-sell-details">
+              <p class="cart-drawer__cross-sell-name">Cushion-Cut Round Dangle Earrings</p>
+              <p class="cart-drawer__cross-sell-price">$75.00</p>
+            </div>
+            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
+          </div>
+          <div class="cart-drawer__cross-sell-item">
+            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/RFY11BGPRO_480x.jpg" alt="Anika Adjustable Cocktail Ring" loading="lazy"/>
+            <div class="cart-drawer__cross-sell-details">
+              <p class="cart-drawer__cross-sell-name">Anika Adjustable Cocktail Ring</p>
+              <p class="cart-drawer__cross-sell-price">$78.00</p>
+            </div>
+            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
+          </div>
+          <div class="cart-drawer__cross-sell-item">
+            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGE5BGCSD.jpg?v=1766068090" alt="Seahorse Charm Pendant Necklace" loading="lazy"/>
+            <div class="cart-drawer__cross-sell-details">
+              <p class="cart-drawer__cross-sell-name">Seahorse Charm Pendant Necklace</p>
+              <p class="cart-drawer__cross-sell-price">$79.00</p>
+            </div>
+            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
+          </div>
+        </div>
+
       </div>
 
       <div class="cart-drawer__footer">
@@ -4559,6 +4727,11 @@ Go to your shopping bag
             Pay in 4
           </span>
         </div>
+        <label class="cart-drawer__gift-toggle" id="drawer-gift-toggle">
+          <input type="checkbox"/>
+          <svg class="cart-drawer__gift-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="3" y="12" width="18" height="9" rx="1"/><line x1="12" y1="8" x2="12" y2="21"/><path d="M12 8c-2-3-6-3-6 0s6 0 6 0"/><path d="M12 8c2-3 6-3 6 0s-6 0-6 0"/></svg>
+          <span class="cart-drawer__gift-text">Make this a gift</span>
+        </label>
         <a href="cart.html" class="cart-drawer__view-cart">View Full Cart</a>
       </div>
     </div>
