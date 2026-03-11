@@ -87,8 +87,8 @@
     + '.preview-nav__group-btn--active { color: #ffffff; background: rgba(255,255,255,0.12); }'
     + '.preview-nav__group-btn svg { width: 10px; height: 10px; fill: currentColor; opacity: 0.6; transition: transform 0.2s ease; }'
     + '.preview-nav__group.is-open .preview-nav__group-btn svg { transform: rotate(180deg); }'
-    + '.preview-nav__dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #2a2222; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }'
-    + '.preview-nav__group.is-open .preview-nav__dropdown { opacity: 1; visibility: visible; transform: translateY(0); }'
+    + '.preview-nav__dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #2a2222; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 0; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-4px); transition: all 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }'
+    + '.preview-nav__group.is-open .preview-nav__dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }'
     + '.preview-nav__dropdown-link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 8px 16px; transition: all 0.15s ease; }'
     + '.preview-nav__dropdown-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }'
     + '.preview-nav__dropdown-link--active { color: #ffffff; }'
@@ -119,6 +119,9 @@
       document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
       if (!wasOpen) group.classList.add('is-open');
     });
+  });
+  document.querySelectorAll('.preview-nav__dropdown').forEach(function(dd) {
+    dd.addEventListener('click', function(e) { e.stopPropagation(); });
   });
   document.addEventListener('click', function() {
     document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
