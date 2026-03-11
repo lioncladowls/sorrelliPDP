@@ -8,13 +8,23 @@
 (function() {
   'use strict';
 
+  // ── Auth guard ──
+  // Redirect to index.html if not authenticated
+  var AUTH_HASH = '1e4a2148';
+  var AUTH_KEY = 'sorrelli_preview_auth';
+  if (sessionStorage.getItem(AUTH_KEY) !== AUTH_HASH) {
+    window.location.replace('index.html');
+    return;
+  }
+
   // ── Page registry ──
   var pages = {
     'pdp-v2.html':                { group: 'product', label: 'Mockup' },
     'design-philosophy.html':     { group: 'product', label: 'Design Philosophy' },
     'customization-guide.html':   { group: 'product', label: 'Customization Guide' },
     'cart.html':                  { group: 'cart',    label: 'Mockup' },
-    'cart-design-philosophy.html':{ group: 'cart',    label: 'Design Philosophy' }
+    'cart-design-philosophy.html':{ group: 'cart',    label: 'Design Philosophy' },
+    'cart-developer-guide.html':  { group: 'cart',    label: 'Developer Guide' }
   };
 
   // ── Detect current page ──
@@ -63,6 +73,7 @@
     + '        <div class="preview-nav__dropdown">'
     + '          <a href="cart.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart.html') + '">Mockup</a>'
     + '          <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart-design-philosophy.html') + '">Design Philosophy</a>'
+    + '          <a href="cart-developer-guide.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart-developer-guide.html') + '">Developer Guide</a>'
     + '        </div>'
     + '      </div>'
     // Open Drawer button (always shown — opens drawer on pages that have one, links to cart.html?drawer=1 on pages that don't)
@@ -70,6 +81,11 @@
     + '      <button class="preview-nav__drawer-btn" id="preview-nav-open-drawer">'
     + '        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M3 3h7v18H3zM10 3h11v18H10z"/><path d="M14 9h4M14 12h4M14 15h4"/></svg>'
     + '        Open Drawer'
+    + '      </button>'
+    + '      <div class="preview-nav__sep"></div>'
+    + '      <button class="preview-nav__logout-btn" id="preview-nav-logout">'
+    + '        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
+    + '        Log Out'
     + '      </button>'
     + '    </div>'
     + '  </div>'
@@ -95,6 +111,8 @@
     + '.preview-nav__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 4px; }'
     + '.preview-nav__drawer-btn { font-size: 12px; font-family: "Open Sans", sans-serif; color: #cab0a3; background: rgba(202,176,163,0.12); border: 1px solid rgba(202,176,163,0.3); padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; white-space: nowrap; }'
     + '.preview-nav__drawer-btn:hover { background: rgba(202,176,163,0.22); border-color: rgba(202,176,163,0.5); }'
+    + '.preview-nav__logout-btn { font-size: 12px; font-family: "Open Sans", sans-serif; color: rgba(255,255,255,0.45); background: none; border: 1px solid rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; white-space: nowrap; }'
+    + '.preview-nav__logout-btn:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); }'
     + '@media (max-width: 480px) { .preview-nav__inner { padding: 8px 16px; } .preview-nav__label { display: none; } .preview-nav__groups { width: 100%; justify-content: center; } .preview-nav__drawer-btn { font-size: 11px; padding: 4px 10px; } }';
 
   // ── Inject ──
@@ -126,6 +144,15 @@
   document.addEventListener('click', function() {
     document.querySelectorAll('[data-nav-group]').forEach(function(g) { g.classList.remove('is-open'); });
   });
+
+  // ── Log Out button ──
+  var logoutBtn = document.getElementById('preview-nav-logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.replace('index.html');
+    });
+  }
 
   // ── Open Drawer button ──
   var drawerBtn = document.getElementById('preview-nav-open-drawer');

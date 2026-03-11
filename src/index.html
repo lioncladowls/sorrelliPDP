@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>Sorrelli Redesign Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --color-bg-page:       #ffffff;
+      --color-bg-cream:      #FAF3EE;
+      --color-bg-warm:       #f5f0eb;
+      --color-rose-gold:     #cab0a3;
+      --color-copper:        #B88B72;
+      --color-border-warm:   #eddfd3;
+      --color-text-primary:  #3D3531;
+      --color-text-body:     #504842;
+      --color-text-secondary:#6B605A;
+      --color-text-muted:    #9e8070;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--color-bg-cream);
+      color: var(--color-text-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gate {
+      width: 100%;
+      max-width: 420px;
+      padding: 0 24px;
+    }
+
+    .gate__logo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .gate__logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .gate__logo-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-rose-gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .gate__card {
+      background: #ffffff;
+      border: 1px solid var(--color-border-warm);
+      border-radius: 12px;
+      padding: 36px 32px;
+      box-shadow: 0 2px 16px rgba(61,53,49,0.06);
+    }
+
+    .gate__heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .gate__hint {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .gate__field {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .gate__input {
+      width: 100%;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      color: var(--color-text-primary);
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 8px;
+      padding: 14px 46px 14px 16px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gate__input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .gate__input:focus {
+      border-color: var(--color-rose-gold);
+      box-shadow: 0 0 0 3px rgba(202,176,163,0.18);
+    }
+
+    .gate__toggle-vis {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+
+    .gate__toggle-vis:hover {
+      color: var(--color-text-secondary);
+    }
+
+    .gate__submit {
+      width: 100%;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: var(--color-text-primary);
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .gate__submit:hover {
+      background: var(--color-copper);
+    }
+
+    .gate__submit:active {
+      transform: scale(0.98);
+    }
+
+    .gate__error {
+      font-size: 13px;
+      color: #c0564b;
+      text-align: center;
+      margin-top: 16px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .gate__error.is-visible {
+      opacity: 1;
+    }
+
+    .gate__footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .gate__divider {
+      width: 48px;
+      height: 1px;
+      background: var(--color-border-warm);
+      margin: 0 auto 28px;
+    }
+
+    /* Shake animation for wrong password */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .gate__card.shake {
+      animation: shake 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gate">
+    <div class="gate__logo">
+      <div class="gate__logo-text">Sorrelli</div>
+      <div class="gate__logo-sub">Redesign Preview</div>
+    </div>
+
+    <div class="gate__card" id="gate-card">
+      <h1 class="gate__heading">Protected Preview</h1>
+      <p class="gate__hint">Sorrelli team password</p>
+      <div class="gate__divider"></div>
+
+      <form id="gate-form" autocomplete="off">
+        <div class="gate__field">
+          <input
+            class="gate__input"
+            id="gate-password"
+            type="password"
+            placeholder="Enter password"
+            autofocus
+            autocomplete="off"
+          />
+          <button type="button" class="gate__toggle-vis" id="toggle-vis" aria-label="Show password">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path id="eye-icon" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+
+        <button type="submit" class="gate__submit">Enter Preview</button>
+      </form>
+
+      <p class="gate__error" id="gate-error">Incorrect password. Please use the Sorrelli standard team password and try again.</p>
+    </div>
+
+    <p class="gate__footer">Internal preview only &middot; Not for distribution</p>
+  </div>
+
+  <script>
+    (function() {
+      var PASS_HASH = '1e4a2148';  // simple hash of password for client-side check
+      var STORAGE_KEY = 'sorrelli_preview_auth';
+
+      // Simple string hash (djb2)
+      function hash(str) {
+        var h = 5381;
+        for (var i = 0; i < str.length; i++) {
+          h = ((h << 5) + h) + str.charCodeAt(i);
+          h = h & 0xFFFFFFFF;
+        }
+        return (h >>> 0).toString(16);
+      }
+
+      // If already authenticated, redirect to main page
+      if (sessionStorage.getItem(STORAGE_KEY) === PASS_HASH) {
+        window.location.replace('pdp-v2.html');
+        return;
+      }
+
+      var form = document.getElementById('gate-form');
+      var input = document.getElementById('gate-password');
+      var error = document.getElementById('gate-error');
+      var card = document.getElementById('gate-card');
+      var toggleBtn = document.getElementById('toggle-vis');
+
+      // Toggle password visibility
+      toggleBtn.addEventListener('click', function() {
+        var isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        toggleBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var val = input.value;
+        var h = hash(val);
+
+        if (h === PASS_HASH) {
+          sessionStorage.setItem(STORAGE_KEY, PASS_HASH);
+          window.location.replace('pdp-v2.html');
+        } else {
+          error.classList.add('is-visible');
+          card.classList.remove('shake');
+          // Force reflow to restart animation
+          void card.offsetWidth;
+          card.classList.add('shake');
+          input.select();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

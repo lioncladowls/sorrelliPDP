@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Block all crawlers and scrapers from indexing this mockup site
