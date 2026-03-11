@@ -878,70 +878,6 @@
       .cart-trust-strip__link:hover { text-decoration: underline; }
       .cart-drawer__returns-link:hover { text-decoration: underline; }
 
-      /* ── Drawer cross-sell ── */
-      .cart-drawer__cross-sell {
-        padding: 14px 20px;
-        border-top: 1px solid var(--color-border-light);
-        background: var(--color-bg-cream);
-      }
-      .cart-drawer__cross-sell-title {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--color-text-primary);
-        margin: 0 0 10px;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-      .cart-drawer__cross-sell-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--color-border-light);
-      }
-      .cart-drawer__cross-sell-item:last-child { border-bottom: none; }
-      .cart-drawer__cross-sell-img {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        border-radius: 4px;
-        flex-shrink: 0;
-      }
-      .cart-drawer__cross-sell-details { flex: 1; min-width: 0; }
-      .cart-drawer__cross-sell-name {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin: 0 0 2px;
-        line-height: 1.3;
-      }
-      .cart-drawer__cross-sell-price {
-        font-size: 12px;
-        color: var(--color-text-secondary);
-        margin: 0;
-      }
-      .cart-drawer__cross-sell-add {
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        background: none;
-        border: 1px solid var(--color-rose-gold);
-        color: var(--color-rose-gold);
-        padding: 5px 12px;
-        border-radius: 3px;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: background 0.15s, color 0.15s;
-      }
-      .cart-drawer__cross-sell-add:hover { background: var(--color-rose-gold); color: #fff; }
-      .cart-drawer__cross-sell-add.is-added {
-        background: var(--color-bg-warm);
-        border-color: var(--color-border-warm);
-        color: var(--color-text-muted);
-        pointer-events: none;
-      }
 
       /* ── Estimated delivery ── */
       .cart-summary__delivery {
@@ -1342,42 +1278,18 @@
         margin-bottom: 12px;
         line-height: 1.4;
       }
-      .cart-drawer__gift-compact {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+      .cart-drawer__gift-link {
+        display: block;
+        text-align: center;
         font-size: 12px;
-        color: var(--color-text-secondary);
-        margin-bottom: 12px;
-        justify-content: center;
-      }
-      .cart-drawer__gift-compact-label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-      }
-      .cart-drawer__gift-compact input {
-        accent-color: var(--color-rose-gold);
-        width: 14px;
-        height: 14px;
-        cursor: pointer;
-      }
-      .cart-drawer__gift-info {
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
         color: var(--color-text-muted);
-        width: 16px;
-        height: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        text-decoration: none;
+        margin-bottom: 12px;
         transition: color 0.2s;
       }
-      .cart-drawer__gift-info svg { width: 16px; height: 16px; }
-      .cart-drawer__gift-info:hover { color: var(--color-text-secondary); }
+      .cart-drawer__gift-link:hover {
+        color: var(--color-copper);
+      }
       .cart-drawer__trust-compact {
         display: flex;
         align-items: center;
@@ -1971,35 +1883,6 @@
           </div>
         </div>
 
-        <!-- Drawer Cross-sell -->
-        <div class="cart-drawer__cross-sell">
-          <h3 class="cart-drawer__cross-sell-title">Complete The Look</h3>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/EGB8BGPRO_480x.jpg" alt="Cushion-Cut Round Dangle Earrings" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Cushion-Cut Round Dangle Earrings</p>
-              <p class="cart-drawer__cross-sell-price">$75.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/RFY11BGPRO_480x.jpg" alt="Anika Adjustable Cocktail Ring" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Anika Adjustable Cocktail Ring</p>
-              <p class="cart-drawer__cross-sell-price">$78.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGE5BGCSD.jpg?v=1766068090" alt="Seahorse Charm Pendant Necklace" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Seahorse Charm Pendant Necklace</p>
-              <p class="cart-drawer__cross-sell-price">$79.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-        </div>
-
       </div><!-- /.cart-drawer__body -->
 
       <div class="cart-drawer__footer">
@@ -2023,27 +1906,10 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
           Secure Checkout &middot; <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-trust-strip__link">Free Returns</a>
         </div>
-        <div class="cart-drawer__gift-compact">
-          <label class="cart-drawer__gift-compact-label">
-            <input type="checkbox"/>
-            <span>Make this a gift</span>
-          </label>
-          <button class="cart-drawer__gift-info" id="gift-info-btn" aria-label="Gift info">
-            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="10" y="14.5" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">i</text></svg>
-          </button>
-        </div>
+        <a href="cart.html" class="cart-drawer__gift-link">Sending as a gift? See options &rarr;</a>
         <a href="cart.html" class="cart-drawer__view-cart">View Full Cart</a>
       </div>
     </div><!-- /.cart-drawer -->
-
-<!-- ═══════ GIFT INFO MODAL ════════════════════════════════════════ -->
-    <div class="exclusion-modal-backdrop" id="gift-modal-backdrop">
-      <div class="exclusion-modal">
-        <button class="exclusion-modal__close" id="gift-modal-close" aria-label="Close">&times;</button>
-        <p class="exclusion-modal__title">What does "Make this a gift" do?</p>
-        <p class="exclusion-modal__body">If selected, the receipt will not include pricing, and the order will be shipped with gift boxes for full-price and clearance purchases at 25% off or less.</p>
-      </div>
-    </div>
 
 <!-- ═══════ EXCLUSION INFO MODAL ════════════════════════════════════ -->
     <div class="exclusion-modal-backdrop" id="exclusion-modal-backdrop">
@@ -2354,22 +2220,6 @@
         if (e.target === fsModalBackdrop) closeFsModal();
       });
 
-      // 5c. Gift info modal
-      var giftModalBackdrop = document.getElementById('gift-modal-backdrop');
-      var giftModalClose = document.getElementById('gift-modal-close');
-      var giftInfoBtn = document.getElementById('gift-info-btn');
-      if (giftInfoBtn && giftModalBackdrop) {
-        giftInfoBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          giftModalBackdrop.classList.add('is-open');
-        });
-        function closeGiftModal() { giftModalBackdrop.classList.remove('is-open'); }
-        giftModalClose.addEventListener('click', closeGiftModal);
-        giftModalBackdrop.addEventListener('click', function(e) {
-          if (e.target === giftModalBackdrop) closeGiftModal();
-        });
-      }
-
       // 6. Promo code toggle
       var promoToggle = document.getElementById('promo-toggle');
       var promoForm   = document.getElementById('promo-form');
@@ -2391,13 +2241,6 @@
         });
       });
 
-      // 6b. Drawer cross-sell "Add" buttons
-      document.querySelectorAll('[data-drawer-cross-sell-add]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          btn.textContent = 'Added \u2713';
-          btn.classList.add('is-added');
-        });
-      });
 
       // 6c. Estimated delivery date (ships 1-2 biz days + 3-5 biz day transit)
       (function() {

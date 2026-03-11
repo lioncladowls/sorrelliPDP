@@ -523,12 +523,13 @@
         </div>
 
         <p class="section-card__label">The Core Principle</p>
-        <p>The drawer opens only when a customer adds an item to cart — never from the cart icon. Its job is to confirm the action, show the path to checkout, and get out of the way. We stripped it to exactly what's necessary: a free shipping progress bar, line items with quantity controls, subtotal, shipping cost, BNPL line, the primary CTA, a compact trust line, a compact gift checkbox, and a "View Full Cart" link.</p>
+        <p>The drawer opens only when a customer adds an item to cart — never from the cart icon. Its job is to confirm the action, show the path to checkout, and get out of the way. We stripped it to exactly what's necessary: a free shipping progress bar, line items with quantity controls, subtotal, shipping cost, BNPL line, the primary CTA, a compact trust line, a gift text link, and a "View Full Cart" link.</p>
 
         <p class="section-card__label">What We Removed From the Drawer</p>
         <ul>
+          <li><strong>Cross-sell recommendations.</strong> Baymard research shows even one irrelevant recommendation destroys trust in all recommendations. Without AI-curated matching (e.g., Rebuy), generic cross-sell in the drawer violates the restraint principle. Competitive brands closest to Sorrelli (Gorjana, Mejuri, Ana Luisa) keep drawers lean with no cross-sell. Cross-sell lives exclusively on the /cart page where customers are in a deliberation mindset. <em>Exception: if Sorrelli adds Rebuy AI, 1-2 collection-matched items could return to the drawer.</em></li>
+          <li><strong>Gift checkbox + modal.</strong> NNGroup progressive disclosure research: in speed surfaces, options that don't apply to the majority create cognitive load even when the user decides "no." A checkbox is 3 UI elements (box + label + info icon) that 80% of self-purchasers must process. Replaced with a single tertiary text link — "Sending as a gift? See options →" — routing to the /cart page where the full gift option card lives. This serves the 20% who need it without burdening the 80% who don't.</li>
           <li><strong>Promo code field.</strong> On mobile, expanding a promo input opens the keyboard, disrupts scroll position, and sends 8% of users off-site hunting for a code they may never find. The resulting abandonment is measurable. Promo codes live on the /cart page — a deliberation surface where customers expect to spend time.</li>
-          <li><strong>Full gift option card.</strong> Sorrelli's customer base skews 80%+ self-purchasers, and the standard Shopify checkout has no gift option — so the cart is the only surface for it. The /cart page sidebar has the full gift option card with details. The drawer carries a minimal compact checkbox with an (i) info modal — enough for gift buyers to act without burdening the 80% who are buying for themselves.</li>
           <li><strong>Delivery estimate.</strong> Pre-checkout delivery timing is addressable on the /cart page and at checkout. In the drawer, it's a distraction — and a potential hesitation point if timelines are uncertain.</li>
           <li><strong>Full trust strip.</strong> A row of badges mid-drawer competes with the CTA for visual attention and adds scroll depth. Condensed to a single trust line below the CTA.</li>
         </ul>
@@ -703,8 +704,11 @@
         <p class="section-card__label">Removed: Policy Info Strip</p>
         <p>Detailed above in section 7. Redundant with other elements on the page, and the asterisk on return policy was a net negative for conversion.</p>
 
-        <p class="section-card__label">Minimized in Drawer: Gift Option</p>
-        <p>80%+ of Sorrelli customers are self-purchasers, and the standard Shopify checkout has no native gift option — making the cart the only surface for it. The /cart page has a full gift option card. In the drawer, we added a minimal compact checkbox with an (i) info modal — just enough for the 20% who need it, invisible to the rest. The full gift experience lives on the /cart page sidebar.</p>
+        <p class="section-card__label">Removed From Drawer: Cross-Sell</p>
+        <p>Generic cross-sell recommendations were removed from the drawer entirely. Baymard research demonstrates that even one irrelevant recommendation destroys trust in all recommendations. Without AI-curated matching (e.g., Rebuy), static product suggestions violate the drawer's core principle as a confirmation surface. Competitive brands closest to Sorrelli — Gorjana, Mejuri, Ana Luisa — keep drawers lean with no cross-sell. Cross-sell lives exclusively on the /cart page. If Sorrelli adds AI-powered recommendations in the future, 1-2 collection-matched items could return to the drawer.</p>
+
+        <p class="section-card__label">Removed From Drawer: Gift Checkbox</p>
+        <p>The gift checkbox (checkbox + label + info icon) was replaced with a single tertiary text link: "Sending as a gift? See options →" that routes to the /cart page. NNGroup progressive disclosure research shows that in speed surfaces, options that don't apply to the majority create cognitive load even when the user decides "no." 80%+ of Sorrelli customers are self-purchasers — the checkbox was 3 UI elements that the vast majority had to process and dismiss. The full gift experience lives on the /cart page sidebar, where deliberation is expected.</p>
 
         <p class="section-card__label">Removed From Drawer: Promo Code</p>
         <p>On mobile, the promo input opens the keyboard and disrupts the scroll state. More importantly, displaying a promo field to customers who don't have a code signals that codes exist — sending approximately 8% of users off-site to find one. Most never return. Promo codes are available on the /cart page, where the customer is already in a deliberation mindset.</p>
