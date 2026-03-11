@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#ffffff" name="theme-color"/>
+  <title>Cart Developer Guide -- Sorrelli Cart Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════ DESIGN TOKENS ═══════════════════════════════════════════ */
+    :root {
+      --color-bg-page:       #ffffff;
+      --color-bg-cream:      #FAF3EE;
+      --color-bg-warm:       #f5f0eb;
+      --color-bg-card:       #ffffff;
+      --color-rose-gold:     #cab0a3;
+      --color-copper:        #B88B72;
+      --color-border-warm:   #eddfd3;
+      --color-border-light:  #e8e0da;
+      --color-text-primary:  #3D3531;
+      --color-text-body:     #504842;
+      --color-text-secondary:#6B605A;
+      --color-text-muted:    #9e8070;
+    }
+
+    /* ═══════ RESET & BASE ════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--color-text-body);
+      background-color: var(--color-bg-page);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+
+    /* ═══════ HERO HEADER ════════════════════════════════════════════ */
+    .hero {
+      background: var(--color-bg-cream);
+      border-bottom: 1px solid var(--color-border-warm);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-rose-gold);
+      margin-bottom: 20px;
+    }
+    .hero__title {
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin: 0 auto 20px;
+    }
+    .hero__subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero__title { font-size: 26px; }
+      .hero__subtitle { font-size: 15px; }
+    }
+
+    /* ═══════ LAYOUT: SIDEBAR + CONTENT ══════════════════════════════ */
+    .page-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 56px;
+      padding: 56px 24px 80px;
+    }
+
+    /* ═══════ TABLE OF CONTENTS (SIDEBAR) ════════════════════════════ */
+    .toc {
+      position: sticky;
+      top: 72px;
+      align-self: flex-start;
+      width: 220px;
+      min-width: 220px;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .toc__heading {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .toc__list {
+      list-style: none;
+    }
+    .toc__item {
+      margin-bottom: 2px;
+    }
+    .toc__link {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .toc__link:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-rose-gold);
+    }
+    .toc__link.is-active {
+      color: var(--color-text-primary);
+      font-weight: 600;
+      background: var(--color-bg-cream);
+      border-left-color: var(--color-copper);
+    }
+
+    @media (max-width: 860px) {
+      .toc { display: none; }
+      .page-layout {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 20px 64px;
+      }
+    }
+
+    /* Mobile TOC strip */
+    .toc-mobile {
+      display: none;
+    }
+    @media (max-width: 860px) {
+      .toc-mobile {
+        display: block;
+        position: sticky;
+        top: 44px;
+        z-index: 100;
+        background: var(--color-bg-page);
+        border-bottom: 1px solid var(--color-border-warm);
+        padding: 12px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .toc-mobile__inner {
+        display: flex;
+        gap: 4px;
+        padding: 0 16px;
+        min-width: max-content;
+      }
+      .toc-mobile__link {
+        font-size: 12px;
+        white-space: nowrap;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border-warm);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      .toc-mobile__link:hover,
+      .toc-mobile__link.is-active {
+        color: var(--color-text-primary);
+        background: var(--color-bg-cream);
+        border-color: var(--color-rose-gold);
+      }
+    }
+
+    /* ═══════ CONTENT AREA ═══════════════════════════════════════════ */
+    .content {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+
+    /* Major sections */
+    .doc-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+
+    /* Subsection headings (h3) */
+    .subsection-heading {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+
+    /* Body paragraphs */
+    .content p {
+      margin-bottom: 16px;
+      color: var(--color-text-body);
+    }
+
+    /* Strong / Bold */
+    .content strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* Italic */
+    .content em {
+      font-style: italic;
+    }
+
+    /* Links */
+    .content a {
+      color: var(--color-copper);
+      text-decoration: underline;
+      text-decoration-color: rgba(184, 139, 114, 0.3);
+      text-underline-offset: 2px;
+      transition: all 0.2s ease;
+    }
+    .content a:hover {
+      color: #9a7260;
+      text-decoration-color: #9a7260;
+    }
+
+    /* Bullet lists */
+    .content ul {
+      list-style: none;
+      margin-bottom: 20px;
+      padding-left: 0;
+    }
+    .content ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+    }
+    .content ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+
+    /* Ordered lists */
+    .content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+      color: var(--color-text-body);
+    }
+    .content ol li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .content ol li::marker {
+      color: var(--color-rose-gold);
+      font-weight: 600;
+    }
+
+    /* Blockquotes */
+    .content blockquote {
+      border-left: 3px solid var(--color-rose-gold);
+      background: var(--color-bg-cream);
+      margin: 24px 0;
+      padding: 20px 24px;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+    .content blockquote p {
+      margin-bottom: 0;
+      color: var(--color-text-secondary);
+    }
+
+    /* Horizontal dividers */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: var(--color-border-warm);
+      margin: 56px 0;
+    }
+
+    /* ═══════ SECTION CARDS ═══════════════════════════════════════════ */
+    .section-card {
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 10px;
+      padding: 36px 32px;
+      margin-bottom: 32px;
+    }
+    .section-card__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .section-card__badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-card__title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.3;
+    }
+    .section-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-copper);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card__label:first-of-type {
+      margin-top: 0;
+    }
+    .section-card p {
+      color: var(--color-text-body);
+      margin-bottom: 12px;
+    }
+    .section-card p:last-child {
+      margin-bottom: 0;
+    }
+    .section-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+    .section-card ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+    .section-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-rose-gold);
+    }
+    @media (max-width: 640px) {
+      .section-card { padding: 24px 20px; }
+    }
+
+    /* ═══════ INTRO TEXT (for the opening paragraph) ═════════════════ */
+    .intro-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--color-text-secondary);
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border-warm);
+    }
+    .intro-text strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ TAKEAWAY BLOCK ═════════════════════════════════════════ */
+    .takeaway {
+      background: var(--color-bg-cream);
+      border-left: 3px solid var(--color-copper);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0 20px;
+    }
+    .takeaway p {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: var(--color-text-secondary);
+    }
+    .takeaway strong {
+      color: var(--color-text-primary);
+    }
+
+    /* ═══════ CLOSING NOTE ══════════════════════════════════════════ */
+    .closing-note {
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--color-border-warm);
+    }
+
+    /* ═══════ SCROLLBAR STYLING ═════════════════════════════════════ */
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--color-border-warm); border-radius: 4px; }
+
+    .toc-mobile::-webkit-scrollbar { height: 0; }
+
+    /* ═══════ CODE BLOCKS ════════════════════════════════════════════ */
+    .code-block {
+      background: #2a2222;
+      color: #e8ddd5;
+      border-radius: 8px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .code-block .comment { color: #7a6e66; }
+    .code-block .keyword { color: #cab0a3; }
+    .code-block .string { color: #b8c97e; }
+    .code-block .number { color: #d4a276; }
+
+    /* ═══════ SPEC TABLES ════════════════════════════════════════════ */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+    .spec-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--color-border-warm);
+    }
+    .spec-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--color-border-light);
+      color: var(--color-text-body);
+      vertical-align: top;
+    }
+    .spec-table code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      background: var(--color-bg-cream);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--color-copper);
+    }
+
+    /* ═══════ INLINE CODE ════════════════════════════════════════════ */
+    .content code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      background: var(--color-bg-cream);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--color-copper);
+    }
+
+    /* ═══════ SVG PREVIEW BOXES ══════════════════════════════════════ */
+    .svg-preview {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--color-bg-cream);
+      border: 1px solid var(--color-border-warm);
+      border-radius: 8px;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    /* ═══════ ICON ROW ════════════════════════════════════════════════ */
+    .icon-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 20px;
+    }
+    .icon-row__label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .icon-row__desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ═══════ NOT-IN-DRAWER LIST ═════════════════════════════════════ */
+    .not-in-drawer {
+      background: var(--color-bg-warm);
+      border: 1px solid var(--color-border-light);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 16px 0 24px;
+    }
+    .not-in-drawer__heading {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .not-in-drawer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .not-in-drawer ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+    .not-in-drawer ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="preview-nav"></div>
+
+<!-- ═══════ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <p class="hero__eyebrow">Sorrelli Cart Redesign</p>
+  <h1 class="hero__title">Cart &amp; Drawer — Developer Guide</h1>
+  <p class="hero__subtitle">Implementation specs, HTML patterns, CSS tokens, JavaScript architecture, and Shopify Liquid notes for the cart page and slide-out drawer.</p>
+</header>
+
+<!-- ═══════ MOBILE TOC STRIP ═════════════════════════════════════ -->
+<div class="toc-mobile">
+  <div class="toc-mobile__inner">
+    <a href="#architecture" class="toc-mobile__link">1. Architecture</a>
+    <a href="#design-tokens" class="toc-mobile__link">2. Design Tokens</a>
+    <a href="#shipping-bar" class="toc-mobile__link">3. Shipping Bar</a>
+    <a href="#cart-layout" class="toc-mobile__link">4. Cart Layout</a>
+    <a href="#product-status" class="toc-mobile__link">5. Product Status</a>
+    <a href="#order-summary" class="toc-mobile__link">6. Order Summary</a>
+    <a href="#drawer-footer" class="toc-mobile__link">7. Drawer Footer</a>
+    <a href="#svg-icons" class="toc-mobile__link">8. SVG Icons</a>
+    <a href="#javascript" class="toc-mobile__link">9. JavaScript</a>
+    <a href="#responsive" class="toc-mobile__link">10. Responsive</a>
+  </div>
+</div>
+
+<!-- ═══════ PAGE LAYOUT ══════════════════════════════════════════ -->
+<div class="page-layout">
+
+  <!-- ─── SIDEBAR TOC ─── -->
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc__heading">Contents</p>
+    <ul class="toc__list">
+      <li class="toc__item"><a href="#architecture" class="toc__link" data-section="architecture">1. Architecture Overview</a></li>
+      <li class="toc__item"><a href="#design-tokens" class="toc__link" data-section="design-tokens">2. Design Tokens</a></li>
+      <li class="toc__item"><a href="#shipping-bar" class="toc__link" data-section="shipping-bar">3. Free Shipping Bar</a></li>
+      <li class="toc__item"><a href="#cart-layout" class="toc__link" data-section="cart-layout">4. Cart Page Layout</a></li>
+      <li class="toc__item"><a href="#product-status" class="toc__link" data-section="product-status">5. Product Status System</a></li>
+      <li class="toc__item"><a href="#order-summary" class="toc__link" data-section="order-summary">6. Order Summary Sidebar</a></li>
+      <li class="toc__item"><a href="#drawer-footer" class="toc__link" data-section="drawer-footer">7. Drawer Footer</a></li>
+      <li class="toc__item"><a href="#svg-icons" class="toc__link" data-section="svg-icons">8. SVG Icon Reference</a></li>
+      <li class="toc__item"><a href="#javascript" class="toc__link" data-section="javascript">9. Dynamic State &amp; JS</a></li>
+      <li class="toc__item"><a href="#responsive" class="toc__link" data-section="responsive">10. Responsive Breakpoints</a></li>
+    </ul>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- Intro -->
+    <p class="intro-text">
+      This guide documents the full implementation spec for the Sorrelli cart surfaces — the <strong>dedicated /cart page</strong> and the <strong>slide-out drawer</strong>. The audience is a Shopify developer porting the mockup into Liquid. Each section covers HTML structure, CSS classes, JavaScript patterns, and Shopify-specific notes.
+    </p>
+
+    <!-- ─── SECTION 1: ARCHITECTURE ─── -->
+    <section class="doc-section" id="architecture">
+      <h2 class="section-heading">1. Architecture Overview</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">1</div>
+          <h3 class="section-card__title">Two Surfaces, One Cart State</h3>
+        </div>
+
+        <p class="section-card__label">The Two Surfaces</p>
+        <p>The cart system has two distinct surfaces, each with a different job:</p>
+        <ul>
+          <li><strong>Cart page (/cart)</strong> — the deliberation surface. 60/40 layout with a full order summary sidebar, promo codes, express checkout, delivery estimate, cross-sell, and gift options. Triggered by clicking the cart icon in the header.</li>
+          <li><strong>Slide-out drawer</strong> — the momentum surface. Stripped to essentials: items, shipping progress, subtotal, CTA. Triggered automatically when an item is added to cart.</li>
+        </ul>
+
+        <p class="section-card__label">Trigger Pattern</p>
+        <ul>
+          <li><strong>Cart icon in header</strong> links to the <code>/cart</code> page (standard anchor navigation).</li>
+          <li><strong>Add to Cart button on PDP</strong> opens the drawer via JavaScript and does not navigate away from the page.</li>
+          <li>The drawer can also be opened programmatically via URL param: <code>?drawer=1</code>.</li>
+        </ul>
+
+        <p class="section-card__label">Shared Cart State</p>
+        <p>Both surfaces read from and write to the same cart state. Any qty change or item removal on the cart page is reflected in the drawer and vice versa. The shared key is the <code>data-item-id</code> attribute on each line item element. In Shopify, cart state is managed via the <a href="https://shopify.dev/docs/api/ajax/reference/cart" target="_blank">Cart AJAX API</a>; in the mockup, it is managed in-memory via JavaScript.</p>
+
+        <p class="section-card__label">File Structure</p>
+        <p>In the HTML mockup, both surfaces live in a single self-contained file (<code>cart.html</code>) for preview purposes. In Shopify, they map to separate Liquid templates:</p>
+        <ul>
+          <li><code>templates/cart.liquid</code> (or <code>templates/cart.json</code> + section) — the /cart page</li>
+          <li><code>sections/cart-drawer.liquid</code> — the slide-out drawer, included in <code>theme.liquid</code> so it's available site-wide</li>
+          <li><code>assets/cart.js</code> — shared cart JavaScript (recalculate, sync, drawer open/close)</li>
+        </ul>
+      </div>
+
+      <div class="takeaway">
+        <p><strong>Single source of truth:</strong> all cart state mutations (qty changes, removals) call <code>recalculate()</code> and sync both surfaces before the DOM settles.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2: DESIGN TOKENS ─── -->
+    <section class="doc-section" id="design-tokens">
+      <h2 class="section-heading">2. Design Tokens</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">2</div>
+          <h3 class="section-card__title">CSS Custom Properties</h3>
+        </div>
+
+        <p class="section-card__label">Color Tokens</p>
+        <p>All color values are defined as CSS custom properties on <code>:root</code>. Never hardcode hex values in component styles — always reference a token.</p>
+
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--color-bg-page</code></td><td>#ffffff</td><td>Page background</td></tr>
+            <tr><td><code>--color-bg-cream</code></td><td>#FAF3EE</td><td>Section backgrounds, cards, code inline bg</td></tr>
+            <tr><td><code>--color-bg-warm</code></td><td>#f5f0eb</td><td>Subtle warm backgrounds, hover states</td></tr>
+            <tr><td><code>--color-bg-card</code></td><td>#ffffff</td><td>Card surfaces, modal backgrounds</td></tr>
+            <tr><td><code>--color-rose-gold</code></td><td>#cab0a3</td><td>Brand accent, shipping bar fill (below threshold)</td></tr>
+            <tr><td><code>--color-copper</code></td><td>#B88B72</td><td>Links, labels, truck icon stroke</td></tr>
+            <tr><td><code>--color-border-warm</code></td><td>#eddfd3</td><td>Primary borders, card edges</td></tr>
+            <tr><td><code>--color-border-light</code></td><td>#e8e0da</td><td>Subtle dividers, table rows</td></tr>
+            <tr><td><code>--color-text-primary</code></td><td>#3D3531</td><td>Headings, strong text, totals</td></tr>
+            <tr><td><code>--color-text-body</code></td><td>#504842</td><td>Body copy, cart item names</td></tr>
+            <tr><td><code>--color-text-secondary</code></td><td>#6B605A</td><td>Secondary labels, meta text</td></tr>
+            <tr><td><code>--color-text-muted</code></td><td>#9e8070</td><td>Tertiary text, placeholders, tax line</td></tr>
+            <tr><td><code>--color-success</code></td><td>#4a7c59</td><td>In-stock indicators, "Ships Today" badge</td></tr>
+            <tr><td><code>--color-accent-blue</code></td><td>#5986B6</td><td>Free shipping qualified state, checkmark icon</td></tr>
+            <tr><td><code>--color-amber</code></td><td>#c4842d</td><td>Low-stock warning label</td></tr>
+          </tbody>
+        </table>
+
+        <p class="section-card__label">Typography</p>
+        <p>Font family: <strong>Open Sans</strong> via Google Fonts. Load weights 300, 400, 600, 700, and italic 400. The <code>link</code> element in <code>&lt;head&gt;</code>:</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Load in &lt;head&gt;, before any styles --&gt;</span>
+&lt;<span class="keyword">link</span> <span class="keyword">href</span>=<span class="string">"https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&amp;display=swap"</span> <span class="keyword">rel</span>=<span class="string">"stylesheet"</span>/&gt;</pre>
+
+      <p>Apply to <code>body</code>:</p>
+
+      <pre class="code-block">body {
+  font-family: <span class="string">'Open Sans'</span>, sans-serif;
+  font-size: <span class="number">16</span>px;
+  font-weight: <span class="number">400</span>;
+  line-height: <span class="number">1.7</span>;
+  -webkit-font-smoothing: antialiased;
+}</pre>
+    </section>
+
+    <!-- ─── SECTION 3: SHIPPING BAR ─── -->
+    <section class="doc-section" id="shipping-bar">
+      <h2 class="section-heading">3. Free Shipping Progress Bar</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">3</div>
+          <h3 class="section-card__title">Two Implementations: Page-Level and Drawer</h3>
+        </div>
+
+        <p class="section-card__label">Page-Level Bar</p>
+        <p>Full-width bar below the site header on the /cart page. Two state modifier classes control appearance:</p>
+        <ul>
+          <li><code>.free-shipping-bar--progress</code> — below threshold (copper/rose-gold styling)</li>
+          <li><code>.free-shipping-bar--qualified</code> — at or above $150 (blue styling)</li>
+        </ul>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Page-level shipping bar --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"free-shipping-bar free-shipping-bar--progress"</span> id=<span class="string">"page-shipping-bar"</span>&gt;
+  &lt;<span class="keyword">div</span> class=<span class="string">"free-shipping-bar__inner"</span>&gt;
+    &lt;<span class="keyword">span</span> class=<span class="string">"free-shipping-bar__icon"</span>&gt;
+      <span class="comment">&lt;!-- Truck SVG (see Section 8) --&gt;</span>
+    &lt;/<span class="keyword">span</span>&gt;
+    &lt;<span class="keyword">div</span> class=<span class="string">"free-shipping-bar__track"</span>&gt;
+      &lt;<span class="keyword">div</span> class=<span class="string">"free-shipping-bar__fill"</span> id=<span class="string">"page-ship-fill"</span> style=<span class="string">"width: 60%"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">div</span>&gt;
+    &lt;<span class="keyword">span</span> class=<span class="string">"free-shipping-bar__msg"</span> id=<span class="string">"page-ship-msg"</span>&gt;$60.00 away from free shipping&lt;/<span class="keyword">span</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;</pre>
+
+      <div class="section-card">
+        <p class="section-card__label">Drawer Bar</p>
+        <p>Compact version inside the drawer header area (not the footer). Uses its own class namespace to allow independent styling:</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Drawer compact shipping bar --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__shipping-bar"</span> id=<span class="string">"drawer-shipping-bar"</span>&gt;
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-drawer__shipping-icon"</span> id=<span class="string">"drawer-ship-icon"</span>&gt;
+    <span class="comment">&lt;!-- Truck or Checkmark SVG, swapped by JS --&gt;</span>
+  &lt;/<span class="keyword">span</span>&gt;
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__shipping-track"</span>&gt;
+    &lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__shipping-fill"</span> id=<span class="string">"drawer-ship-fill"</span> style=<span class="string">"width: 60%"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-drawer__shipping-msg"</span> id=<span class="string">"drawer-ship-msg"</span>&gt;$60.00 away&lt;/<span class="keyword">span</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;</pre>
+
+      <div class="section-card">
+        <p class="section-card__label">Dynamic Behavior</p>
+        <ul>
+          <li>Threshold constant: <code>FREE_SHIP_THRESHOLD = 150</code></li>
+          <li>Fill width: <code>Math.min(100, (total / 150) * 100) + '%'</code></li>
+          <li>Below threshold: truck SVG, copper text, rose-gold fill, message shows dollar amount remaining</li>
+          <li>At/above threshold: checkmark SVG, blue text, blue fill, "Free shipping unlocked!"</li>
+          <li>CSS transition on the fill element: <code>width 0.4s ease</code> — the smooth fill animation is itself a conversion nudge</li>
+        </ul>
+
+        <p class="section-card__label">CSS for Fill Transition</p>
+      </div>
+
+      <pre class="code-block">.free-shipping-bar__fill,
+.cart-drawer__shipping-fill {
+  height: <span class="number">100%</span>;
+  background: <span class="keyword">var</span>(--color-rose-gold);
+  border-radius: inherit;
+  transition: width <span class="number">0.4</span>s ease;
+}
+
+<span class="comment">/* Qualified state: swap fill color to blue */</span>
+.free-shipping-bar--qualified .free-shipping-bar__fill {
+  background: <span class="keyword">var</span>(--color-accent-blue);
+}</pre>
+
+      <div class="takeaway">
+        <p><strong>Both bars must update together</strong> on every <code>recalculate()</code> call. They read the same total but update independently via their own element IDs.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 4: CART PAGE LAYOUT ─── -->
+    <section class="doc-section" id="cart-layout">
+      <h2 class="section-heading">4. Cart Page Layout</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">4</div>
+          <h3 class="section-card__title">60/40 Split Layout</h3>
+        </div>
+
+        <p class="section-card__label">Layout Structure</p>
+        <ul>
+          <li><code>.cart-main</code> — left column, flex: 0 0 60%, contains item list</li>
+          <li><code>.cart-sidebar</code> — right column, flex: 0 0 calc(40% - 40px), contains order summary</li>
+          <li>Sidebar is sticky: <code>position: sticky; top: 100px</code> — accounts for the page-level shipping bar height</li>
+          <li>Stacks to single column at 768px via media query</li>
+        </ul>
+
+        <p class="section-card__label">Cart Heading</p>
+        <p>Dynamic item count: <strong>"Your Cart (N items)"</strong> — the count updates on every <code>recalculate()</code>. Use a <code>span</code> with a stable ID for the count portion.</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Outer wrapper --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"cart-page"</span>&gt;
+
+  <span class="comment">&lt;!-- Cart item column --&gt;</span>
+  &lt;<span class="keyword">main</span> class=<span class="string">"cart-main"</span>&gt;
+    &lt;<span class="keyword">h1</span> class=<span class="string">"cart-main__heading"</span>&gt;
+      Your Cart (&lt;<span class="keyword">span</span> id=<span class="string">"cart-count"</span>&gt;3&lt;/<span class="keyword">span</span>&gt; items)
+    &lt;/<span class="keyword">h1</span>&gt;
+
+    &lt;<span class="keyword">div</span> class=<span class="string">"cart-items"</span>&gt;
+      <span class="comment">&lt;!-- .cart-item elements here --&gt;</span>
+    &lt;/<span class="keyword">div</span>&gt;
+  &lt;/<span class="keyword">main</span>&gt;
+
+  <span class="comment">&lt;!-- Sticky sidebar --&gt;</span>
+  &lt;<span class="keyword">aside</span> class=<span class="string">"cart-sidebar"</span>&gt;
+    <span class="comment">&lt;!-- Order summary, express checkout, CTA, etc. --&gt;</span>
+  &lt;/<span class="keyword">aside</span>&gt;
+
+&lt;/<span class="keyword">div</span>&gt;</pre>
+
+      <div class="section-card">
+        <p class="section-card__label">Cart Item HTML Structure</p>
+        <p>Each cart line item uses data attributes as the source of truth for JS calculations. Set these from Liquid when rendering:</p>
+        <ul>
+          <li><code>data-cart-item</code> — selector used by <code>recalculate()</code> to iterate all items</li>
+          <li><code>data-item-id</code> — shared key for cart ↔ drawer sync; use Shopify's <code>item.key</code> or <code>item.variant_id</code></li>
+          <li><code>data-item-price</code> — current selling price (number, no currency symbol)</li>
+          <li><code>data-item-original-price</code> — original price before clearance discount; <code>0</code> if not a clearance item</li>
+        </ul>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Standard cart item --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"cart-item"</span>
+     data-cart-item
+     data-item-id=<span class="string">"{{ item.key }}"</span>
+     data-item-price=<span class="string">"{{ item.final_price | divided_by: 100.0 }}"</span>
+     data-item-original-price=<span class="string">"{{ item.original_price | divided_by: 100.0 }}"</span>&gt;
+
+  &lt;<span class="keyword">img</span> class=<span class="string">"cart-item__image"</span> src=<span class="string">"{{ item.image | img_url: '120x120' }}"</span> alt=<span class="string">"{{ item.title | escape }}"</span>/&gt;
+
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-item__details"</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"cart-item__name"</span>&gt;{{ item.title }}&lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"cart-item__variant"</span>&gt;{{ item.variant.title }}&lt;/<span class="keyword">p</span>&gt;
+    <span class="comment">&lt;!-- Status badge goes here (see Section 5) --&gt;</span>
+  &lt;/<span class="keyword">div</span>&gt;
+
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-item__qty"</span>&gt;
+    <span class="comment">&lt;!-- Qty stepper (see Section 9) --&gt;</span>
+  &lt;/<span class="keyword">div</span>&gt;
+
+  &lt;<span class="keyword">p</span> class=<span class="string">"cart-item__price"</span>&gt;$89.00&lt;/<span class="keyword">p</span>&gt;
+
+&lt;/<span class="keyword">div</span>&gt;</pre>
+    </section>
+
+    <!-- ─── SECTION 5: PRODUCT STATUS ─── -->
+    <section class="doc-section" id="product-status">
+      <h2 class="section-heading">5. Product Status System</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">5</div>
+          <h3 class="section-card__title">Four Status Types, Inline on Every Item</h3>
+        </div>
+
+        <p class="section-card__label">Status Badge Reference</p>
+        <p>Each cart item (both page and drawer) shows its status inline below the product name. Apply the appropriate badge based on product tags and inventory from Liquid.</p>
+
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Dot Color</th>
+              <th>Text Color</th>
+              <th>Label</th>
+              <th>Detection</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>In Stock</td>
+              <td><code>--color-success</code></td>
+              <td><code>--color-success</code></td>
+              <td>"In Stock · Ships Today"</td>
+              <td>Default / fallback state</td>
+            </tr>
+            <tr>
+              <td>Low Stock</td>
+              <td><code>--color-amber</code></td>
+              <td><code>--color-amber</code></td>
+              <td>"Only N left"</td>
+              <td><code>item.variant.inventory_quantity &lt; threshold</code></td>
+            </tr>
+            <tr>
+              <td>Clearance</td>
+              <td>none</td>
+              <td><code>--color-copper</code></td>
+              <td>"Clearance · Final Sale"</td>
+              <td>Product has <code>clr</code> tag (e.g. clr20, clr30)</td>
+            </tr>
+            <tr>
+              <td>Excluded</td>
+              <td><code>--color-text-secondary</code></td>
+              <td><code>--color-text-secondary</code></td>
+              <td>"Excluded from Discounts (i)"</td>
+              <td>Product tagged <code>excluded-from-discounts</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="section-card__label">Clearance Pricing Display</p>
+        <p>When <code>data-item-original-price</code> is greater than 0, show strikethrough original + current price side-by-side. The <code>recalculate()</code> function computes clearance savings from these values.</p>
+
+        <p class="section-card__label">Info Modals Pattern</p>
+        <p>The "Final Sale" and "Excluded from Discounts" labels each have an <code>(i)</code> button that opens a modal. Use a consistent reusable pattern:</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Info modal backdrop + panel (one per modal type, placed once in &lt;body&gt;) --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"exclusion-modal-backdrop"</span> id=<span class="string">"final-sale-backdrop"</span>&gt;
+  &lt;<span class="keyword">div</span> class=<span class="string">"exclusion-modal"</span>&gt;
+    &lt;<span class="keyword">button</span> class=<span class="string">"exclusion-modal__close"</span> id=<span class="string">"final-sale-close"</span>
+            aria-label=<span class="string">"Close"</span>&gt;&amp;times;&lt;/<span class="keyword">button</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"exclusion-modal__title"</span>&gt;Final Sale Item&lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"exclusion-modal__body"</span>&gt;
+      Clearance items are final sale and are not eligible for returns or exchanges.
+    &lt;/<span class="keyword">p</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Open:  backdrop.classList.add('is-open')    --&gt;</span>
+<span class="comment">&lt;!-- Close: backdrop.classList.remove('is-open') --&gt;</span>
+<span class="comment">&lt;!-- Close on: X click, backdrop click (e.target === backdrop), Escape key --&gt;</span></pre>
+
+      <div class="section-card">
+        <p class="section-card__label">Status Badge HTML (Liquid example)</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">{% comment %} Status badge — insert inside .cart-item__details {% endcomment %}</span>
+
+<span class="keyword">{% if</span> item.product.tags <span class="keyword">contains</span> <span class="string">'clr'</span> <span class="keyword">%}</span>
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-item__status cart-item__status--clearance"</span>&gt;
+    Clearance &amp;middot; Final Sale
+    &lt;<span class="keyword">button</span> class=<span class="string">"status-info-btn"</span> data-modal=<span class="string">"final-sale"</span> aria-label=<span class="string">"Final sale info"</span>&gt;(i)&lt;/<span class="keyword">button</span>&gt;
+  &lt;/<span class="keyword">span</span>&gt;
+<span class="keyword">{% elsif</span> item.product.tags <span class="keyword">contains</span> <span class="string">'excluded-from-discounts'</span> <span class="keyword">%}</span>
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-item__status cart-item__status--excluded"</span>&gt;
+    Excluded from Discounts
+    &lt;<span class="keyword">button</span> class=<span class="string">"status-info-btn"</span> data-modal=<span class="string">"exclusion"</span> aria-label=<span class="string">"Exclusion info"</span>&gt;(i)&lt;/<span class="keyword">button</span>&gt;
+  &lt;/<span class="keyword">span</span>&gt;
+<span class="keyword">{% elsif</span> item.variant.inventory_quantity &lt; 5 <span class="keyword">%}</span>
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-item__status cart-item__status--low-stock"</span>&gt;
+    Only <span class="keyword">{{ item.variant.inventory_quantity }}</span> left
+  &lt;/<span class="keyword">span</span>&gt;
+<span class="keyword">{% else %}</span>
+  &lt;<span class="keyword">span</span> class=<span class="string">"cart-item__status cart-item__status--in-stock"</span>&gt;
+    &lt;<span class="keyword">span</span> class=<span class="string">"status-dot"</span> aria-hidden=<span class="string">"true"</span>&gt;&lt;/<span class="keyword">span</span>&gt;
+    In Stock &amp;middot; Ships Today
+  &lt;/<span class="keyword">span</span>&gt;
+<span class="keyword">{% endif %}</span></pre>
+
+      <div class="takeaway">
+        <p><strong>Status badges appear on both the cart page and the drawer.</strong> The same Liquid snippet (or a shared snippet) should render them in both templates.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 6: ORDER SUMMARY ─── -->
+    <section class="doc-section" id="order-summary">
+      <h2 class="section-heading">6. Order Summary Sidebar</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">6</div>
+          <h3 class="section-card__title">The Sidebar Conversion Flow</h3>
+        </div>
+
+        <p class="section-card__label">Order of Elements (Top to Bottom)</p>
+        <p>The sidebar order is a deliberate conversion sequence. Do not rearrange elements without reviewing the design philosophy rationale.</p>
+
+        <ol>
+          <li><strong>Express Checkout Buttons</strong> — Shop Pay (purple), PayPal (gold), Google Pay (black). Use Shopify's <code>{% render 'dynamic-checkout-buttons' %}</code> or the <code>additional_checkout_buttons</code> object.</li>
+          <li><strong>"or" divider</strong> — simple horizontal rule with centered text label.</li>
+          <li><strong>Order Summary card</strong> — subtotal, clearance savings (conditional), shipping, tax, total.</li>
+          <li><strong>BNPL line</strong> — "or 4 interest-free payments of $XX.XX with [Afterpay logo]". Amount = total / 4.</li>
+          <li><strong>Checkout CTA button</strong> — "Continue to Checkout", full-width, primary. This is the <code>IntersectionObserver</code> target for the sticky mobile bar.</li>
+          <li><strong>Delivery estimate</strong> — "Estimated delivery: [date range]". Calculated dynamically in JS (see Section 9).</li>
+          <li><strong>Trust strip</strong> — three items: "Free Returns", "Secure Checkout", "40+ Years of Quality". SVG icons + text.</li>
+          <li><strong>Promo code</strong> — collapsed behind "Have a promo code?" toggle link. Expands to text input + Apply button on click.</li>
+        </ol>
+
+        <p class="section-card__label">Order Summary Line Items</p>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Row</th><th>Label</th><th>Value</th><th>Conditional?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Subtotal</td><td>"Subtotal (N items)"</td><td>$XXX.XX dynamic</td><td>No</td></tr>
+            <tr><td>Clearance Savings</td><td>"Clearance Savings"</td><td>−$XX.XX dynamic</td><td>Only when clearance items present</td></tr>
+            <tr><td>Shipping</td><td>"Shipping"</td><td>$9.95 or FREE</td><td>No; FREE uses blue/green styling</td></tr>
+            <tr><td>Tax</td><td>"Tax"</td><td>"Calculated at checkout"</td><td>No; muted text style</td></tr>
+            <tr><td>Total</td><td>"Total"</td><td>$XXX.XX dynamic</td><td>No; bold, includes shipping when not free</td></tr>
+          </tbody>
+        </table>
+
+        <p class="section-card__label">Gift Option Card</p>
+        <p>Placed below the promo code, below the CTA area. A checkbox with label "This order is a gift" and a short explanation of what gift mode does (no pricing on packing slip, gift boxes available for eligible items). On Shopify, this maps to cart attributes or order notes passed to checkout.</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Promo code collapsible --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"promo-toggle"</span>&gt;
+  &lt;<span class="keyword">button</span> class=<span class="string">"promo-toggle__link"</span> id=<span class="string">"promo-toggle-btn"</span>
+          aria-expanded=<span class="string">"false"</span> aria-controls=<span class="string">"promo-panel"</span>&gt;
+    Have a promo code?
+  &lt;/<span class="keyword">button</span>&gt;
+  &lt;<span class="keyword">div</span> class=<span class="string">"promo-panel"</span> id=<span class="string">"promo-panel"</span> hidden&gt;
+    &lt;<span class="keyword">div</span> class=<span class="string">"promo-panel__row"</span>&gt;
+      &lt;<span class="keyword">input</span> class=<span class="string">"promo-panel__input"</span> type=<span class="string">"text"</span> placeholder=<span class="string">"Promo code"</span>/&gt;
+      &lt;<span class="keyword">button</span> class=<span class="string">"promo-panel__apply"</span>&gt;Apply&lt;/<span class="keyword">button</span>&gt;
+    &lt;/<span class="keyword">div</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Toggle: remove 'hidden', set aria-expanded="true" on click --&gt;</span></pre>
+    </section>
+
+    <!-- ─── SECTION 7: DRAWER FOOTER ─── -->
+    <section class="doc-section" id="drawer-footer">
+      <h2 class="section-heading">7. Drawer Footer</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">7</div>
+          <h3 class="section-card__title">Stripped to Essentials</h3>
+        </div>
+
+        <p class="section-card__label">Drawer Structure (Top to Bottom)</p>
+        <p>The drawer has three zones: header (close button + shipping bar), scrollable item list, and sticky footer.</p>
+
+        <ol>
+          <li><strong>Drawer header</strong> — "Your Bag" title, X close button, compact shipping bar</li>
+          <li><strong>Scrollable item list</strong> — same <code>.cart-item</code> structure as cart page, with <code>data-drawer-item</code> and <code>data-item-id</code></li>
+          <li><strong>Sticky footer</strong> — the following in order:
+            <ol>
+              <li>Subtotal row (label + amount)</li>
+              <li>Shipping row ("Shipping" + "$9.95" or "FREE")</li>
+              <li>Tax line ("Tax calculated at checkout" — static, muted)</li>
+              <li>BNPL line ("or 4 payments of $XX.XX with [Afterpay logo]")</li>
+              <li>Checkout CTA ("Go to Checkout")</li>
+              <li>Trust line (lock SVG + "Secure Checkout · Free Returns" — single line, compact)</li>
+              <li>Gift checkbox (compact: checkbox + "Make this a gift" + (i) info button)</li>
+              <li>View Full Cart link → <code>/cart</code></li>
+            </ol>
+          </li>
+        </ol>
+
+        <p class="section-card__label">What Is Intentionally NOT in the Drawer</p>
+      </div>
+
+      <div class="not-in-drawer">
+        <p class="not-in-drawer__heading">Omitted from drawer by design</p>
+        <ul>
+          <li>Promo code input — opens keyboard on mobile, sends 8% of users off-site to find codes</li>
+          <li>Cross-sell / "You may also like" — drawer is for confirming, not discovering</li>
+          <li>Express checkout buttons — checkout page will present them; drawer is not the place</li>
+          <li>Delivery estimate — too much detail for a momentum surface</li>
+          <li>Full trust badge strip — condensed to a single trust line below CTA</li>
+        </ul>
+      </div>
+
+      <pre class="code-block"><span class="comment">&lt;!-- Drawer skeleton --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer"</span> id=<span class="string">"cart-drawer"</span>
+     role=<span class="string">"dialog"</span> aria-label=<span class="string">"Shopping bag"</span> aria-hidden=<span class="string">"true"</span>&gt;
+
+  <span class="comment">&lt;!-- Header --&gt;</span>
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__header"</span>&gt;
+    &lt;<span class="keyword">h2</span> class=<span class="string">"cart-drawer__title"</span>&gt;
+      Your Bag (&lt;<span class="keyword">span</span> id=<span class="string">"drawer-count"</span>&gt;3&lt;/<span class="keyword">span</span>&gt;)
+    &lt;/<span class="keyword">h2</span>&gt;
+    &lt;<span class="keyword">button</span> class=<span class="string">"cart-drawer__close"</span> id=<span class="string">"drawer-close"</span> aria-label=<span class="string">"Close cart"</span>&gt;
+      <span class="comment">&lt;!-- Close X SVG --&gt;</span>
+    &lt;/<span class="keyword">button</span>&gt;
+    <span class="comment">&lt;!-- Compact shipping bar --&gt;</span>
+  &lt;/<span class="keyword">div</span>&gt;
+
+  <span class="comment">&lt;!-- Scrollable item list --&gt;</span>
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__items"</span>&gt;
+    &lt;<span class="keyword">div</span> class=<span class="string">"cart-item"</span>
+         data-drawer-item
+         data-item-id=<span class="string">"{{ item.key }}"</span>
+         data-item-price=<span class="string">"{{ item.final_price | divided_by: 100.0 }}"</span>
+         data-item-original-price=<span class="string">"0"</span>&gt;
+      <span class="comment">&lt;!-- Same structure as cart page item --&gt;</span>
+    &lt;/<span class="keyword">div</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+
+  <span class="comment">&lt;!-- Sticky footer --&gt;</span>
+  &lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__footer"</span>&gt;
+    &lt;<span class="keyword">div</span> class=<span class="string">"drawer-totals"</span>&gt;
+      &lt;<span class="keyword">div</span> class=<span class="string">"drawer-totals__row"</span>&gt;
+        &lt;<span class="keyword">span</span>&gt;Subtotal&lt;/<span class="keyword">span</span>&gt;
+        &lt;<span class="keyword">span</span> id=<span class="string">"drawer-subtotal"</span>&gt;$0.00&lt;/<span class="keyword">span</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+      &lt;<span class="keyword">div</span> class=<span class="string">"drawer-totals__row"</span>&gt;
+        &lt;<span class="keyword">span</span>&gt;Shipping&lt;/<span class="keyword">span</span>&gt;
+        &lt;<span class="keyword">span</span> id=<span class="string">"drawer-shipping"</span>&gt;$9.95&lt;/<span class="keyword">span</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+      &lt;<span class="keyword">p</span> class=<span class="string">"drawer-totals__tax"</span>&gt;Tax calculated at checkout&lt;/<span class="keyword">p</span>&gt;
+    &lt;/<span class="keyword">div</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"drawer-bnpl"</span>&gt;
+      or 4 payments of &lt;<span class="keyword">span</span> id=<span class="string">"drawer-bnpl-amount"</span>&gt;$0.00&lt;/<span class="keyword">span</span>&gt; with Afterpay
+    &lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">a</span> class=<span class="string">"cart-drawer__cta"</span> href=<span class="string">"/checkout"</span>&gt;Go to Checkout&lt;/<span class="keyword">a</span>&gt;
+    &lt;<span class="keyword">p</span> class=<span class="string">"drawer-trust"</span>&gt;
+      <span class="comment">&lt;!-- Lock SVG --&gt;</span> Secure Checkout &amp;middot; Free Returns
+    &lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">label</span> class=<span class="string">"drawer-gift"</span>&gt;
+      &lt;<span class="keyword">input</span> type=<span class="string">"checkbox"</span> name=<span class="string">"attributes[is_gift]"</span>/&gt;
+      Make this a gift
+      &lt;<span class="keyword">button</span> class=<span class="string">"gift-info-btn"</span> aria-label=<span class="string">"Gift info"</span>&gt;<span class="comment">&lt;!-- info SVG --&gt;</span>&lt;/<span class="keyword">button</span>&gt;
+    &lt;/<span class="keyword">label</span>&gt;
+    &lt;<span class="keyword">a</span> class=<span class="string">"drawer-view-cart"</span> href=<span class="string">"/cart"</span>&gt;View Full Cart&lt;/<span class="keyword">a</span>&gt;
+  &lt;/<span class="keyword">div</span>&gt;
+
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Backdrop overlay --&gt;</span>
+&lt;<span class="keyword">div</span> class=<span class="string">"cart-drawer__backdrop"</span> id=<span class="string">"drawer-backdrop"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</pre>
+    </section>
+
+    <!-- ─── SECTION 8: SVG ICONS ─── -->
+    <section class="doc-section" id="svg-icons">
+      <h2 class="section-heading">8. SVG Icon Reference</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">8</div>
+          <h3 class="section-card__title">All Icons Used in the Cart System</h3>
+        </div>
+        <p class="section-card__label">Usage Notes</p>
+        <p>All SVGs are inline for performance and to allow CSS color inheritance. Set <code>aria-hidden="true"</code> on decorative icons. For interactive icons (trash, close), provide an <code>aria-label</code> on the parent <code>&lt;button&gt;</code>.</p>
+      </div>
+
+      <!-- Truck -->
+      <h3 class="subsection-heading">
+        <span class="svg-preview">
+          <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+            <path d="M3 7a1 1 0 011-1h10a1 1 0 011 1v4h2.38a1 1 0 01.87.5l1.62 2.82a1 1 0 01.13.5V17a1 1 0 01-1 1h-1.1a2.5 2.5 0 01-4.8 0H9.9a2.5 2.5 0 01-4.8 0H4a1 1 0 01-1-1V7z" fill="none" stroke="#B88B72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7.5" cy="18" r="1.5" fill="#B88B72"/>
+            <circle cx="16.5" cy="18" r="1.5" fill="#B88B72"/>
+          </svg>
+        </span>
+        Truck — Shipping bar (below threshold)
+      </h3>
+      <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 24 24"</span> fill=<span class="string">"none"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M3 7a1 1 0 011-1h10a1 1 0 011 1v4h2.38a1 1 0 01.87.5l1.62
+       2.82a1 1 0 01.13.5V17a1 1 0 01-1 1h-1.1a2.5 2.5 0 01-4.8
+       0H9.9a2.5 2.5 0 01-4.8 0H4a1 1 0 01-1-1V7z"</span>
+        fill=<span class="string">"none"</span> stroke=<span class="string">"#B88B72"</span> stroke-width=<span class="string">"1.5"</span>
+        stroke-linecap=<span class="string">"round"</span> stroke-linejoin=<span class="string">"round"</span>/&gt;
+  &lt;<span class="keyword">circle</span> cx=<span class="string">"7.5"</span> cy=<span class="string">"18"</span> r=<span class="string">"1.5"</span> fill=<span class="string">"#B88B72"</span>/&gt;
+  &lt;<span class="keyword">circle</span> cx=<span class="string">"16.5"</span> cy=<span class="string">"18"</span> r=<span class="string">"1.5"</span> fill=<span class="string">"#B88B72"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <!-- Checkmark -->
+      <h3 class="subsection-heading">
+        <span class="svg-preview">
+          <svg viewBox="0 0 24 24" fill="none" width="28" height="28" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="#5986B6"/>
+            <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        Checkmark — Shipping bar (qualified, free shipping unlocked)
+      </h3>
+      <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 24 24"</span> fill=<span class="string">"none"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">circle</span> cx=<span class="string">"12"</span> cy=<span class="string">"12"</span> r=<span class="string">"10"</span> fill=<span class="string">"#5986B6"</span>/&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M7 12.5l3.5 3.5 6.5-7"</span> stroke=<span class="string">"#fff"</span> stroke-width=<span class="string">"2"</span>
+        stroke-linecap=<span class="string">"round"</span> stroke-linejoin=<span class="string">"round"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <!-- Lock -->
+      <h3 class="subsection-heading">
+        <span class="svg-preview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6B605A" stroke-width="1.5" width="28" height="28" aria-hidden="true">
+            <rect x="5" y="11" width="14" height="10" rx="2"/>
+            <path d="M8 11V7a4 4 0 018 0v4"/>
+          </svg>
+        </span>
+        Lock — Trust line in drawer
+      </h3>
+      <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 24 24"</span> fill=<span class="string">"none"</span> stroke=<span class="string">"currentColor"</span>
+     stroke-width=<span class="string">"1.5"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">rect</span> x=<span class="string">"5"</span> y=<span class="string">"11"</span> width=<span class="string">"14"</span> height=<span class="string">"10"</span> rx=<span class="string">"2"</span>/&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M8 11V7a4 4 0 018 0v4"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <!-- Trash -->
+      <h3 class="subsection-heading">
+        <span class="svg-preview">
+          <svg viewBox="0 0 24 24" fill="#9e8070" width="22" height="22" aria-hidden="true">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+        </span>
+        Trash — Qty stepper (appears when qty = 1 and minus is tapped)
+      </h3>
+      <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 24 24"</span> fill=<span class="string">"currentColor"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <!-- Gift info -->
+      <h3 class="subsection-heading">
+        <span class="svg-preview">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#9e8070" stroke-width="1.2" width="22" height="22" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.5"/>
+            <path d="M8 7v4.5M8 5.5v.01"/>
+          </svg>
+        </span>
+        Info (i) — Gift checkbox info button in drawer
+      </h3>
+      <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 16 16"</span> fill=<span class="string">"none"</span> stroke=<span class="string">"currentColor"</span>
+     stroke-width=<span class="string">"1.2"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">circle</span> cx=<span class="string">"8"</span> cy=<span class="string">"8"</span> r=<span class="string">"6.5"</span>/&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M8 7v4.5M8 5.5v.01"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <!-- Close X -->
+      <h3 class="subsection-heading">Close X — Drawer close button and modal close button</h3>
+      <pre class="code-block"><span class="comment">&lt;!-- Rendered as a text character in the mockup --&gt;</span>
+&lt;<span class="keyword">button</span> class=<span class="string">"cart-drawer__close"</span> aria-label=<span class="string">"Close cart"</span>&gt;&amp;times;&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Or as an SVG X --&gt;</span>
+&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 24 24"</span> fill=<span class="string">"none"</span> stroke=<span class="string">"currentColor"</span>
+     stroke-width=<span class="string">"2"</span> aria-hidden=<span class="string">"true"</span>&gt;
+  &lt;<span class="keyword">path</span> d=<span class="string">"M18 6L6 18M6 6l12 12"</span> stroke-linecap=<span class="string">"round"</span>/&gt;
+&lt;/<span class="keyword">svg</span>&gt;</pre>
+
+      <div class="takeaway">
+        <p><strong>Truck and checkmark are swapped by JS</strong> on each <code>recalculate()</code> call based on whether <code>total &gt;= FREE_SHIP_THRESHOLD</code>. Easiest implementation: keep both in the DOM, toggle a hidden class on each.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 9: JAVASCRIPT ─── -->
+    <section class="doc-section" id="javascript">
+      <h2 class="section-heading">9. Dynamic State &amp; JavaScript</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">9</div>
+          <h3 class="section-card__title">Core JS Patterns</h3>
+        </div>
+
+        <p class="section-card__label">Constants</p>
+        <ul>
+          <li><code>FREE_SHIP_THRESHOLD = 150</code></li>
+          <li>Shipping cost when not free: <code>$9.95</code> (hardcoded display; actual charge from Shopify rates)</li>
+        </ul>
+      </div>
+
+      <h3 class="subsection-heading">The <code>recalculate()</code> Function</h3>
+      <p>The heart of cart state management. Called on every qty change and item removal. Updates all dynamic values across both surfaces in a single pass.</p>
+
+      <pre class="code-block"><span class="keyword">var</span> FREE_SHIP_THRESHOLD = <span class="number">150</span>;
+
+<span class="keyword">function</span> recalculate() {
+  <span class="keyword">var</span> total = <span class="number">0</span>;
+  <span class="keyword">var</span> count = <span class="number">0</span>;
+  <span class="keyword">var</span> clearanceSavings = <span class="number">0</span>;
+
+  <span class="comment">// 1. Iterate all cart items and accumulate totals</span>
+  document.querySelectorAll(<span class="string">'[data-cart-item]'</span>).forEach(<span class="keyword">function</span>(item) {
+    <span class="keyword">var</span> price    = <span class="keyword">parseFloat</span>(item.dataset.itemPrice) || <span class="number">0</span>;
+    <span class="keyword">var</span> origPrice = <span class="keyword">parseFloat</span>(item.dataset.itemOriginalPrice) || <span class="number">0</span>;
+    <span class="keyword">var</span> qty      = <span class="keyword">parseInt</span>(item.querySelector(<span class="string">'[data-qty-val]'</span>).textContent) || <span class="number">1</span>;
+
+    total += price * qty;
+    count += qty;
+    <span class="keyword">if</span> (origPrice > <span class="number">0</span>) clearanceSavings += (origPrice - price) * qty;
+  });
+
+  <span class="comment">// 2. Shipping</span>
+  <span class="keyword">var</span> shipFree = total >= FREE_SHIP_THRESHOLD;
+  <span class="keyword">var</span> shipCost = shipFree ? <span class="number">0</span> : <span class="number">9.95</span>;
+  <span class="keyword">var</span> grandTotal = total + shipCost;
+
+  <span class="comment">// 3. Update shipping bars</span>
+  <span class="keyword">var</span> pct = Math.min(<span class="number">100</span>, (total / FREE_SHIP_THRESHOLD) * <span class="number">100</span>);
+  <span class="keyword">var</span> remaining = (FREE_SHIP_THRESHOLD - total).toFixed(<span class="number">2</span>);
+
+  document.getElementById(<span class="string">'page-ship-fill'</span>).style.width = pct + <span class="string">'%'</span>;
+  document.getElementById(<span class="string">'drawer-ship-fill'</span>).style.width = pct + <span class="string">'%'</span>;
+
+  <span class="keyword">if</span> (shipFree) {
+    document.getElementById(<span class="string">'page-ship-msg'</span>).textContent = <span class="string">'Free shipping unlocked!'</span>;
+    document.getElementById(<span class="string">'drawer-ship-msg'</span>).textContent = <span class="string">'Free shipping!'</span>;
+    <span class="comment">// Swap truck → checkmark SVG, add --qualified class</span>
+  } <span class="keyword">else</span> {
+    document.getElementById(<span class="string">'page-ship-msg'</span>).textContent =
+      <span class="string">'$'</span> + remaining + <span class="string">' away from free shipping'</span>;
+    document.getElementById(<span class="string">'drawer-ship-msg'</span>).textContent =
+      <span class="string">'$'</span> + remaining + <span class="string">' away'</span>;
+    <span class="comment">// Swap checkmark → truck SVG, remove --qualified class</span>
+  }
+
+  <span class="comment">// 4. Update order summary</span>
+  document.getElementById(<span class="string">'summary-subtotal'</span>).textContent =
+    <span class="string">'$'</span> + total.toFixed(<span class="number">2</span>);
+  document.getElementById(<span class="string">'summary-shipping'</span>).textContent =
+    shipFree ? <span class="string">'FREE'</span> : <span class="string">'$9.95'</span>;
+  document.getElementById(<span class="string">'summary-total'</span>).textContent =
+    <span class="string">'$'</span> + grandTotal.toFixed(<span class="number">2</span>);
+
+  <span class="comment">// 5. Clearance savings row (show/hide)</span>
+  <span class="keyword">var</span> savingsRow = document.getElementById(<span class="string">'savings-row'</span>);
+  <span class="keyword">if</span> (clearanceSavings > <span class="number">0</span>) {
+    savingsRow.hidden = <span class="keyword">false</span>;
+    document.getElementById(<span class="string">'summary-savings'</span>).textContent =
+      <span class="string">'−$'</span> + clearanceSavings.toFixed(<span class="number">2</span>);
+  } <span class="keyword">else</span> {
+    savingsRow.hidden = <span class="keyword">true</span>;
+  }
+
+  <span class="comment">// 6. BNPL amounts</span>
+  <span class="keyword">var</span> bnpl = (grandTotal / <span class="number">4</span>).toFixed(<span class="number">2</span>);
+  document.getElementById(<span class="string">'bnpl-amount'</span>).textContent = <span class="string">'$'</span> + bnpl;
+  document.getElementById(<span class="string">'drawer-bnpl-amount'</span>).textContent = <span class="string">'$'</span> + bnpl;
+
+  <span class="comment">// 7. Sticky mobile bar</span>
+  document.getElementById(<span class="string">'sticky-total'</span>).textContent = <span class="string">'$'</span> + grandTotal.toFixed(<span class="number">2</span>);
+
+  <span class="comment">// 8. Drawer totals</span>
+  document.getElementById(<span class="string">'drawer-subtotal'</span>).textContent = <span class="string">'$'</span> + total.toFixed(<span class="number">2</span>);
+  document.getElementById(<span class="string">'drawer-shipping'</span>).textContent = shipFree ? <span class="string">'FREE'</span> : <span class="string">'$9.95'</span>;
+
+  <span class="comment">// 9. Heading counts</span>
+  document.getElementById(<span class="string">'cart-count'</span>).textContent = count;
+  document.getElementById(<span class="string">'drawer-count'</span>).textContent = count;
+}</pre>
+
+      <h3 class="subsection-heading">Cart ↔ Drawer Sync</h3>
+      <p>Both surfaces use <code>data-item-id</code> as the shared key. When a qty changes on one surface, the other is updated immediately.</p>
+
+      <pre class="code-block"><span class="comment">// Sync a qty change FROM the cart page TO the drawer</span>
+<span class="keyword">function</span> syncToDrawer(itemId, qty) {
+  <span class="keyword">var</span> drawerItem = document.querySelector(
+    <span class="string">'[data-drawer-item][data-item-id="'</span> + itemId + <span class="string">'"]'</span>
+  );
+  <span class="keyword">if</span> (!drawerItem) <span class="keyword">return</span>;
+  <span class="keyword">var</span> qtyEl = drawerItem.querySelector(<span class="string">'[data-qty-val]'</span>);
+  <span class="keyword">if</span> (qtyEl) qtyEl.textContent = qty;
+}
+
+<span class="comment">// Sync a qty change FROM the drawer TO the cart page</span>
+<span class="keyword">function</span> syncToCart(itemId, qty) {
+  <span class="keyword">var</span> cartItem = document.querySelector(
+    <span class="string">'[data-cart-item][data-item-id="'</span> + itemId + <span class="string">'"]'</span>
+  );
+  <span class="keyword">if</span> (!cartItem) <span class="keyword">return</span>;
+  <span class="keyword">var</span> qtyEl = cartItem.querySelector(<span class="string">'[data-qty-val]'</span>);
+  <span class="keyword">if</span> (qtyEl) qtyEl.textContent = qty;
+}
+
+<span class="comment">// Item removal: animate both sides out, then recalculate</span>
+<span class="keyword">function</span> removeItem(itemId) {
+  <span class="keyword">var</span> cartItem   = document.querySelector(<span class="string">'[data-cart-item][data-item-id="'</span>  + itemId + <span class="string">'"]'</span>);
+  <span class="keyword">var</span> drawerItem = document.querySelector(<span class="string">'[data-drawer-item][data-item-id="'</span> + itemId + <span class="string">'"]'</span>);
+
+  <span class="keyword">if</span> (cartItem)   cartItem.classList.add(<span class="string">'is-removing'</span>);
+  <span class="keyword">if</span> (drawerItem) drawerItem.classList.add(<span class="string">'is-removing'</span>);
+
+  setTimeout(<span class="keyword">function</span>() {
+    <span class="keyword">if</span> (cartItem)   cartItem.remove();
+  }, <span class="number">320</span>);
+  setTimeout(<span class="keyword">function</span>() {
+    <span class="keyword">if</span> (drawerItem) drawerItem.remove();
+    recalculate();
+  }, <span class="number">380</span>);
+}</pre>
+
+      <h3 class="subsection-heading">Qty Stepper Behavior</h3>
+
+      <pre class="code-block"><span class="comment">// Qty stepper: minus button behavior</span>
+minusBtn.addEventListener(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> currentQty = <span class="keyword">parseInt</span>(qtyDisplay.textContent);
+
+  <span class="keyword">if</span> (currentQty <= <span class="number">1</span>) {
+    <span class="comment">// At qty 1: trigger item removal (show trash icon)</span>
+    removeItem(itemId);
+  } <span class="keyword">else</span> {
+    qtyDisplay.textContent = currentQty - <span class="number">1</span>;
+    <span class="comment">// Show minus symbol (unicode en-dash)</span>
+    minusBtn.textContent = <span class="string">'\u2212'</span>;
+    syncToDrawer(itemId, currentQty - <span class="number">1</span>);
+    recalculate();
+  }
+});
+
+<span class="comment">// Qty stepper: plus button behavior</span>
+plusBtn.addEventListener(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> currentQty = <span class="keyword">parseInt</span>(qtyDisplay.textContent);
+  <span class="keyword">if</span> (currentQty >= <span class="number">99</span>) <span class="keyword">return</span>; <span class="comment">// max qty guard</span>
+  qtyDisplay.textContent = currentQty + <span class="number">1</span>;
+  syncToDrawer(itemId, currentQty + <span class="number">1</span>);
+  recalculate();
+});</pre>
+
+      <h3 class="subsection-heading">Drawer Open / Close</h3>
+
+      <pre class="code-block"><span class="keyword">function</span> openDrawer() {
+  drawer.classList.add(<span class="string">'is-open'</span>);
+  backdrop.classList.add(<span class="string">'is-open'</span>);
+  document.body.style.overflow = <span class="string">'hidden'</span>;
+  drawer.setAttribute(<span class="string">'aria-hidden'</span>, <span class="string">'false'</span>);
+}
+
+<span class="keyword">function</span> closeDrawer() {
+  drawer.classList.remove(<span class="string">'is-open'</span>);
+  backdrop.classList.remove(<span class="string">'is-open'</span>);
+  document.body.style.overflow = <span class="string">''</span>;
+  drawer.setAttribute(<span class="string">'aria-hidden'</span>, <span class="string">'true'</span>);
+}
+
+<span class="comment">// Close triggers</span>
+closeBtn.addEventListener(<span class="string">'click'</span>, closeDrawer);
+backdrop.addEventListener(<span class="string">'click'</span>, closeDrawer);
+document.addEventListener(<span class="string">'keydown'</span>, <span class="keyword">function</span>(e) {
+  <span class="keyword">if</span> (e.key === <span class="string">'Escape'</span>) closeDrawer();
+});
+
+<span class="comment">// Auto-open if URL has ?drawer=1 (used when navigating from PDP)</span>
+<span class="keyword">if</span> (new URLSearchParams(window.location.search).get(<span class="string">'drawer'</span>) === <span class="string">'1'</span>) {
+  openDrawer();
+}</pre>
+
+      <h3 class="subsection-heading">Delivery Estimate Calculation</h3>
+
+      <pre class="code-block"><span class="comment">// Business day calculator: skips Sat (6) and Sun (0)</span>
+<span class="keyword">function</span> addBizDays(date, days) {
+  <span class="keyword">var</span> d = <span class="keyword">new</span> Date(date);
+  <span class="keyword">var</span> added = <span class="number">0</span>;
+  <span class="keyword">while</span> (added < days) {
+    d.setDate(d.getDate() + <span class="number">1</span>);
+    <span class="keyword">if</span> (d.getDay() !== <span class="number">0</span> && d.getDay() !== <span class="number">6</span>) added++;
+  }
+  <span class="keyword">return</span> d;
+}
+
+<span class="keyword">var</span> now     = <span class="keyword">new</span> Date();
+<span class="keyword">var</span> earliest = addBizDays(now, <span class="number">4</span>); <span class="comment">// 1 ship + 3 transit</span>
+<span class="keyword">var</span> latest   = addBizDays(now, <span class="number">7</span>); <span class="comment">// 2 ship + 5 transit</span>
+
+<span class="keyword">var</span> months = [<span class="string">'Jan'</span>,<span class="string">'Feb'</span>,<span class="string">'Mar'</span>,<span class="string">'Apr'</span>,<span class="string">'May'</span>,<span class="string">'Jun'</span>,
+              <span class="string">'Jul'</span>,<span class="string">'Aug'</span>,<span class="string">'Sep'</span>,<span class="string">'Oct'</span>,<span class="string">'Nov'</span>,<span class="string">'Dec'</span>];
+
+<span class="keyword">var</span> deliveryStr =
+  months[earliest.getMonth()] + <span class="string">' '</span> + earliest.getDate() +
+  <span class="string">' – '</span> +
+  months[latest.getMonth()]   + <span class="string">' '</span> + latest.getDate();
+
+document.getElementById(<span class="string">'delivery-estimate'</span>).textContent =
+  <span class="string">'Estimated delivery: '</span> + deliveryStr;</pre>
+
+      <div class="takeaway">
+        <p><strong>In a Shopify Liquid context</strong>, the delivery estimate can be rendered server-side using Liquid date filters — but the JS approach handles timezone and business-day logic more reliably without requiring custom app logic.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 10: RESPONSIVE ─── -->
+    <section class="doc-section" id="responsive">
+      <h2 class="section-heading">10. Responsive Breakpoints</h2>
+
+      <div class="section-card">
+        <div class="section-card__header">
+          <div class="section-card__badge">10</div>
+          <h3 class="section-card__title">Breakpoints and Mobile Patterns</h3>
+        </div>
+
+        <p class="section-card__label">Layout Breakpoints</p>
+
+        <table class="spec-table">
+          <thead>
+            <tr><th>Breakpoint</th><th>What Changes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>&le; 768px</code></td>
+              <td>Cart layout stacks to single column. Sidebar moves below item list. Sidebar sticky positioning removed.</td>
+            </tr>
+            <tr>
+              <td><code>&le; 480px</code></td>
+              <td>Cart item images shrink (80px). Font sizes reduce. Padding and gap values tighten. Qty stepper scales down.</td>
+            </tr>
+            <tr>
+              <td>Mobile (any)</td>
+              <td>Sticky checkout bar slides up from viewport bottom when the CTA scrolls out of view (IntersectionObserver).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="section-card__label">Drawer Sizing</p>
+        <ul>
+          <li>Desktop: <code>max-width: 420px</code>, fixed position, slides in from right</li>
+          <li>Mobile: full viewport width</li>
+          <li>Always <code>position: fixed</code>; <code>top: 0; right: 0; height: 100vh</code></li>
+          <li>Backdrop: <code>position: fixed; inset: 0; background: rgba(0,0,0,0.45)</code></li>
+          <li>Slide animation: <code>transform: translateX(100%)</code> closed, <code>translateX(0)</code> open with <code>transition: transform 0.3s ease</code></li>
+        </ul>
+
+        <p class="section-card__label">Sticky Mobile Checkout Bar</p>
+      </div>
+
+      <pre class="code-block"><span class="comment">/* Sticky bar: hidden by default, visible when is-visible class is added */</span>
+.sticky-checkout-bar {
+  position: fixed;
+  bottom: <span class="number">0</span>;
+  left: <span class="number">0</span>; right: <span class="number">0</span>;
+  background: #fff;
+  border-top: 1px solid <span class="keyword">var</span>(--color-border-warm);
+  padding: <span class="number">12</span>px <span class="number">16</span>px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: <span class="number">12</span>px;
+  transform: translateY(<span class="number">100%</span>);
+  transition: transform <span class="number">0.3</span>s ease;
+  z-index: <span class="number">200</span>;
+}
+.sticky-checkout-bar.is-visible {
+  transform: translateY(<span class="number">0</span>);
+}</pre>
+
+      <pre class="code-block"><span class="comment">// IntersectionObserver: show sticky bar when CTA scrolls out of viewport</span>
+<span class="keyword">var</span> ctaBtn = document.getElementById(<span class="string">'checkout-cta'</span>);
+<span class="keyword">var</span> stickyBar = document.getElementById(<span class="string">'sticky-checkout-bar'</span>);
+
+<span class="keyword">if</span> (ctaBtn && stickyBar) {
+  <span class="keyword">var</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="keyword">function</span>(entries) {
+    entries.forEach(<span class="keyword">function</span>(entry) {
+      stickyBar.classList.toggle(<span class="string">'is-visible'</span>, !entry.isIntersecting);
+      stickyBar.setAttribute(<span class="string">'aria-hidden'</span>, entry.isIntersecting ? <span class="string">'true'</span> : <span class="string">'false'</span>);
+    });
+  }, { threshold: <span class="number">0</span> });
+
+  observer.observe(ctaBtn);
+}</pre>
+
+      <div class="section-card">
+        <p class="section-card__label">Accessibility Notes</p>
+        <ul>
+          <li><code>aria-hidden="true"</code> on drawer when closed; <code>"false"</code> when open</li>
+          <li><code>aria-label</code> on all icon-only buttons: trash, gift info (i), modal close</li>
+          <li><code>role="dialog"</code> on the drawer element; <code>aria-label="Shopping bag"</code></li>
+          <li>Escape key closes drawer and all modals — handled by single <code>keydown</code> listener</li>
+          <li>Semantic HTML throughout: <code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> for navigation, <code>&lt;label&gt;</code> wrapping checkboxes</li>
+          <li>Screen reader text for status dots: wrap the dot in <code>&lt;span aria-hidden="true"&gt;</code> and let the label text speak for itself</li>
+          <li>Qty steppers are keyboard-operable native <code>&lt;button&gt;</code> elements — no custom ARIA needed</li>
+          <li>Promo panel toggle uses <code>aria-expanded</code> and <code>aria-controls</code>; panel uses <code>hidden</code> attribute (not <code>display:none</code> via CSS class) for correct AT behavior</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Closing Note -->
+    <p class="closing-note">This guide reflects the state of the cart mockup as of March 2026. For design rationale behind each decision, see <code>cart-design-philosophy.html</code>. For the research backing those decisions, see <code>cart-best-practices-research.md</code>.</p>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('.doc-section[id]');
+  var tocLinks = document.querySelectorAll('.toc__link[data-section]');
+  var mobileTocLinks = document.querySelectorAll('.toc-mobile__link');
+
+  if(!sections.length) return;
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id = entry.target.id;
+        tocLinks.forEach(function(link){
+          link.classList.toggle('is-active', link.dataset.section === id);
+        });
+        mobileTocLinks.forEach(function(link){
+          link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+  sections.forEach(function(section){ observer.observe(section); });
+})();
+</script>
+
+<script src="preview-nav.js"></script>
+</body>
+</html>
