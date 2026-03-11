@@ -1061,7 +1061,7 @@
               <li>BNPL line ("or 4 payments of $XX.XX with [Afterpay logo]")</li>
               <li>Checkout CTA ("Go to Checkout")</li>
               <li>Trust line (lock SVG + "Secure Checkout · Free Returns" — single line, compact)</li>
-              <li>Gift checkbox (compact: checkbox + "Make this a gift" + (i) info button)</li>
+              <li>Gift text link ("Sending as a gift? See options →" → links to <code>/cart</code>)</li>
               <li>View Full Cart link → <code>/cart</code></li>
             </ol>
           </li>
@@ -1073,8 +1073,9 @@
       <div class="not-in-drawer">
         <p class="not-in-drawer__heading">Omitted from drawer by design</p>
         <ul>
+          <li>Cross-sell / "You may also like" — without AI-curated matching (Rebuy), generic cross-sell violates the drawer's confirmation-surface principle; lives on /cart page only</li>
+          <li>Gift checkbox — replaced with a single text link ("Sending as a gift? See options →") to reduce cognitive load for the 80%+ self-purchasers; full gift card lives on /cart page</li>
           <li>Promo code input — opens keyboard on mobile, sends 8% of users off-site to find codes</li>
-          <li>Cross-sell / "You may also like" — drawer is for confirming, not discovering</li>
           <li>Express checkout buttons — checkout page will present them; drawer is not the place</li>
           <li>Delivery estimate — too much detail for a momentum surface</li>
           <li>Full trust badge strip — condensed to a single trust line below CTA</li>
@@ -1127,11 +1128,7 @@
     &lt;<span class="keyword">p</span> class=<span class="string">"drawer-trust"</span>&gt;
       <span class="comment">&lt;!-- Lock SVG --&gt;</span> Secure Checkout &amp;middot; Free Returns
     &lt;/<span class="keyword">p</span>&gt;
-    &lt;<span class="keyword">label</span> class=<span class="string">"drawer-gift"</span>&gt;
-      &lt;<span class="keyword">input</span> type=<span class="string">"checkbox"</span> name=<span class="string">"attributes[is_gift]"</span>/&gt;
-      Make this a gift
-      &lt;<span class="keyword">button</span> class=<span class="string">"gift-info-btn"</span> aria-label=<span class="string">"Gift info"</span>&gt;<span class="comment">&lt;!-- info SVG --&gt;</span>&lt;/<span class="keyword">button</span>&gt;
-    &lt;/<span class="keyword">label</span>&gt;
+    &lt;<span class="keyword">a</span> class=<span class="string">"drawer-gift-link"</span> href=<span class="string">"/cart"</span>&gt;Sending as a gift? See options &amp;rarr;&lt;/<span class="keyword">a</span>&gt;
     &lt;<span class="keyword">a</span> class=<span class="string">"drawer-view-cart"</span> href=<span class="string">"/cart"</span>&gt;View Full Cart&lt;/<span class="keyword">a</span>&gt;
   &lt;/<span class="keyword">div</span>&gt;
 
@@ -1228,7 +1225,7 @@
             <path d="M8 7v4.5M8 5.5v.01"/>
           </svg>
         </span>
-        Info (i) — Gift checkbox info button in drawer
+        Info (i) — Gift option info button on /cart page sidebar
       </h3>
       <pre class="code-block">&lt;<span class="keyword">svg</span> viewBox=<span class="string">"0 0 16 16"</span> fill=<span class="string">"none"</span> stroke=<span class="string">"currentColor"</span>
      stroke-width=<span class="string">"1.2"</span> aria-hidden=<span class="string">"true"</span>&gt;
@@ -1560,7 +1557,7 @@ document.getElementById(<span class="string">'delivery-estimate'</span>).textCon
         <p class="section-card__label">Accessibility Notes</p>
         <ul>
           <li><code>aria-hidden="true"</code> on drawer when closed; <code>"false"</code> when open</li>
-          <li><code>aria-label</code> on all icon-only buttons: trash, gift info (i), modal close</li>
+          <li><code>aria-label</code> on all icon-only buttons: trash, modal close, gift info (i) on /cart page</li>
           <li><code>role="dialog"</code> on the drawer element; <code>aria-label="Shopping bag"</code></li>
           <li>Escape key closes drawer and all modals — handled by single <code>keydown</code> listener</li>
           <li>Semantic HTML throughout: <code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> for navigation, <code>&lt;label&gt;</code> wrapping checkboxes</li>

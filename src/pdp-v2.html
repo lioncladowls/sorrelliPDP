@@ -2529,6 +2529,17 @@
   font-weight: 700;
   color: var(--color-text-primary);
 }
+.cart-drawer__detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+.cart-drawer__tax-row {
+  margin-bottom: 10px;
+}
 .cart-drawer__bnpl {
   font-size: 12px;
   color: var(--color-text-secondary);
@@ -2568,6 +2579,32 @@
   transition: color 0.15s;
 }
 .cart-drawer__view-cart:hover { color: var(--color-text-primary); text-decoration: underline; }
+.cart-drawer__trust-compact {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.cart-drawer__trust-compact svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.cart-drawer__gift-link {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: color 0.15s;
+}
+.cart-drawer__gift-link:hover { color: var(--color-text-primary); text-decoration: underline; }
 .cart-trust-strip__link {
   color: inherit;
   text-decoration: none;
@@ -4575,35 +4612,6 @@
           </div>
         </div>
 
-        <!-- Drawer Cross-sell -->
-        <div class="cart-drawer__cross-sell">
-          <h3 class="cart-drawer__cross-sell-title">Complete The Look</h3>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/EGB8BGPRO_480x.jpg" alt="Cushion-Cut Round Dangle Earrings" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Cushion-Cut Round Dangle Earrings</p>
-              <p class="cart-drawer__cross-sell-price">$75.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/RFY11BGPRO_480x.jpg" alt="Anika Adjustable Cocktail Ring" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Anika Adjustable Cocktail Ring</p>
-              <p class="cart-drawer__cross-sell-price">$78.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-          <div class="cart-drawer__cross-sell-item">
-            <img class="cart-drawer__cross-sell-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGE5BGCSD.jpg?v=1766068090" alt="Seahorse Charm Pendant Necklace" loading="lazy"/>
-            <div class="cart-drawer__cross-sell-details">
-              <p class="cart-drawer__cross-sell-name">Seahorse Charm Pendant Necklace</p>
-              <p class="cart-drawer__cross-sell-price">$79.00</p>
-            </div>
-            <button class="cart-drawer__cross-sell-add" data-drawer-cross-sell-add>ADD</button>
-          </div>
-        </div>
-
       </div>
 
       <div class="cart-drawer__footer">
@@ -4611,36 +4619,23 @@
           <span class="cart-drawer__subtotal-label">Subtotal</span>
           <span class="cart-drawer__subtotal-amount">$403.50</span>
         </div>
+        <div class="cart-drawer__detail-row">
+          <span>Shipping</span>
+          <span class="cart-drawer__shipping-val" style="color:var(--color-accent-blue);font-weight:600;">FREE</span>
+        </div>
+        <div class="cart-drawer__detail-row cart-drawer__tax-row">
+          <span>Tax</span>
+          <span>Calculated at checkout</span>
+        </div>
         <div class="cart-drawer__bnpl">
-          or 4 payments of <strong>$100.88</strong> with
-          <img src="assets/afterpay-logo.svg" alt="Afterpay" style="height:13px;vertical-align:middle;"/>
-          <span style="color:var(--color-text-muted);font-size:9px;">&middot;</span>
-          <svg style="height:13px;vertical-align:middle;" aria-label="Shop Pay" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="18" rx="4" fill="#5A31F4"/><text x="7" y="13" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="-0.1">Shop Pay</text></svg>
+          or 4 payments of <strong>$100.88</strong> with <img src="assets/afterpay-logo.svg" alt="Afterpay" style="height:13px;vertical-align:middle;margin-left:2px;"/>
         </div>
         <button class="cart-drawer__checkout-btn">Go to Checkout</button>
-        <div class="cart-trust-strip" style="margin-bottom:10px;">
-          <span class="cart-trust-strip__item">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,5.5S24.74,15,15.26,15V48.46a39,39,0,0,0,2.23,13.1A60,60,0,0,0,50,95.5,60,60,0,0,0,82.51,61.56a39,39,0,0,0,2.23-13.1V15C75.26,15,50,5.5,50,5.5Zm-3,62.71L31.38,52.54,37,46.88l9.59,9.6L64.35,36l6,5.24Z"/></svg>
-            <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-trust-strip__link">30-Day Returns</a>
-          </span>
-          <span class="cart-trust-strip__sep"></span>
-          <span class="cart-trust-strip__item">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            Secure Checkout
-          </span>
-          <span class="cart-trust-strip__sep"></span>
-          <span class="cart-trust-strip__item">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>
-            Pay in 4
-          </span>
+        <div class="cart-drawer__trust-compact">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          Secure Checkout &middot; <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-trust-strip__link">Free Returns</a>
         </div>
-        <div class="cart-drawer__gift-card">
-          <label class="cart-drawer__gift-label">
-            <input type="checkbox"/>
-            <span class="cart-drawer__gift-label-text">Make this order a gift</span>
-          </label>
-          <p class="cart-drawer__gift-note">If selected, the receipt will not include pricing, and the order will be shipped with gift boxes for full-price and clearance purchases at 25% off or less.</p>
-        </div>
+        <a href="cart.html" class="cart-drawer__gift-link">Sending as a gift? See options &rarr;</a>
         <a href="cart.html" class="cart-drawer__view-cart">View Full Cart</a>
       </div>
     </div>
