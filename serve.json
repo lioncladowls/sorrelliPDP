@@ -1,3 +1,7 @@
 {
-  "cleanUrls": false
+  "cleanUrls": false,
+  "directoryListing": false,
+  "redirects": [
+    { "source": "/", "destination": "/src/index.html", "type": 302 }
+  ]
 }
