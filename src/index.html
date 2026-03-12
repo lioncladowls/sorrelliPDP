@@ -253,7 +253,7 @@
 
       // If already authenticated, redirect to main page
       if (sessionStorage.getItem(STORAGE_KEY) === PASS_HASH) {
-        window.location.replace('pdp-v2.html');
+        window.location.replace('/src/pdp-v2');
         return;
       }
 
@@ -277,7 +277,7 @@
 
         if (h === PASS_HASH) {
           sessionStorage.setItem(STORAGE_KEY, PASS_HASH);
-          window.location.replace('pdp-v2.html');
+          window.location.replace('/src/pdp-v2');
         } else {
           error.classList.add('is-visible');
           card.classList.remove('shake');
