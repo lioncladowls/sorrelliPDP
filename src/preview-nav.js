@@ -19,7 +19,9 @@
 
   // ── Page registry ──
   var pages = {
-    'pdp-v2.html':                { group: 'product', label: 'Mockup' },
+    'pdp-v3.html':                { group: 'product', label: 'Mockup — V3' },
+    'pdp-v2.html':                { group: 'product', label: 'Mockup — V2' },
+    'pdp-v1.html':                { group: 'product', label: 'Mockup — V1' },
     'design-philosophy.html':     { group: 'product', label: 'Design Philosophy' },
     'customization-guide.html':   { group: 'product', label: 'Customization Guide' },
     'cart.html':                  { group: 'cart',    label: 'Mockup' },
@@ -57,7 +59,11 @@
     + '          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>'
     + '        </button>'
     + '        <div class="preview-nav__dropdown">'
-    + '          <a href="pdp-v2.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'pdp-v2.html') + '">Mockup</a>'
+    + '          <span class="preview-nav__dropdown-label">Mockup</span>'
+    + '          <a href="pdp-v3.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'pdp-v3.html') + '">V3 <span class="preview-nav__current-tag">Current</span></a>'
+    + '          <a href="pdp-v2.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'pdp-v2.html') + '">V2</a>'
+    + '          <a href="pdp-v1.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'pdp-v1.html') + '">V1</a>'
+    + '          <div class="preview-nav__dropdown-divider"></div>'
     + '          <a href="design-philosophy.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'design-philosophy.html') + '">Design Philosophy</a>'
     + '          <a href="customization-guide.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'customization-guide.html') + '">Customization Guide</a>'
     + '        </div>'
@@ -108,6 +114,10 @@
     + '.preview-nav__dropdown-link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 8px 16px; transition: all 0.15s ease; }'
     + '.preview-nav__dropdown-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }'
     + '.preview-nav__dropdown-link--active { color: #ffffff; }'
+    + '.preview-nav__dropdown-label { display: block; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 16px 4px; }'
+    + '.preview-nav__dropdown-link--sub { padding-left: 24px !important; }'
+    + '.preview-nav__current-tag { font-size: 9px; font-weight: 700; color: #cab0a3; background: rgba(202,176,163,0.15); padding: 1px 6px; border-radius: 3px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.04em; vertical-align: 1px; }'
+    + '.preview-nav__dropdown-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; }'
     + '.preview-nav__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 4px; }'
     + '.preview-nav__drawer-btn { font-size: 12px; font-family: "Open Sans", sans-serif; color: #cab0a3; background: rgba(202,176,163,0.12); border: 1px solid rgba(202,176,163,0.3); padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; white-space: nowrap; }'
     + '.preview-nav__drawer-btn:hover { background: rgba(202,176,163,0.22); border-color: rgba(202,176,163,0.5); }'
