@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="on" http-equiv="cleartype"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <meta content="#ffffff" name="theme-color"/>
+    <title>Your Cart V2 — Sorrelli</title>
+
+<!-- ═══════ CSS STYLESHEETS ══════════════════════════════════════════ -->
+    <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/fancybox.css?v=30466120580444283401584965809" media="all" rel="stylesheet" type="text/css"/>
+    <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/styles.scss.css?v=163401241389274262621765143371" media="all" rel="stylesheet" type="text/css"/>
+    <link href="https://www.sorrelli.com/cdn/shop/t/4/assets/stackable.css?v=154925656024025995881637236194" media="all" rel="stylesheet" type="text/css"/>
+
+<!-- ═══════ GOOGLE FONTS ══════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
+<!-- ═══════ FAVICONS ═══════════════════════════════════════════════ -->
+    <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_180x180.png?v=1613796624" rel="shortcut icon" type="image/x-icon"/>
+    <link href="https://www.sorrelli.com/cdn/shop/files/favicon-2_180x180.png?v=1613796624" rel="apple-touch-icon"/>
+
+<!-- ═══════ DESIGN TOKENS ═════════════════════════════════════════════ -->
+    <style type="text/css">
+      :root {
+        --color-bg-page:       #ffffff;
+        --color-bg-cream:      #FAF3EE;
+        --color-bg-warm:       #f5f0eb;
+        --color-bg-card:       #ffffff;
+        --color-rose-gold:     #cab0a3;
+        --color-copper:        #B88B72;
+        --color-border-warm:   #eddfd3;
+        --color-border-light:  #e8e0da;
+        --color-text-primary:  #3D3531;
+        --color-text-body:     #504842;
+        --color-text-secondary:#6B605A;
+        --color-text-muted:    #9e8070;
+        --color-success:       #4a7c59;
+        --color-accent-blue:   #5986B6;
+        --color-amber:         #c4842d;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        background-color: var(--color-bg-page);
+        color: var(--color-text-body);
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+<!-- ═══════ TOOLTIP STYLES (from PDP) ════════════════════════════════ -->
+    <style type="text/css">
+      @media screen and (min-width:1024px) {
+        [data-tooltip-title] { position: relative; }
+        [data-tooltip-title].tooltip-dark:after { background: var(--color-text-body); }
+        [data-tooltip-title]:after {
+          background: var(--color-rose-gold); opacity: 0;
+          transition: opacity .25s ease-in-out, top .25s ease-in-out;
+          content: attr(data-tooltip-title); color: #fff;
+          font-size: 12px; line-height: 12px; font-weight: bold;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          padding: 10px; position: absolute; top: -36px; left: -12px;
+          min-width: 100px; border-radius: 999em; z-index: 50;
+        }
+        [data-tooltip-title]:hover:after { top: -42px; opacity: 0.95; }
+        [data-tooltip-title].tooltip-dark:hover:after { opacity: 0.85; }
+        [data-tooltip-title].tooltip-left:after {
+          left: auto; right: -12px;
+        }
+      }
+    </style>
+
+
+<!-- ═══════ JQUERY ════════════════════════════════════════════════════ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+
+  <body class="template-cart" data-money-format="${{amount}}">
+
+<!-- ═══════ PREVIEW NAV ═══════════════════════════════════════════════ -->
+    <div id="preview-nav"></div>
+
+<!-- ═══════ HEADER ════════════════════════════════════════════════════ -->
+    <div class="shopify-section header--centered jsHeader header-section" id="shopify-section-header-centered">
+      <style data-shopify="">
+        #shopify-section-header-centered { padding-top: px; padding-bottom: px; width: 100%; }
+        #shopify-section-header-centered .header__logo, .logo__content { width: 300px; }
+        #shopify-section-header-centered .is-sticky .header__logo { width: 300px; }
+        #shopify-section-header-centered .header-sticky-wrapper.is-sticky .header { background-color: rgba(255, 255, 255, 0.9); }
+        #shopify-section-header-centered #mobile-header-sticky-wrapper.is-sticky .mobile-header { background-color: rgba(255, 255, 255, 0.9); }
+        #shopify-section-header-centered .header__menu { z-index: 50; }
+      </style>
+      <div class="is-relative" data-enable_overlay="false" data-enable_sticky="true" style="z-index: 50">
+        <header class="header header--centered dropdown-style-vertical box-shadow-true" id="header">
+          <div class="header__inner-content">
+            <section class="section is-width-wide">
+              <nav aria-label="main navigation" class="navbar is-align-center header-layout--above" role="navigation">
+                <div class="header__link header__menu-toggle is-medium">
+                  <div class="header__open-menu">
+                    <span class="icon" data-icon="menu">
+                      <svg title="" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <title>menu</title>
+                        <g id="menu">
+                          <rect height="8" width="90" x="5" y="12"></rect>
+                          <rect height="8" width="90" x="5" y="46"></rect>
+                          <rect height="8" width="90" x="5" y="80"></rect>
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="header__close-menu">
+                    <span class="icon" data-icon="x">
+                      <svg title="" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="x">
+                          <polygon points="95 10.32 89.68 5 50 44.68 10.32 5 5 10.32 44.68 50 5 89.68 10.32 95 50 55.32 89.68 95 95 89.68 55.32 50 95 10.32"></polygon>
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                <div class="header__brand is-align-center is-justify-space-between is-flex text-align-center">
+                  <a class="header__logo header__link primary-logo" href="https://www.sorrelli.com" title="Sorrelli">
+                    <div class="image-element__wrap" style="max-width: 600px;">
+                      <img alt="Sorrelli" class="lazyloaded transition--none primary-logo" data-aspectratio="9.090909090909092" height="66" src="https://www.sorrelli.com/cdn/shop/files/Sorrelli-logo_black-no-tagline-96-600_2000x.png?v=1613797348" style=";" width="600"/>
+                    </div>
+                  </a>
+                </div>
+                <style type="text/css">
+                  .header__icons--sticky .action-area__link, .header__icons--pseudo-sticky .action-area__link { padding-left: 15px; padding-right: 15px; }
+                </style>
+                <div class="header__icons header__icon-style- header__icons--pseudo-sticky">
+                  <a class="header__link action-area__link" data-show-search-trigger="">
+                    <span class="icon header__icon tooltip-left tooltip-dark" data-icon="search" data-tooltip-title="Search">
+                      <svg title="Open product search form" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="search"><path d="M91.49,89.74,70.6,68.85a37.29,37.29,0,1,0-5.85,4.67L86.23,95ZM14.78,42.24A29.8,29.8,0,1,1,44.58,72,29.84,29.84,0,0,1,14.78,42.24Z"></path></g>
+                      </svg>
+                    </span>
+                    <span class="icon-caption">Search</span>
+                  </a>
+                  <a class="header__link action-area__link" href="#" onclick="window._klOnsite = window._klOnsite || [];window._klOnsite.push(['openForm', 'Y4tyc6']);">
+                    <span class="icon header__icon tooltip-left tooltip-dark" data-icon="email" data-tooltip-title="Sign up for Emails and Texts">
+                      <svg title="Subscribe to Sorrelli emails" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="email">
+                          <path d="M92,22.53V81.86H8V22.38L48.48,62.86a3,3,0,0,0,2.09.89,3.13,3.13,0,0,0,2.22-.88Z"></path>
+                          <polygon points="87.89 18.14 50.6 56.51 12.24 18.14 87.89 18.14"></polygon>
+                        </g>
+                      </svg>
+                    </span>
+                    <span class="icon-caption">Sign up for Emails and Texts</span>
+                  </a>
+                  <a class="header__link action-area__link" href="/pages/store-locator">
+                    <span class="icon header__icon tooltip-left tooltip-dark" data-icon="pin" data-tooltip-title="Store Locator">
+                      <svg title="Find Sorrelli in a store near you" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="pin"><path d="M50,5A30.4,30.4,0,0,0,23.85,50.91L50,95,76.15,50.91A30.34,30.34,0,0,0,50,5Zm0,44a13.61,13.61,0,1,1,13.6-13.6A13.6,13.6,0,0,1,50,49Z"></path></g>
+                      </svg>
+                    </span>
+                    <span class="icon-caption">Store Locator</span>
+                  </a>
+                  <a class="header__link action-area__link" href="/account/login">
+                    <span class="icon header__icon tooltip-left tooltip-dark" data-icon="avatar" data-tooltip-title="Log In">
+                      <svg title="Log in to your sorrelli.com account" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="avatar">
+                          <circle cx="50" cy="43.4" r="17.16"></circle>
+                          <path d="M50,4A46,46,0,1,0,96,50,46.06,46.06,0,0,0,50,4ZM77.63,76.76a31.67,31.67,0,0,0-55.27,0A38.15,38.15,0,0,1,11.51,50,38.49,38.49,0,1,1,77.63,76.76Z"></path>
+                        </g>
+                      </svg>
+                    </span>
+                    <span class="icon-caption">Account</span>
+                  </a>
+                  <div class="header-cart action-area__link" id="header-cart-trigger">
+                    <a class="header__link" href="cart.html" style="text-decoration:none;">
+                      <span class="header-cart__icon">
+                        <span class="icon header__icon tooltip-left tooltip-dark" data-icon="bag" data-tooltip-title="My Shopping Bag">
+                          <svg title="Go to your shopping bag" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <g id="bag"><path d="M78.66,29.38H68.14V23.14a18.14,18.14,0,0,0-36.28,0v6.24H21.34L17.55,95h64.9ZM38.79,23.14a11.21,11.21,0,1,1,22.42,0v6.24H38.79Z"></path></g>
+                          </svg>
+                        </span>
+                        <span class="header-cart__count header-cart__count--badge badge" data-bind="itemCount">4</span>
+                      </span>
+                      <span class="header-cart__caption icon-caption">Bag</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="header__menu" style="z-index: 41;">
+                  <div class="header__menu-items header__dropdown--below-parent is-flex is-flex-wrap is-justify-space-around">
+                    <div class="navbar-item header__item" data-navlink-handle="core-classics">
+                      <a class="navbar-link header__link is-arrowless" href="https://www.sorrelli.com/collections/shopify-best-sellers-list-seasonless-2023-best-sellers/in-stock?sort_by=best-selling">Core Classics</a>
+                    </div>
+                    <div class="navbar-item header__item" data-navlink-handle="shop-by">
+                      <a class="navbar-link header__link is-arrowless" href="/">Shop By</a>
+                    </div>
+                    <div class="navbar-item header__item" data-navlink-handle="collections">
+                      <a class="navbar-link header__link is-arrowless" href="https://www.sorrelli.com/pages/all-collections">Collections</a>
+                    </div>
+                    <div class="navbar-item header__item" data-navlink-handle="new-arrivals">
+                      <a class="navbar-link header__link is-arrowless" href="/collections/new-additions">New Arrivals</a>
+                    </div>
+                    <div class="navbar-item header__item" data-navlink-handle="clearance">
+                      <a class="navbar-link header__link is-arrowless" href="/collections/sale/in-stock">Clearance</a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </section>
+          </div>
+        </header>
+        <style data-shopify="">.mobile-menu { background-color: var(--color-bg-card); }</style>
+        <div class="mobile-header" id="mobile-header">
+          <a class="mobile-menu__toggle-button mobile-toggle__position--left" data-show-mobile-menu="false"></a>
+          <div class="mobile-header__content mobile-layout--left mobile-logo__position--center header__icon-style-icons">
+            <div class="mobile-dropdown mobile-dropdown__position--left">
+              <div class="mobile-menu__toggle-icon">
+                <div class="mobile-header__open-menu">
+                  <span class="icon" data-icon="menu">
+                    <svg title="" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <title>menu</title>
+                      <g id="menu">
+                        <rect height="8" width="90" x="5" y="12"></rect>
+                        <rect height="8" width="90" x="5" y="46"></rect>
+                        <rect height="8" width="90" x="5" y="80"></rect>
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+                <div class="mobile-header__close-menu">
+                  <span class="icon" data-icon="x">
+                    <svg title="" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <g id="x"><polygon points="95 10.32 89.68 5 50 44.68 10.32 5 5 10.32 44.68 50 5 89.68 10.32 95 50 55.32 89.68 95 95 89.68 55.32 50 95 10.32"></polygon></g>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div class="mobile-menu">
+                <div class="mobile-menu__content">
+                  <ul class="has-margin-bottom">
+                    <li>
+                      <input class="visuallyhidden submenu__input has-no-menu" id="mobile-submenu-core-classics" type="checkbox"/>
+                      <label class="submenu__label has-no-menu" data-navlink-handle="core-classics" for="mobile-submenu-core-classics">
+                        <a class="mobile-menu__item" href="https://www.sorrelli.com/collections/shopify-best-sellers-list-seasonless-2023-best-sellers/in-stock?sort_by=best-selling">Core Classics</a>
+                      </label>
+                    </li>
+                    <li>
+                      <input class="visuallyhidden submenu__input has-no-menu" id="mobile-submenu-shop-by" type="checkbox"/>
+                      <label class="submenu__label has-no-menu has-no-link" data-navlink-handle="shop-by" for="mobile-submenu-shop-by">
+                        <a class="mobile-menu__item" href="/">Shop By</a>
+                      </label>
+                    </li>
+                    <li>
+                      <input class="visuallyhidden submenu__input has-no-menu" id="mobile-submenu-collections" type="checkbox"/>
+                      <label class="submenu__label has-no-menu" data-navlink-handle="collections" for="mobile-submenu-collections">
+                        <a class="mobile-menu__item" href="https://www.sorrelli.com/pages/all-collections">Collections</a>
+                      </label>
+                    </li>
+                    <li>
+                      <input class="visuallyhidden submenu__input has-no-menu" id="mobile-submenu-new-arrivals" type="checkbox"/>
+                      <label class="submenu__label has-no-menu" data-navlink-handle="new-arrivals" for="mobile-submenu-new-arrivals">
+                        <a class="mobile-menu__item" href="/collections/new-additions">New Arrivals</a>
+                      </label>
+                    </li>
+                    <li>
+                      <input class="visuallyhidden submenu__input has-no-menu" id="mobile-submenu-clearance" type="checkbox"/>
+                      <label class="submenu__label has-no-menu" data-navlink-handle="clearance" for="mobile-submenu-clearance">
+                        <a class="mobile-menu__item" href="/collections/sale/in-stock">Clearance</a>
+                      </label>
+                    </li>
+                    <li>
+                      <a class="mobile-menu__item item-with-icon" href="/account/login"><span>Account</span></a>
+                    </li>
+                    <li>
+                      <a class="mobile-menu__item item-with-icon" href="#" onclick="window._klOnsite = window._klOnsite || [];window._klOnsite.push(['openForm', 'Y4tyc6']);"><span>Sign up for Emails and Texts</span></a>
+                    </li>
+                    <li>
+                      <a class="mobile-menu__item item-with-icon" href="/pages/store-locator"><span>Store Locator</span></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="mobile-logo">
+              <a class="mobile-header__logo header__link primary-logo" href="https://www.sorrelli.com" title="Sorrelli">
+                <div class="image-element__wrap" style="max-width: 600px;">
+                  <img alt="Sorrelli" class="lazyloaded transition--none primary-logo" height="66" src="https://www.sorrelli.com/cdn/shop/files/Sorrelli-logo_black-no-tagline-96-600_2000x.png?v=1613797348" width="600"/>
+                </div>
+              </a>
+            </div>
+            <div class="mobile-icons">
+              <a class="header__link action-area__link" data-show-search-trigger="">
+                <span class="icon header__icon" data-icon="search">
+                  <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <g id="search"><path d="M91.49,89.74,70.6,68.85a37.29,37.29,0,1,0-5.85,4.67L86.23,95ZM14.78,42.24A29.8,29.8,0,1,1,44.58,72,29.84,29.84,0,0,1,14.78,42.24Z"></path></g>
+                  </svg>
+                </span>
+                <span class="icon-caption">Search</span>
+              </a>
+              <a class="header__link action-area__link" href="/account/login">
+                <span class="icon header__icon" data-icon="avatar">
+                  <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <g id="avatar">
+                      <circle cx="50" cy="43.4" r="17.16"></circle>
+                      <path d="M50,4A46,46,0,1,0,96,50,46.06,46.06,0,0,0,50,4ZM77.63,76.76a31.67,31.67,0,0,0-55.27,0A38.15,38.15,0,0,1,11.51,50,38.49,38.49,0,1,1,77.63,76.76Z"></path>
+                    </g>
+                  </svg>
+                </span>
+                <span class="icon-caption">Account</span>
+              </a>
+              <div class="header-cart action-area__link">
+                <a class="header__link" href="cart.html" style="text-decoration:none;">
+                  <span class="header-cart__icon">
+                    <span class="icon header__icon" data-icon="bag">
+                      <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g id="bag"><path d="M78.66,29.38H68.14V23.14a18.14,18.14,0,0,0-36.28,0v6.24H21.34L17.55,95h64.9ZM38.79,23.14a11.21,11.21,0,1,1,22.42,0v6.24H38.79Z"></path></g>
+                      </svg>
+                    </span>
+                    <span class="header-cart__count header-cart__count--badge badge">4</span>
+                  </span>
+                  <span class="header-cart__caption icon-caption">Bag</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- ═══════ FREE SHIPPING PROGRESS BAR ═══════════════════════════════ -->
+    <style>
+      .free-shipping-bar {
+        background: var(--color-bg-cream);
+        border-bottom: 1px solid var(--color-border-light);
+        padding: 10px 24px;
+      }
+      .free-shipping-bar__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .free-shipping-bar__track {
+        flex: 1;
+        height: 6px;
+        background: var(--color-border-light);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .free-shipping-bar__fill {
+        height: 100%;
+        width: 100%;
+        background: var(--color-accent-blue);
+        border-radius: 99px;
+        transition: width 0.4s ease;
+      }
+      .free-shipping-bar__msg {
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .free-shipping-bar__msg svg {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+      }
+      .free-shipping-bar--qualified .free-shipping-bar__msg { color: var(--color-accent-blue); }
+      .free-shipping-bar--qualified .free-shipping-bar__fill { background: var(--color-accent-blue); }
+      .free-shipping-bar--progress .free-shipping-bar__msg { color: var(--color-copper); }
+      .free-shipping-bar--progress .free-shipping-bar__fill { background: var(--color-rose-gold); }
+    </style>
+    <div class="free-shipping-bar free-shipping-bar--qualified" id="free-shipping-bar">
+      <div class="free-shipping-bar__inner">
+        <div class="free-shipping-bar__msg" id="shipping-bar-msg">
+          <svg id="shipping-bar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#5986B6"/>
+            <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="shipping-bar-text">You've unlocked FREE shipping!</span>
+        </div>
+        <div class="free-shipping-bar__track">
+          <div class="free-shipping-bar__fill" id="shipping-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+
+<!-- ═══════ CART PAGE STYLES ══════════════════════════════════════════ -->
+    <style>
+      /* ── Layout ── */
+      .cart-page-content {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 24px 4rem;
+      }
+      .cart-layout {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+      }
+      .cart-main {
+        flex: 0 0 60%;
+        min-width: 0;
+      }
+      .cart-sidebar {
+        flex: 0 0 calc(40% - 40px);
+        position: sticky;
+        top: 100px;
+      }
+
+      /* ── Cart heading ── */
+      .cart-main__heading {
+        font-size: 24px;
+        font-weight: 300;
+        color: var(--color-text-primary);
+        margin: 0 0 1.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .cart-main__heading span {
+        font-size: 15px;
+        color: var(--color-text-muted);
+        font-weight: 400;
+      }
+
+      /* ── Cart item ── */
+      .cart-item {
+        display: flex;
+        gap: 16px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--color-border-light);
+        transition: opacity 0.35s ease;
+      }
+      .cart-item.is-removing { opacity: 0; pointer-events: none; }
+      .cart-item__img-wrap {
+        flex-shrink: 0;
+        width: 120px;
+        height: 120px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .cart-item__img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .cart-item__details {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .cart-item__name {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0;
+        line-height: 1.3;
+      }
+      .cart-item__variant {
+        font-size: 13px;
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+      .cart-item__status {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .cart-item__status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .cart-item__status-dot--green { background: var(--color-success); }
+      .cart-item__status-dot--amber { background: var(--color-amber); }
+      .cart-item__status--green { color: var(--color-success); }
+      .cart-item__status--amber { color: var(--color-amber); }
+      .cart-item__status--muted { color: var(--color-text-secondary); }
+      .cart-item__exclusion-info {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 15px; height: 15px; border: 1px solid var(--color-text-muted); border-radius: 50%;
+        font-size: 9px; font-style: italic; font-family: Georgia, serif;
+        color: var(--color-text-muted); cursor: pointer; flex-shrink: 0;
+        transition: border-color 0.15s, color 0.15s; margin-left: 2px;
+      }
+      .cart-item__exclusion-info:hover { border-color: var(--color-text-secondary); color: var(--color-text-secondary); }
+
+      /* ── Exclusion modal ── */
+      .exclusion-modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 950;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .exclusion-modal-backdrop.is-open { display: flex; align-items: center; justify-content: center; opacity: 1; }
+      .exclusion-modal {
+        background: var(--color-bg-page);
+        border-radius: 10px;
+        max-width: 400px;
+        width: 90%;
+        padding: 28px 24px 24px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        position: relative;
+      }
+      .exclusion-modal__close {
+        position: absolute; top: 12px; right: 14px;
+        background: none; border: none; font-size: 20px;
+        color: var(--color-text-muted); cursor: pointer; line-height: 1; padding: 4px;
+      }
+      .exclusion-modal__close:hover { color: var(--color-text-primary); }
+      .exclusion-modal__title {
+        font-size: 16px; font-weight: 600; color: var(--color-text-primary);
+        margin: 0 0 10px;
+      }
+      .exclusion-modal__body {
+        font-size: 14px; color: var(--color-text-body); line-height: 1.6; margin: 0;
+      }
+      .cart-item__final-sale-notice {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--color-bg-warm);
+        border: 1px solid var(--color-border-warm);
+        border-radius: 6px;
+        padding: 6px 10px;
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        line-height: 1.3;
+      }
+      .cart-item__final-sale-notice strong {
+        color: var(--color-rose-gold);
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+      .cart-item__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-shrink: 0;
+        gap: 8px;
+      }
+      .cart-item__price {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        text-align: right;
+      }
+      .cart-item__price--original {
+        font-size: 13px;
+        text-decoration: line-through;
+        color: var(--color-text-muted);
+        font-weight: 400;
+      }
+      .cart-item__price--sale {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--color-rose-gold);
+      }
+      .cart-item__price--save {
+        font-size: 11px;
+        color: var(--color-accent-blue);
+        font-weight: 600;
+        text-align: right;
+      }
+      .cart-item__qty-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .cart-item__qty-btn {
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--color-border-light);
+        background: var(--color-bg-page);
+        color: var(--color-text-body);
+        font-size: 16px;
+        line-height: 1;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.15s, background 0.15s;
+        padding: 0;
+      }
+      .cart-item__qty-btn:hover { border-color: var(--color-rose-gold); background: var(--color-bg-warm); }
+      .cart-item__qty-val {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        min-width: 20px;
+        text-align: center;
+      }
+      .cart-item__qty-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+        pointer-events: none;
+      }
+      .cart-item__qty-btn.is-trash { color: var(--color-text-muted); }
+      .cart-item__qty-btn.is-trash:hover { color: #c0392b; border-color: #c0392b; background: #fdf2f2; }
+
+      /* ── Sidebar card ── */
+      .cart-sidebar__card {
+        background: var(--color-bg-page);
+        border: 1px solid var(--color-border-light);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+
+      /* ── Express checkout ── */
+      .cart-express__label {
+        font-size: 11px;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        text-align: center;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .cart-express__btns {
+        display: flex;
+        gap: 8px;
+      }
+      .cart-express__btn {
+        flex: 1;
+        height: 40px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: 'Open Sans', sans-serif;
+        transition: opacity 0.15s;
+      }
+      .cart-express__btn:hover { opacity: 0.85; }
+      .cart-express__btn--apple { background: #000; color: #fff; font-size: 11px; letter-spacing: 0.03em; }
+      .cart-express__btn--shoppay { background: #5A31F4; color: #fff; }
+      .cart-express__btn--paypal { background: #FFC439; color: #003087; }
+      .cart-express__btn--gpay { background: #fff; color: #3c4043; border: 1px solid #dadce0; }
+      .cart-express__divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 14px 0;
+        color: var(--color-text-muted);
+        font-size: 12px;
+      }
+      .cart-express__divider::before,
+      .cart-express__divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--color-border-light);
+      }
+
+      /* ── Order summary ── */
+      .cart-summary__heading {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 14px;
+      }
+      .cart-summary__line {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: var(--color-text-body);
+      }
+      .cart-summary__line--savings { color: var(--color-accent-blue); font-weight: 600; }
+      .cart-summary__line--free { color: var(--color-accent-blue); font-weight: 600; }
+      .cart-summary__line--tax { }
+      .cart-summary__divider { height: 1px; background: var(--color-border-light); margin: 12px 0; }
+      .cart-summary__total-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 12px;
+      }
+      .cart-summary__total-label { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
+      .cart-summary__total-amount { font-size: 18px; font-weight: 700; color: var(--color-text-primary); }
+      .cart-summary__savings-box {
+        background: #eef3f9;
+        border: 1px solid #b3c8de;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 13px;
+        color: var(--color-accent-blue);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 14px;
+      }
+
+      /* ── BNPL line ── */
+      .cart-summary__bnpl {
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 14px;
+        line-height: 1.4;
+        text-align: center;
+      }
+      .cart-summary__bnpl strong { color: var(--color-text-primary); }
+      .cart-summary__bnpl-logos {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .bnpl-logo--afterpay { height: 15px; vertical-align: middle; }
+      .bnpl-logo--shoppay { height: 15px; vertical-align: middle; }
+      .bnpl-sep { color: var(--color-text-muted); font-size: 10px; }
+      .bnpl-info-trigger {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 15px; height: 15px; border: 1px solid #aaa; border-radius: 50%;
+        font-size: 9px; color: var(--color-text-muted); cursor: pointer;
+        transition: border-color 0.15s; flex-shrink: 0; vertical-align: middle;
+      }
+      .bnpl-info-trigger:hover { border-color: var(--color-text-secondary); }
+
+      /* ── CTA button ── */
+      .cart-summary__cta {
+        width: 100%;
+        background: var(--color-rose-gold);
+        color: #fff;
+        border: none;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 16px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        margin-bottom: 14px;
+      }
+      .cart-summary__cta:hover { background: var(--color-copper); }
+
+      /* ── Trust strip ── */
+      .cart-trust-strip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--color-text-muted);
+        padding: 4px 0 0;
+      }
+      .cart-trust-strip__item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+      .cart-trust-strip__item svg {
+        width: 13px;
+        height: 13px;
+        fill: var(--color-copper);
+        opacity: 0.85;
+        flex-shrink: 0;
+      }
+      .cart-trust-strip__sep {
+        width: 1px;
+        height: 11px;
+        background: var(--color-border-light);
+        flex-shrink: 0;
+      }
+
+      /* ── Promo code note ── */
+      .cart-promo-note {
+        font-size: 11px;
+        color: var(--color-text-muted);
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        letter-spacing: 0.01em;
+      }
+
+      /* ── Gift option ── */
+      .cart-gift__label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+      .cart-gift__checkbox {
+        accent-color: var(--color-rose-gold);
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+      .cart-gift__text {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+      .cart-gift__note {
+        font-size: 11px;
+        color: var(--color-text-muted);
+        line-height: 1.5;
+        margin: 6px 0 0 24px;
+      }
+      /* ── Drawer trust strip returns link ── */
+      .cart-trust-strip__link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .cart-trust-strip__link:hover { text-decoration: underline; }
+      .cart-drawer__returns-link:hover { text-decoration: underline; }
+
+
+      /* ── Estimated delivery ── */
+      .cart-summary__delivery {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        margin: 10px 0 12px;
+      }
+
+      /* ── Policy info strip ── */
+      .cart-policy-strip {
+        display: flex;
+        gap: 24px;
+        max-width: 1100px;
+        margin: 2rem auto 0;
+        padding: 24px;
+        border: 1px solid var(--color-border-light);
+        border-radius: 8px;
+        background: var(--color-bg-cream);
+      }
+      .cart-policy-strip__item {
+        flex: 1;
+        display: flex;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--color-text-body);
+        line-height: 1.5;
+      }
+      .cart-policy-strip__icon {
+        width: 28px;
+        height: 28px;
+        fill: var(--color-rose-gold);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      /* ── Cross-sell ── */
+      .cart-cross-sell {
+        padding: 0 24px 64px;
+        max-width: 1100px;
+        margin: 3rem auto 0;
+      }
+      .cart-cross-sell__header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .cart-cross-sell__heading {
+        font-size: 24px;
+        font-weight: 300;
+        color: var(--color-text-primary);
+        margin: 0 0 0.5rem;
+      }
+      .cart-cross-sell__subtitle {
+        font-size: 15px;
+        color: var(--color-text-secondary);
+        margin: 0;
+      }
+      .cart-cross-sell__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .cart-cross-sell__card {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease;
+      }
+      .cart-cross-sell__card:hover { transform: translateY(-4px); }
+      .cart-cross-sell__card-img-wrap {
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+      .cart-cross-sell__card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .cart-cross-sell__card-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 3px;
+      }
+      .cart-cross-sell__card-price {
+        font-size: 13px;
+        color: var(--color-text-body);
+        margin: 0 0 8px;
+      }
+      .cart-cross-sell__add-btn {
+        display: block;
+        width: 100%;
+        margin-top: auto;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--color-text-primary);
+        background: transparent;
+        border: 1px solid var(--color-rose-gold);
+        padding: 7px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Open Sans', sans-serif;
+        transition: background 0.2s, color 0.2s;
+        text-align: center;
+      }
+      .cart-cross-sell__add-btn:hover,
+      .cart-cross-sell__add-btn.is-added {
+        background: var(--color-rose-gold);
+        color: #fff;
+      }
+
+      /* ── Sticky mobile checkout bar ── */
+      .cart-sticky-bar {
+        display: none !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--color-bg-page);
+        border-top: 1px solid var(--color-border-light);
+        padding: 12px 16px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        z-index: 800;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      }
+      .cart-sticky-bar.is-visible { transform: translateY(0); }
+      .cart-sticky-bar__inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .cart-sticky-bar__total {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        white-space: nowrap;
+      }
+      .cart-sticky-bar__btn {
+        flex: 1;
+        background: var(--color-rose-gold);
+        color: #fff;
+        border: none;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 13px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: background 0.2s;
+      }
+      .cart-sticky-bar__btn:hover { background: var(--color-copper); }
+
+      /* ── Cart Drawer ── */
+      .cart-drawer-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 900;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .cart-drawer-backdrop.is-open { display: block; opacity: 1; }
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 420px;
+        max-width: 85vw;
+        background: var(--color-bg-page);
+        z-index: 901;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      }
+      .cart-drawer.is-open { transform: translateX(0); }
+      .cart-drawer__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--color-border-light);
+        flex-shrink: 0;
+      }
+      .cart-drawer__title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0;
+      }
+      .cart-drawer__close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text-muted);
+        font-size: 22px;
+        line-height: 1;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.15s;
+      }
+      .cart-drawer__close:hover { color: var(--color-text-primary); }
+      .cart-drawer__shipping-bar {
+        background: var(--color-bg-cream);
+        border-bottom: 1px solid var(--color-border-light);
+        padding: 8px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .cart-drawer__shipping-msg {
+        font-size: 12px;
+        color: var(--color-accent-blue);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+      .cart-drawer__shipping-msg svg { width: 13px; height: 13px; flex-shrink: 0; }
+      .cart-drawer__shipping-track {
+        flex: 1;
+        height: 5px;
+        background: var(--color-border-light);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .cart-drawer__shipping-fill {
+        height: 100%;
+        width: 100%;
+        background: var(--color-accent-blue);
+        border-radius: 99px;
+        transition: width 0.4s ease, background 0.3s ease;
+      }
+      .cart-drawer__body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+      }
+      .cart-drawer__item {
+        display: flex;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--color-border-light);
+        transition: opacity 0.3s ease;
+      }
+      .cart-drawer__item.is-removing { opacity: 0; pointer-events: none; }
+      .cart-drawer__item-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .cart-drawer__item-details {
+        flex: 1;
+        min-width: 0;
+      }
+      .cart-drawer__item-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 2px;
+        line-height: 1.3;
+      }
+      .cart-drawer__item-variant {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        margin: 0 0 4px;
+      }
+      .cart-drawer__item-status {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+      .cart-drawer__item-price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 6px;
+      }
+      .cart-drawer__item-price {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+      .cart-drawer__item-price--sale { color: var(--color-rose-gold); }
+      .cart-drawer__item-price--original {
+        font-size: 12px;
+        text-decoration: line-through;
+        color: var(--color-text-muted);
+        font-weight: 400;
+        margin-right: 4px;
+      }
+      .cart-drawer__item-qty {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .cart-drawer__qty-btn {
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--color-border-light);
+        background: var(--color-bg-page);
+        color: var(--color-text-body);
+        font-size: 14px;
+        line-height: 1;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: border-color 0.15s;
+      }
+      .cart-drawer__qty-btn:hover { border-color: var(--color-rose-gold); }
+      .cart-drawer__qty-btn svg {
+        width: 12px;
+        height: 12px;
+        fill: currentColor;
+        pointer-events: none;
+      }
+      .cart-drawer__qty-btn.is-trash { color: var(--color-text-muted); }
+      .cart-drawer__qty-btn.is-trash:hover { color: #c0392b; border-color: #c0392b; background: #fdf2f2; }
+      .cart-drawer__qty-val {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        min-width: 18px;
+        text-align: center;
+      }
+      .cart-drawer__footer {
+        border-top: 1px solid var(--color-border-light);
+        padding: 16px 20px;
+        flex-shrink: 0;
+        background: var(--color-bg-page);
+        padding-bottom: calc(16px + env(safe-area-inset-bottom));
+      }
+      .cart-drawer__subtotal-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 6px;
+      }
+      .cart-drawer__detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        margin-bottom: 4px;
+      }
+      .cart-drawer__tax-row {
+        margin-bottom: 10px;
+      }
+      .cart-drawer__subtotal-label {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+      .cart-drawer__subtotal-amount {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--color-text-primary);
+      }
+      .cart-drawer__bnpl {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        margin-bottom: 12px;
+        line-height: 1.4;
+      }
+      .cart-drawer__gift-link {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        color: var(--color-text-muted);
+        text-decoration: none;
+        margin-bottom: 12px;
+        transition: color 0.2s;
+      }
+      .cart-drawer__gift-link:hover {
+        color: var(--color-copper);
+      }
+      .cart-drawer__trust-compact {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        font-size: 11px;
+        color: var(--color-text-muted);
+        margin-bottom: 12px;
+      }
+      .cart-drawer__trust-compact svg {
+        width: 13px;
+        height: 13px;
+        fill: var(--color-text-muted);
+        flex-shrink: 0;
+      }
+      .cart-drawer__bnpl strong { color: var(--color-text-primary); }
+      .cart-drawer__checkout-btn {
+        width: 100%;
+        background: var(--color-rose-gold);
+        color: #fff;
+        border: none;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 14px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .cart-drawer__checkout-btn:hover { background: var(--color-copper); }
+      .cart-drawer__view-cart {
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .cart-drawer__view-cart:hover { color: var(--color-text-primary); text-decoration: underline; }
+
+      /* ── Final sale badge in drawer ── */
+      .cart-item__final-sale-badge--sm {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        background: var(--color-bg-warm);
+        border: 1px solid var(--color-border-warm);
+        color: var(--color-rose-gold);
+        padding: 1px 5px;
+        border-radius: 99px;
+        vertical-align: middle;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 798px) {
+        .cart-layout { flex-direction: column; }
+        .cart-main { flex: none; width: 100%; }
+        .cart-sidebar { flex: none; width: 100%; position: static; top: auto; }
+        .cart-item__img-wrap { width: 80px; height: 80px; }
+        .cart-cross-sell__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .cart-cross-sell { padding: 0 16px 48px; }
+        .cart-policy-strip { flex-direction: column; gap: 16px; margin: 1.5rem 16px 0; padding: 16px; }
+        .cart-sticky-bar { display: block !important; }
+        .cart-page-content { padding-bottom: 100px; }
+      }
+    </style>
+
+<!-- ═══════ CART PAGE BODY ════════════════════════════════════════════ -->
+    <main>
+      <div class="cart-page-content">
+        <div class="cart-layout">
+
+          <!-- ── CART MAIN ── -->
+          <div class="cart-main">
+            <h1 class="cart-main__heading">Your Cart <span>(4 items)</span></h1>
+
+            <!-- ITEM 1: Kathleen Studded Dangle Earrings -->
+            <div class="cart-item" data-cart-item data-item-id="1" data-item-price="80.00">
+              <a href="pdp-v2.html" class="cart-item__img-wrap">
+                <img class="cart-item__img" src="https://www.sorrelli.com/cdn/shop/files/EFF80BGPRO_480x.jpg?v=1769720072" alt="Kathleen Studded Dangle Earrings" loading="lazy"/>
+              </a>
+              <div class="cart-item__details">
+                <p class="cart-item__name"><a href="pdp-v2.html" style="color:inherit;text-decoration:none;">Kathleen Studded Dangle Earrings</a></p>
+                <p class="cart-item__variant">Panama Rose &middot; Bright Gold-tone</p>
+                <div class="cart-item__status cart-item__status--green">
+                  <span class="cart-item__status-dot cart-item__status-dot--green"></span>
+                  In Stock
+                </div>
+              </div>
+              <div class="cart-item__right">
+                <div>
+                  <p class="cart-item__price">$80.00</p>
+                </div>
+                <div class="cart-item__qty-row">
+                  <button class="cart-item__qty-btn is-trash" data-qty-minus aria-label="Remove item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  <span class="cart-item__qty-val" data-qty-val>1</span>
+                  <button class="cart-item__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 2: Sienna Tennis Bracelet (Clearance / Final Sale) -->
+            <div class="cart-item" data-cart-item data-item-id="2" data-item-price="59.50" data-item-original-price="85.00">
+              <a href="pdp-v2.html" class="cart-item__img-wrap">
+                <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/BGA2BGPRO_480x.jpg" alt="Sienna Tennis Bracelet" loading="lazy"/>
+              </a>
+              <div class="cart-item__details">
+                <p class="cart-item__name"><a href="pdp-v2.html" style="color:inherit;text-decoration:none;">Sienna Tennis Bracelet</a></p>
+                <p class="cart-item__variant">Panama Rose &middot; Bright Gold-tone</p>
+                <div class="cart-item__final-sale-notice">
+                  <strong>Final Sale</strong> &mdash; This item cannot be returned or exchanged
+                  <button class="cart-item__exclusion-info" data-final-sale-info aria-label="Why is this final sale?">i</button>
+                </div>
+                <div class="cart-item__status cart-item__status--green" style="margin-top:4px;">
+                  <span class="cart-item__status-dot cart-item__status-dot--green"></span>
+                  In Stock
+                </div>
+              </div>
+              <div class="cart-item__right">
+                <div style="text-align:right;">
+                  <span class="cart-item__price--original">$85.00</span>
+                  <p class="cart-item__price--sale">$59.50</p>
+                  <p class="cart-item__price--save">Save $25.50</p>
+                </div>
+                <div class="cart-item__qty-row">
+                  <button class="cart-item__qty-btn is-trash" data-qty-minus aria-label="Remove item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  <span class="cart-item__qty-val" data-qty-val>1</span>
+                  <button class="cart-item__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 3: Iris Pendant Necklace (Excluded from discount — new Candy Pop collection) -->
+            <div class="cart-item" data-cart-item data-item-id="3" data-item-price="99.00">
+              <a href="pdp-v2.html" class="cart-item__img-wrap">
+                <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGI5BGCPO.jpg?v=1772727086" alt="Iris Pendant Necklace" loading="lazy"/>
+              </a>
+              <div class="cart-item__details">
+                <p class="cart-item__name"><a href="pdp-v2.html" style="color:inherit;text-decoration:none;">Iris Pendant Necklace</a></p>
+                <p class="cart-item__variant">Candy Pop &middot; Bright Gold-tone</p>
+                <div class="cart-item__status cart-item__status--muted">
+                  Not eligible for current promotion
+                  <button class="cart-item__exclusion-info" data-exclusion-info aria-label="Why is this excluded?">i</button>
+                </div>
+                <div class="cart-item__status cart-item__status--green" style="margin-top:3px;">
+                  <span class="cart-item__status-dot cart-item__status-dot--green"></span>
+                  In Stock
+                </div>
+              </div>
+              <div class="cart-item__right">
+                <p class="cart-item__price">$99.00</p>
+                <div class="cart-item__qty-row">
+                  <button class="cart-item__qty-btn is-trash" data-qty-minus aria-label="Remove item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  <span class="cart-item__qty-val" data-qty-val>1</span>
+                  <button class="cart-item__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 4: Matilda Choker Necklace (Low stock) -->
+            <div class="cart-item" data-cart-item data-item-id="4" data-item-price="165.00">
+              <a href="pdp-v2.html" class="cart-item__img-wrap">
+                <img class="cart-item__img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NFJ80BGPRO_480x.jpg" alt="Matilda Choker Necklace" loading="lazy"/>
+              </a>
+              <div class="cart-item__details">
+                <p class="cart-item__name"><a href="pdp-v2.html" style="color:inherit;text-decoration:none;">Matilda Choker Necklace</a></p>
+                <p class="cart-item__variant">Panama Rose &middot; Bright Gold-tone</p>
+                <div class="cart-item__status cart-item__status--amber">
+                  <span class="cart-item__status-dot cart-item__status-dot--amber"></span>
+                  Only 2 left
+                </div>
+              </div>
+              <div class="cart-item__right">
+                <p class="cart-item__price">$165.00</p>
+                <div class="cart-item__qty-row">
+                  <button class="cart-item__qty-btn is-trash" data-qty-minus aria-label="Remove item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  <span class="cart-item__qty-val" data-qty-val>1</span>
+                  <button class="cart-item__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.cart-main -->
+
+          <!-- ── CART SIDEBAR ── -->
+          <div class="cart-sidebar">
+
+            <!-- Express Checkout -->
+            <div class="cart-sidebar__card">
+              <span class="cart-express__label">Express checkout</span>
+              <div class="cart-express__btns">
+                <button class="cart-express__btn cart-express__btn--apple">
+                  <svg height="18" viewBox="0 0 50 18" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+                    <text x="2" y="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#fff" letter-spacing="-0.2"> Pay</text>
+                  </svg>
+                </button>
+                <button class="cart-express__btn cart-express__btn--shoppay">
+                  <svg height="14" viewBox="0 0 64 14" xmlns="http://www.w3.org/2000/svg"><text x="0" y="12" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff" letter-spacing="-0.2">Shop Pay</text></svg>
+                </button>
+                <button class="cart-express__btn cart-express__btn--paypal">
+                  <svg height="18" viewBox="0 0 60 18" xmlns="http://www.w3.org/2000/svg"><text x="2" y="13" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#003087">PayPal</text></svg>
+                </button>
+                <button class="cart-express__btn cart-express__btn--gpay">
+                  <svg height="18" viewBox="0 0 60 18" xmlns="http://www.w3.org/2000/svg"><text x="2" y="13" font-family="-apple-system,sans-serif" font-size="12" font-weight="500" fill="#3c4043">G Pay</text></svg>
+                </button>
+              </div>
+              <div style="height:16px;"></div>
+
+              <!-- Order Summary -->
+              <p class="cart-summary__heading">Order Summary</p>
+              <div class="cart-summary__line">
+                <span>Subtotal (4 items)</span>
+                <span>$403.50</span>
+              </div>
+              <div class="cart-summary__line cart-summary__line--savings" id="cart-savings-line">
+                <span>Clearance Savings</span>
+                <span id="cart-savings-amount">−$25.50</span>
+              </div>
+              <div class="cart-summary__line cart-summary__line--free">
+                <span>Shipping</span>
+                <span>FREE</span>
+              </div>
+              <div class="cart-summary__line cart-summary__line--tax">
+                <span>Tax</span>
+                <span>Calculated at checkout</span>
+              </div>
+              <div class="cart-summary__divider"></div>
+              <div class="cart-summary__total-line">
+                <span class="cart-summary__total-label">Estimated Total</span>
+                <span class="cart-summary__total-amount">$403.50</span>
+              </div>
+              <!-- BNPL line -->
+              <p class="cart-summary__bnpl" data-bnpl-line style="flex-direction:row;flex-wrap:nowrap;white-space:nowrap;">
+                or 4 payments of <strong data-bnpl-amount>$100.88</strong> with <img src="assets/afterpay-logo.svg" alt="Afterpay" style="height:14px;vertical-align:middle;margin-left:2px;"/>
+              </p>
+
+              <!-- CTA -->
+              <a href="#" class="cart-summary__cta" id="cart-checkout-cta">Proceed to Checkout</a>
+
+              <!-- Delivery estimate -->
+              <div class="cart-summary__delivery">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:var(--color-text-muted);flex-shrink:0;"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <span>Estimated delivery: <strong data-delivery-estimate></strong></span>
+              </div>
+
+              <!-- Trust strip -->
+              <div class="cart-trust-strip">
+                <span class="cart-trust-strip__item">
+                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,5.5S24.74,15,15.26,15V48.46a39,39,0,0,0,2.23,13.1A60,60,0,0,0,50,95.5,60,60,0,0,0,82.51,61.56a39,39,0,0,0,2.23-13.1V15C75.26,15,50,5.5,50,5.5Zm-3,62.71L31.38,52.54,37,46.88l9.59,9.6L64.35,36l6,5.24Z"/></svg>
+                  30-Day Returns
+                </span>
+                <span class="cart-trust-strip__sep"></span>
+                <span class="cart-trust-strip__item">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                  Secure Checkout
+                </span>
+                <span class="cart-trust-strip__sep"></span>
+                <span class="cart-trust-strip__item">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 7.5V9h16V7.5L12 2zm0 2.3L17.2 7H6.8L12 4.3zM3 10v1l9 11 9-11v-1H3zm9 9.1L5.2 11h13.6L12 19.1z"/></svg>
+                  40+ Years
+                </span>
+              </div>
+
+              <!-- Promo Code Note -->
+              <p class="cart-promo-note" style="margin-top:10px;">Promo codes &amp; gift cards are applied at checkout</p>
+            </div>
+
+            <!-- Gift Option -->
+            <div class="cart-sidebar__card" style="padding: 14px 20px;">
+              <label class="cart-gift__label">
+                <input type="checkbox" class="cart-gift__checkbox"/>
+                <span class="cart-gift__text">Make this order a gift</span>
+              </label>
+              <p class="cart-gift__note">If selected, the receipt will not include pricing, and the order will be shipped with gift boxes for full-price and clearance purchases at 25% off or less.</p>
+            </div>
+
+          </div><!-- /.cart-sidebar -->
+        </div><!-- /.cart-layout -->
+
+        <!-- ── CROSS-SELL ── -->
+        <div class="cart-cross-sell">
+          <div class="cart-cross-sell__header">
+            <h4 class="cart-cross-sell__heading">Complete the Look</h4>
+            <p class="cart-cross-sell__subtitle">Handpicked pieces that pair beautifully with your selections</p>
+          </div>
+          <div class="cart-cross-sell__grid">
+            <div class="cart-cross-sell__card">
+              <div class="cart-cross-sell__card-img-wrap">
+                <img class="cart-cross-sell__card-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/EGB8BGPRO_480x.jpg" alt="Cushion-Cut Round Dangle Earrings" loading="lazy"/>
+              </div>
+              <p class="cart-cross-sell__card-name">Cushion-Cut Round Dangle Earrings</p>
+              <p class="cart-cross-sell__card-price">$75.00</p>
+              <button class="cart-cross-sell__add-btn" data-add-to-cart>Add to Cart</button>
+            </div>
+            <div class="cart-cross-sell__card">
+              <div class="cart-cross-sell__card-img-wrap">
+                <img class="cart-cross-sell__card-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/RFY11BGPRO_480x.jpg" alt="Anika Adjustable Cocktail Ring" loading="lazy"/>
+              </div>
+              <p class="cart-cross-sell__card-name">Anika Adjustable Cocktail Ring</p>
+              <p class="cart-cross-sell__card-price">$78.00</p>
+              <button class="cart-cross-sell__add-btn" data-add-to-cart>Add to Cart</button>
+            </div>
+            <div class="cart-cross-sell__card">
+              <div class="cart-cross-sell__card-img-wrap">
+                <img class="cart-cross-sell__card-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGE5BGCSD.jpg?v=1766068090" alt="Seahorse Charm Pendant Necklace" loading="lazy"/>
+              </div>
+              <p class="cart-cross-sell__card-name">Seahorse Charm Pendant Necklace</p>
+              <p class="cart-cross-sell__card-price">$79.00</p>
+              <button class="cart-cross-sell__add-btn" data-add-to-cart>Add to Cart</button>
+            </div>
+            <div class="cart-cross-sell__card">
+              <div class="cart-cross-sell__card-img-wrap">
+                <img class="cart-cross-sell__card-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/BGA2BGPRO_480x.jpg" alt="Sienna Tennis Bracelet" loading="lazy"/>
+              </div>
+              <p class="cart-cross-sell__card-name">Sienna Tennis Bracelet</p>
+              <p class="cart-cross-sell__card-price">$85.00</p>
+              <button class="cart-cross-sell__add-btn" data-add-to-cart>Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.cart-page-content -->
+    </main>
+
+<!-- ═══════ FOOTER ════════════════════════════════════════════════════ -->
+    <div class="shopify-section icon-bar" id="shopify-section-footer__icon-bar">
+      <style data-shopify="">
+        #shopify-section-footer__icon-bar { background-color:#7a6e66; width: 100%; }
+        #shopify-section-footer__icon-bar a.icon-bar__block { color:#ffffff; }
+        .icon-bar__block { color:#ffffff; }
+      </style>
+    </div>
+    <div class="shopify-section footer footer--classic" id="shopify-section-footer-classic">
+      <style data-shopify="">
+        #shopify-section-footer-classic .footer__heading { font-weight: 800; }
+        #shopify-section-footer-classic .footer__container .social-icons a {
+          background: var(--color-text-primary); color: #fff;
+          padding: 0.625em 0.375em 0.125em 0.375em; border-radius: 9999em;
+        }
+        #shopify-section-footer-classic .footer__container .social-icons a:hover,
+        #shopify-section-footer-classic .footer__container .social-icons a:focus { background: #c89f8a; }
+        #shopify-section-footer-classic .footer__container .social-icons { text-align: right; }
+        #shopify-section-footer-classic .block__logo { margin-bottom: 1.25rem; }
+        #shopify-section-footer-classic .footer__container .social-icons li { margin-left: 0.5em; }
+        @media only screen and (min-width: 798px) {
+          footer .block__html { max-width: 20%; margin-bottom: 1.25rem; }
+          .no-left-margin { margin-left: 0; }
+        }
+        #ftr_social_icons { display: flex; align-items: center; justify-content: flex-end; }
+        @media only screen and (max-width: 798px) {
+          .footer__logo-wrapper.is-small { max-width: 60%; margin: 0 auto 1.25rem auto; }
+          #ftr_social_icons { justify-content: center; }
+          footer { text-align: center; }
+        }
+      </style>
+      <footer class="footer__container">
+        <section class="footer__content section is-width-wide has-background has-padding-top has-padding-bottom">
+          <div class="container has-limit is-justify-space-between">
+            <div class="container one-whole column block__logo no-left-margin">
+              <div class="one-half medium-down--one-whole column no-left-margin">
+                <a class="footer__logo-wrapper is-small" href="https://www.sorrelli.com" title="Sorrelli">
+                  <div class="image-element__wrap" style="max-width: 600px;">
+                    <img alt="Sorrelli" class="lazyloaded transition--none footer__logo" height="66" src="https://www.sorrelli.com/cdn/shop/files/Sorrelli-logo_black-no-tagline-96-600_2000x.png?v=1613797348" width="600"/>
+                  </div>
+                </a>
+              </div>
+              <div class="one-half medium-down--one-whole column" id="ftr_social_icons">
+                <ul class="social-icons is-flex is-flex-wrap">
+                  <li>
+                    <a class="icon-facebook" href="https://facebook.com/sorrellijewelry" rel="noopener" target="_blank" title="Sorrelli on Facebook">
+                      <span class="icon" data-icon="facebook">
+                        <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <g id="facebook"><path d="M57,27.73V38H72.83l-2.09,16H57V95H40.45V53.94H26.62V38H40.45V26.15C40.45,12.46,48.83,5,61,5h0a115.36,115.36,0,0,1,12.34.63V19.94H64.92C58.26,19.94,57,23.1,57,27.73Z"></path></g>
+                        </svg>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="icon-pinterest" href="https://pinterest.com/sorrellijewelry" rel="noopener" target="_blank" title="Sorrelli on Pinterest">
+                      <span class="icon" data-icon="pinterest">
+                        <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <g id="pinterest"><path d="M86,34.61C86,54.89,74.33,70,57.17,70c-5.76,0-11.18-3-13-6.45,0,0-3.1,11.92-3.76,14.22-2.31,8.12-9.12,16.25-9.64,16.92a.72.72,0,0,1-1.27-.3c-.14-1-1.88-11.29.16-19.64L36.5,46.62a19.32,19.32,0,0,1-1.71-8.19c0-7.66,4.59-13.38,10.3-13.38,4.86,0,7.2,3.54,7.2,7.76,0,4.73-3.11,11.8-4.71,18.35-1.34,5.49,2.84,10,8.42,10,10.12,0,16.93-12.58,16.93-27.49,0-11.32-7.88-19.81-22.22-19.81-16.19,0-26.28,11.7-26.28,24.76A14.6,14.6,0,0,0,28,48.72c1,1.13,1.13,1.59.77,2.88l-1.09,4.15A1.85,1.85,0,0,1,25,57.05C17.49,54.1,14,46.19,14,37.3,14,22.61,26.8,5,52.18,5,72.57,5,86,19.29,86,34.61Z"></path></g>
+                        </svg>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="icon-instagram" href="https://instagram.com/sorrellisparkle" rel="noopener" target="_blank" title="Sorrelli on Instagram">
+                      <span class="icon" data-icon="instagram">
+                        <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <g id="instagram"><path d="M73.75,5H26.25A21.27,21.27,0,0,0,5,26.25v47.5A21.27,21.27,0,0,0,26.25,95h47.5A21.27,21.27,0,0,0,95,73.75V26.25A21.27,21.27,0,0,0,73.75,5Zm-8.6,60.13A21.43,21.43,0,1,1,71.44,50,21.4,21.4,0,0,1,65.15,65.13ZM81.9,29.34A7.62,7.62,0,1,1,84.14,24,7.59,7.59,0,0,1,81.9,29.34Z"></path></g>
+                        </svg>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="icon-email" href="mailto:sales@sorrelli.com" rel="noopener" target="_blank" title="Email Sorrelli">
+                      <span class="icon" data-icon="email">
+                        <svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <g id="email">
+                            <path d="M92,22.53V81.86H8V22.38L48.48,62.86a3,3,0,0,0,2.09.89,3.13,3.13,0,0,0,2.22-.88Z"></path>
+                            <polygon points="87.89 18.14 50.6 56.51 12.24 18.14 87.89 18.14"></polygon>
+                          </g>
+                        </svg>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer__block block__html medium-down--one-whole column">
+              <p class="footer__heading">Sign Up for Updates and Special Offers</p>
+              <style type="text/css">
+                [data-toggle-ftr-signup-property] { display: inline-block; width: 48%; color: var(--color-rose-gold) !important; border-bottom: 1px solid var(--color-rose-gold); line-height: 2; }
+                [data-toggle-ftr-signup-property].active { font-weight: bold; border-bottom: 3px solid var(--color-text-primary); color: var(--color-text-primary) !important; }
+              </style>
+              <a class="active" data-toggle-ftr-signup-property="email" href="#">Email</a>
+              <a data-toggle-ftr-signup-property="sms" href="#">Text</a>
+            </div>
+            <div class="footer__block block__link-list medium-down--one-whole column">
+              <div class="footer__menu is-justify-space-between">
+                <p class="footer__heading">About</p>
+                <ul>
+                  <li><a class="footer__menu-link" href="/pages/our-story">Our Story</a></li>
+                  <li><a class="footer__menu-link" href="/pages/sorrelli-promise">Sorrelli Promise</a></li>
+                  <li><a class="footer__menu-link" href="/pages/store-locator">Find a Store</a></li>
+                  <li><a class="footer__menu-link" href="/pages/f-a-q">F.A.Q.</a></li>
+                  <li><a class="footer__menu-link" href="https://www.sorrelli.com/blogs/press">Press</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer__block block__link-list medium-down--one-whole column">
+              <div class="footer__menu is-justify-space-between">
+                <p class="footer__heading">Support</p>
+                <ul>
+                  <li><a class="footer__menu-link" href="/account">Your Account</a></li>
+                  <li><a class="footer__menu-link" href="https://sorrelli.com/repairs">Repairs</a></li>
+                  <li><a class="footer__menu-link" href="/pages/returns">Returns</a></li>
+                  <li><a class="footer__menu-link" href="/pages/careers-and-employment-opportunities">Careers</a></li>
+                  <li><a class="footer__menu-link" href="https://wholesale.sorrelli.com">Wholesale Inquiries</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer__block block__link-list medium-down--one-whole column">
+              <div class="footer__menu is-justify-space-between">
+                <p class="footer__heading">Contact</p>
+                <ul>
+                  <li><a class="footer__menu-link" href="tel:877.659.4374">877.659.4374</a></li>
+                  <li><a class="footer__menu-link" href="mailto:sales@sorrelli.com">sales@sorrelli.com</a></li>
+                  <li><a class="footer__menu-link" href="/pages/privacy-policy">Privacy Policy</a></li>
+                  <li><a class="footer__menu-link" href="/pages/shipping-policy">Shipping Policy</a></li>
+                  <li><a class="footer__menu-link" href="/pages/returns">Returns Policy</a></li>
+                  <li><a class="footer__menu-link" href="/pages/terms-of-service">Terms of Service</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="footer__extra-content section">
+          <div class="container has-padding-top has-padding-bottom">
+            <div class="footer__credits two-thirds column small-down--one-whole">
+              <p>&copy; 2026 <a href="/" title="">Sorrelli</a></p>
+            </div>
+            <div class="footer__payment-methods one-third column small-down--one-whole is-flex is-justify-end is-flex-wrap">
+              <div class="payment-methods">
+                <svg aria-labelledby="pi-visa" class="payment-icon" height="24" role="img" viewbox="0 0 38 24" width="38" xmlns="http://www.w3.org/2000/svg"><title id="pi-visa">Visa</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#fff"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg>
+                <svg aria-labelledby="pi-master" class="payment-icon" height="24" role="img" viewbox="0 0 38 24" width="38" xmlns="http://www.w3.org/2000/svg"><title id="pi-master">Mastercard</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#fff"></path><circle cx="15" cy="12" fill="#EB001B" r="7"></circle><circle cx="23" cy="12" fill="#F79E1B" r="7"></circle><path d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z" fill="#FF5F00"></path></svg>
+                <svg aria-labelledby="pi-paypal" class="payment-icon" height="24" role="img" viewbox="0 0 38 24" width="38" xmlns="http://www.w3.org/2000/svg"><title id="pi-paypal">PayPal</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#fff"></path><path d="M23.9 8.3c.2-1 0-1.7-.6-2.3-.6-.7-1.7-1-3.1-1h-4.1c-.3 0-.5.2-.6.5L14 15.6c0 .2.1.4.3.4H17l.4-3.4 1.8-2.2 4.7-2.1z" fill="#003087"></path><path d="M23.9 8.3l-.2.2c-.5 2.8-2.2 3.8-4.6 3.8H18c-.3 0-.5.2-.6.5l-.6 3.9-.2 1c0 .2.1.4.3.4H19c.3 0 .5-.2.5-.4v-.1l.4-2.4v-.1c0-.2.3-.4.5-.4h.3c2.1 0 3.7-.8 4.1-3.2.2-1 .1-1.8-.4-2.4-.1-.5-.3-.7-.5-.8z" fill="#3086C8"></path><path d="M23.3 8.1c-.1-.1-.2-.1-.3-.1-.1 0-.2 0-.3-.1-.3-.1-.7-.1-1.1-.1h-3c-.1 0-.2 0-.2.1-.2.1-.3.2-.3.4l-.7 4.4v.1c0-.3.3-.5.6-.5h1.3c2.5 0 4.1-1 4.6-3.8v-.2c-.1-.1-.3-.2-.5-.2h-.1z" fill="#012169"></path></svg>
+                <svg aria-labelledby="pi-shopify_pay" class="payment-icon" height="24" role="img" viewbox="0 0 38 24" width="38" xmlns="http://www.w3.org/2000/svg"><title id="pi-shopify_pay">Shop Pay</title><path d="M35.889 0C37.05 0 38 .982 38 2.182v19.636c0 1.2-.95 2.182-2.111 2.182H2.11C.95 24 0 23.018 0 21.818V2.182C0 .982.95 0 2.111 0H35.89z" fill="#5A31F4"></path><path d="M9.35 11.368c-1.017-.223-1.47-.31-1.47-.705 0-.372.306-.558.92-.558.54 0 .934.238 1.225.704a.079.079 0 00.104.03l1.146-.584a.082.082 0 00.032-.114c-.475-.831-1.353-1.286-2.51-1.286-1.52 0-2.464.755-2.464 1.956 0 1.275 1.15 1.597 2.17 1.82 1.02.222 1.474.31 1.474.705 0 .396-.332.582-.993.582-.612 0-1.065-.282-1.34-.83a.08.08 0 00-.107-.035l-1.143.57a.083.083 0 00-.036.111c.454.92 1.384 1.437 2.627 1.437 1.583 0 2.539-.742 2.539-1.98s-1.155-1.598-2.173-1.82v-.003z" fill="#fff"></path></svg>
+              </div>
+            </div>
+          </div>
+        </section>
+      </footer>
+    </div>
+
+<!-- ═══════ CART DRAWER ════════════════════════════════════════════════ -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop"></div>
+    <div class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Your cart" aria-modal="true">
+      <div class="cart-drawer__header">
+        <h2 class="cart-drawer__title">Your Cart (4)</h2>
+        <button class="cart-drawer__close" id="cart-drawer-close" aria-label="Close cart">&times;</button>
+      </div>
+      <div class="cart-drawer__shipping-bar">
+        <div class="cart-drawer__shipping-msg">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#5986B6"/>
+            <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Free shipping unlocked!
+        </div>
+        <div class="cart-drawer__shipping-track">
+          <div class="cart-drawer__shipping-fill"></div>
+        </div>
+      </div>
+      <div class="cart-drawer__body">
+
+        <!-- Drawer Item 1 -->
+        <div class="cart-drawer__item" data-drawer-item data-item-id="1">
+          <img class="cart-drawer__item-img" src="https://www.sorrelli.com/cdn/shop/files/EFF80BGPRO_480x.jpg?v=1769720072" alt="Kathleen Studded Dangle Earrings" loading="lazy"/>
+          <div class="cart-drawer__item-details">
+            <p class="cart-drawer__item-name">Kathleen Studded Dangle Earrings</p>
+            <p class="cart-drawer__item-variant">Panama Rose &middot; Bright Gold-tone</p>
+            <div class="cart-drawer__item-status cart-item__status--green" style="font-size:11px;display:flex;align-items:center;gap:4px;">
+              <span class="cart-item__status-dot cart-item__status-dot--green"></span>
+              In Stock
+            </div>
+            <div class="cart-drawer__item-price-row">
+              <div class="cart-drawer__item-qty">
+                <button class="cart-drawer__qty-btn is-trash" data-drawer-qty-minus><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                <span class="cart-drawer__qty-val" data-drawer-qty-val>1</span>
+                <button class="cart-drawer__qty-btn" data-drawer-qty-plus>+</button>
+              </div>
+              <span class="cart-drawer__item-price">$80.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Item 2 -->
+        <div class="cart-drawer__item" data-drawer-item data-item-id="2">
+          <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/BGA2BGPRO_480x.jpg" alt="Sienna Tennis Bracelet" loading="lazy"/>
+          <div class="cart-drawer__item-details">
+            <p class="cart-drawer__item-name">Sienna Tennis Bracelet <span class="cart-item__final-sale-badge--sm">Final Sale</span></p>
+            <p class="cart-drawer__item-variant">Panama Rose &middot; Bright Gold-tone</p>
+            <div class="cart-drawer__item-price-row">
+              <div class="cart-drawer__item-qty">
+                <button class="cart-drawer__qty-btn is-trash" data-drawer-qty-minus><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                <span class="cart-drawer__qty-val" data-drawer-qty-val>1</span>
+                <button class="cart-drawer__qty-btn" data-drawer-qty-plus>+</button>
+              </div>
+              <div>
+                <span class="cart-drawer__item-price--original">$85.00</span>
+                <span class="cart-drawer__item-price cart-drawer__item-price--sale">$59.50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Item 3 -->
+        <div class="cart-drawer__item" data-drawer-item data-item-id="3">
+          <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NGI5BGCPO.jpg?v=1772727086" alt="Iris Pendant Necklace" loading="lazy"/>
+          <div class="cart-drawer__item-details">
+            <p class="cart-drawer__item-name">Iris Pendant Necklace</p>
+            <p class="cart-drawer__item-variant">Candy Pop &middot; Bright Gold-tone</p>
+            <div class="cart-drawer__item-status" style="font-size:11px;display:flex;align-items:center;gap:3px;color:var(--color-text-secondary);">
+              Not eligible for promotion
+              <button class="cart-item__exclusion-info" data-exclusion-info aria-label="Why is this excluded?" style="width:13px;height:13px;font-size:8px;">i</button>
+            </div>
+            <div class="cart-drawer__item-price-row">
+              <div class="cart-drawer__item-qty">
+                <button class="cart-drawer__qty-btn is-trash" data-drawer-qty-minus><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                <span class="cart-drawer__qty-val" data-drawer-qty-val>1</span>
+                <button class="cart-drawer__qty-btn" data-drawer-qty-plus>+</button>
+              </div>
+              <span class="cart-drawer__item-price">$99.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Item 4 -->
+        <div class="cart-drawer__item" data-drawer-item data-item-id="4">
+          <img class="cart-drawer__item-img" src="https://cdn.shopify.com/s/files/1/0305/6756/3397/files/NFJ80BGPRO_480x.jpg" alt="Matilda Choker Necklace" loading="lazy"/>
+          <div class="cart-drawer__item-details">
+            <p class="cart-drawer__item-name">Matilda Choker Necklace</p>
+            <p class="cart-drawer__item-variant">Panama Rose &middot; Bright Gold-tone</p>
+            <div class="cart-drawer__item-status cart-item__status--amber" style="font-size:11px;display:flex;align-items:center;gap:4px;">
+              <span class="cart-item__status-dot cart-item__status-dot--amber"></span>
+              Only 2 left
+            </div>
+            <div class="cart-drawer__item-price-row">
+              <div class="cart-drawer__item-qty">
+                <button class="cart-drawer__qty-btn is-trash" data-drawer-qty-minus><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                <span class="cart-drawer__qty-val" data-drawer-qty-val>1</span>
+                <button class="cart-drawer__qty-btn" data-drawer-qty-plus>+</button>
+              </div>
+              <span class="cart-drawer__item-price">$165.00</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.cart-drawer__body -->
+
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__subtotal-row">
+          <span class="cart-drawer__subtotal-label">Subtotal</span>
+          <span class="cart-drawer__subtotal-amount">$403.50</span>
+        </div>
+        <div class="cart-drawer__detail-row">
+          <span>Shipping</span>
+          <span class="cart-drawer__shipping-val" style="color:var(--color-accent-blue);font-weight:600;">FREE</span>
+        </div>
+        <div class="cart-drawer__detail-row cart-drawer__tax-row">
+          <span>Tax</span>
+          <span>Calculated at checkout</span>
+        </div>
+        <div class="cart-drawer__bnpl">
+          or 4 payments of <strong>$100.88</strong> with <img src="assets/afterpay-logo.svg" alt="Afterpay" style="height:13px;vertical-align:middle;margin-left:2px;"/>
+        </div>
+        <button class="cart-drawer__checkout-btn">Go to Checkout</button>
+        <div class="cart-drawer__trust-compact">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          Secure Checkout &middot; <a href="https://www.sorrelli.com/pages/returns" target="_blank" class="cart-trust-strip__link">Free Returns</a>
+        </div>
+        <a href="cart.html" class="cart-drawer__gift-link">Sending as a gift? See options &rarr;</a>
+        <a href="cart.html" class="cart-drawer__view-cart">View Full Cart</a>
+      </div>
+    </div><!-- /.cart-drawer -->
+
+<!-- ═══════ EXCLUSION INFO MODAL ════════════════════════════════════ -->
+    <div class="exclusion-modal-backdrop" id="exclusion-modal-backdrop">
+      <div class="exclusion-modal">
+        <button class="exclusion-modal__close" id="exclusion-modal-close" aria-label="Close">&times;</button>
+        <p class="exclusion-modal__title">Why is this item excluded?</p>
+        <p class="exclusion-modal__body">This item is part of a select group of styles excluded from promotions. These include new, limited-edition, or specialty pieces that remain at full price.</p>
+      </div>
+    </div>
+
+<!-- ═══════ FINAL SALE INFO MODAL ═══════════════════════════════════ -->
+    <div class="exclusion-modal-backdrop" id="final-sale-modal-backdrop">
+      <div class="exclusion-modal">
+        <button class="exclusion-modal__close" id="final-sale-modal-close" aria-label="Close">&times;</button>
+        <p class="exclusion-modal__title">What does Final Sale mean?</p>
+        <p class="exclusion-modal__body">This piece is offered at a special price and is final sale — no returns or exchanges. Take a moment to make sure it's the one. Questions before purchasing? Our team is always happy to help.</p>
+      </div>
+    </div>
+
+<!-- ═══════ STICKY MOBILE CHECKOUT BAR ══════════════════════════════ -->
+    <div class="cart-sticky-bar" id="cart-sticky-bar" aria-hidden="true">
+      <div class="cart-sticky-bar__inner">
+        <span class="cart-sticky-bar__total">Total: $403.50</span>
+        <button class="cart-sticky-bar__btn">Checkout</button>
+      </div>
+    </div>
+
+<!-- ═══════ JAVASCRIPT ════════════════════════════════════════════════ -->
+    <script>
+    (function() {
+
+      // ── Constants ──
+      var FREE_SHIP_THRESHOLD = 150;
+      var trashSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+      var checkSVG = '<circle cx="12" cy="12" r="10" fill="#5986B6"/><path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+      var truckSVG = '<path d="M3 7a1 1 0 011-1h10a1 1 0 011 1v4h2.38a1 1 0 01.87.5l1.62 2.82a1 1 0 01.13.5V17a1 1 0 01-1 1h-1.1a2.5 2.5 0 01-4.8 0H9.9a2.5 2.5 0 01-4.8 0H4a1 1 0 01-1-1V7z" fill="none" stroke="#B88B72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.5" cy="18" r="1.5" fill="#B88B72"/><circle cx="16.5" cy="18" r="1.5" fill="#B88B72"/>';
+      var minusSym = '\u2212';
+
+      // ── DOM refs for dynamic updates ──
+      var shippingBar = document.getElementById('free-shipping-bar');
+      var shippingBarText = document.getElementById('shipping-bar-text');
+      var shippingBarIcon = document.getElementById('shipping-bar-icon');
+      var shippingBarFill = document.getElementById('shipping-bar-fill');
+      // Drawer shipping
+      var drawerShipMsg = document.querySelector('.cart-drawer__shipping-msg');
+      var drawerShipFill = document.querySelector('.cart-drawer__shipping-fill');
+      // Summary elements
+      var summaryLines = document.querySelectorAll('.cart-summary__line');
+      var summarySubtotalLabel = summaryLines[0] ? summaryLines[0].querySelector('span:first-child') : null;
+      var summarySubtotalVal = summaryLines[0] ? summaryLines[0].querySelector('span:last-child') : null;
+      var summaryShippingLine = summaryLines[2] || null;
+      var summaryTotal = document.querySelector('.cart-summary__total-amount');
+      var stickyTotal = document.querySelector('.cart-sticky-bar__total');
+      var drawerSubtotal = document.querySelector('.cart-drawer__subtotal-amount');
+      var cartHeading = document.querySelector('.cart-main__heading span');
+
+      function updateMinusBtn(minusBtn, qty) {
+        if (qty <= 1) {
+          minusBtn.innerHTML = trashSVG;
+          minusBtn.classList.add('is-trash');
+          minusBtn.setAttribute('aria-label', 'Remove item');
+        } else {
+          minusBtn.textContent = minusSym;
+          minusBtn.classList.remove('is-trash');
+          minusBtn.setAttribute('aria-label', 'Decrease quantity');
+        }
+      }
+
+      // ── Recalculate cart totals + shipping bar ──
+      function recalculate() {
+        var total = 0;
+        var count = 0;
+        var savings = 0;
+        document.querySelectorAll('[data-cart-item]').forEach(function(item) {
+          var price = parseFloat(item.getAttribute('data-item-price') || 0);
+          var originalPrice = parseFloat(item.getAttribute('data-item-original-price') || 0);
+          var qty = parseInt(item.querySelector('[data-qty-val]').textContent, 10);
+          total += price * qty;
+          count += qty;
+          if (originalPrice > price) {
+            savings += (originalPrice - price) * qty;
+          }
+        });
+
+        // Update clearance savings line
+        var savingsLine = document.getElementById('cart-savings-line');
+        var savingsAmount = document.getElementById('cart-savings-amount');
+        if (savingsLine && savingsAmount) {
+          if (savings > 0) {
+            savingsAmount.textContent = '−$' + savings.toFixed(2);
+            savingsLine.style.display = '';
+          } else {
+            savingsLine.style.display = 'none';
+          }
+        }
+
+        var remaining = FREE_SHIP_THRESHOLD - total;
+        var pct = Math.min(100, (total / FREE_SHIP_THRESHOLD) * 100);
+        var qualified = total >= FREE_SHIP_THRESHOLD;
+        var fmt = function(n) { return '$' + n.toFixed(2); };
+
+        // Update page shipping bar
+        shippingBar.className = 'free-shipping-bar ' + (qualified ? 'free-shipping-bar--qualified' : 'free-shipping-bar--progress');
+        shippingBarFill.style.width = pct + '%';
+        if (qualified) {
+          shippingBarText.textContent = "You've unlocked FREE shipping!";
+          shippingBarIcon.innerHTML = checkSVG;
+        } else if (total > 0) {
+          shippingBarText.textContent = "You're " + fmt(remaining) + ' away from FREE shipping!';
+          shippingBarIcon.innerHTML = truckSVG;
+        } else {
+          shippingBarText.textContent = 'Add items to unlock FREE shipping';
+          shippingBarIcon.innerHTML = truckSVG;
+        }
+
+        // Update drawer shipping bar
+        if (drawerShipMsg && drawerShipFill) {
+          drawerShipFill.style.width = pct + '%';
+          if (qualified) {
+            drawerShipMsg.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' + checkSVG + '</svg> Free shipping unlocked!';
+            drawerShipMsg.style.color = '';
+            drawerShipFill.style.background = 'var(--color-accent-blue)';
+          } else if (total > 0) {
+            drawerShipMsg.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' + truckSVG + '</svg> ' + fmt(remaining) + ' away from free shipping';
+            drawerShipMsg.style.color = 'var(--color-copper)';
+            drawerShipFill.style.background = 'var(--color-rose-gold)';
+          }
+        }
+
+        // Update totals across surfaces
+        var shipping = qualified ? 'FREE' : '$9.95';
+        var grandTotal = qualified ? total : total + 9.95;
+        if (summarySubtotalLabel) summarySubtotalLabel.textContent = 'Subtotal (' + count + ' item' + (count !== 1 ? 's' : '') + ')';
+        if (summarySubtotalVal) summarySubtotalVal.textContent = fmt(total);
+        if (summaryTotal) summaryTotal.textContent = fmt(grandTotal);
+        if (summaryShippingLine) {
+          summaryShippingLine.querySelector('span:last-child').textContent = shipping;
+          summaryShippingLine.className = 'cart-summary__line' + (qualified ? ' cart-summary__line--free' : '');
+        }
+        if (stickyTotal) stickyTotal.textContent = 'Total: ' + fmt(grandTotal);
+        if (drawerSubtotal) drawerSubtotal.textContent = fmt(total);
+        var drawerShipVal = document.querySelector('.cart-drawer__shipping-val');
+        if (drawerShipVal) {
+          drawerShipVal.textContent = shipping;
+          drawerShipVal.style.color = qualified ? 'var(--color-accent-blue)' : 'var(--color-text-secondary)';
+          drawerShipVal.style.fontWeight = qualified ? '600' : '400';
+        }
+        if (cartHeading) cartHeading.textContent = '(' + count + ' item' + (count !== 1 ? 's' : '') + ')';
+
+        // Update BNPL amounts
+        var installment = (grandTotal / 4).toFixed(2);
+        document.querySelectorAll('[data-bnpl-amount]').forEach(function(el) {
+          el.textContent = '$' + installment;
+        });
+        // Drawer BNPL
+        var drawerBnplStrong = document.querySelector('.cart-drawer__bnpl strong');
+        if (drawerBnplStrong) drawerBnplStrong.textContent = '$' + installment;
+
+        // Update heading count in drawer
+        var drawerTitle = document.querySelector('.cart-drawer__title');
+        if (drawerTitle) drawerTitle.textContent = 'Your Cart (' + count + ')';
+      }
+
+      // 1. Quantity +/- buttons (cart page)
+      document.querySelectorAll('[data-cart-item]').forEach(function(item) {
+        var minusBtn = item.querySelector('[data-qty-minus]');
+        var plusBtn  = item.querySelector('[data-qty-plus]');
+        var valEl    = item.querySelector('[data-qty-val]');
+
+        minusBtn.addEventListener('click', function() {
+          var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
+          if (v <= 1) {
+            item.classList.add('is-removing');
+            var drawerMatch = document.querySelector('[data-drawer-item][data-item-id="' + itemId + '"]');
+            if (drawerMatch) { drawerMatch.classList.add('is-removing'); setTimeout(function() { drawerMatch.remove(); }, 320); }
+            setTimeout(function() { item.remove(); recalculate(); }, 380);
+          } else {
+            valEl.textContent = v - 1;
+            updateMinusBtn(minusBtn, v - 1);
+            syncToDrawer(itemId, v - 1);
+            recalculate();
+          }
+        });
+        plusBtn.addEventListener('click', function() {
+          var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
+          if (v < 99) {
+            valEl.textContent = v + 1;
+            updateMinusBtn(minusBtn, v + 1);
+            syncToDrawer(itemId, v + 1);
+            recalculate();
+          }
+        });
+      });
+
+      // ── Sync helpers ──
+      function syncToDrawer(itemId, qty) {
+        var drawerItem = document.querySelector('[data-drawer-item][data-item-id="' + itemId + '"]');
+        if (!drawerItem) return;
+        var drawerVal = drawerItem.querySelector('[data-drawer-qty-val]');
+        var drawerMinus = drawerItem.querySelector('[data-drawer-qty-minus]');
+        if (drawerVal) drawerVal.textContent = qty;
+        if (drawerMinus) updateMinusBtn(drawerMinus, qty);
+      }
+      function syncToCart(itemId, qty) {
+        var cartItem = document.querySelector('[data-cart-item][data-item-id="' + itemId + '"]');
+        if (!cartItem) return;
+        var cartVal = cartItem.querySelector('[data-qty-val]');
+        var cartMinus = cartItem.querySelector('[data-qty-minus]');
+        if (cartVal) cartVal.textContent = qty;
+        if (cartMinus) updateMinusBtn(cartMinus, qty);
+      }
+
+      // 3. Drawer open/close
+      var drawer   = document.getElementById('cart-drawer');
+      var backdrop = document.getElementById('cart-drawer-backdrop');
+      var closeBtn = document.getElementById('cart-drawer-close');
+
+      function openDrawer() {
+        drawer.classList.add('is-open');
+        backdrop.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        drawer.setAttribute('aria-hidden', 'false');
+      }
+      function closeDrawer() {
+        drawer.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        document.body.style.overflow = '';
+        drawer.setAttribute('aria-hidden', 'true');
+      }
+
+      // Preview nav "Open Drawer" button (cart icon links to /cart page in production)
+      document.querySelectorAll('[data-open-drawer]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) { e.preventDefault(); openDrawer(); });
+      });
+      closeBtn.addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeDrawer();
+      });
+      // Auto-open drawer if arriving from PDP with ?drawer=1
+      if (window.location.search.indexOf('drawer=1') !== -1) {
+        openDrawer();
+        history.replaceState(null, '', window.location.pathname);
+      }
+
+      // 4. Drawer qty buttons (synced to cart page)
+      document.querySelectorAll('[data-drawer-item]').forEach(function(item) {
+        var minusBtn = item.querySelector('[data-drawer-qty-minus]');
+        var plusBtn  = item.querySelector('[data-drawer-qty-plus]');
+        var valEl    = item.querySelector('[data-drawer-qty-val]');
+
+        minusBtn.addEventListener('click', function() {
+          var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
+          if (v <= 1) {
+            item.classList.add('is-removing');
+            var cartMatch = document.querySelector('[data-cart-item][data-item-id="' + itemId + '"]');
+            if (cartMatch) { cartMatch.classList.add('is-removing'); setTimeout(function() { cartMatch.remove(); }, 380); }
+            setTimeout(function() { item.remove(); recalculate(); }, 320);
+          } else {
+            valEl.textContent = v - 1;
+            updateMinusBtn(minusBtn, v - 1);
+            syncToCart(itemId, v - 1);
+            recalculate();
+          }
+        });
+        plusBtn.addEventListener('click', function() {
+          var v = parseInt(valEl.textContent, 10);
+          var itemId = item.getAttribute('data-item-id');
+          if (v < 99) {
+            valEl.textContent = v + 1;
+            updateMinusBtn(minusBtn, v + 1);
+            syncToCart(itemId, v + 1);
+            recalculate();
+          }
+        });
+      });
+
+      // 5. Exclusion info modal
+      var exModalBackdrop = document.getElementById('exclusion-modal-backdrop');
+      var exModalClose = document.getElementById('exclusion-modal-close');
+      document.querySelectorAll('[data-exclusion-info]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          exModalBackdrop.classList.add('is-open');
+        });
+      });
+      function closeExModal() { exModalBackdrop.classList.remove('is-open'); }
+      exModalClose.addEventListener('click', closeExModal);
+      exModalBackdrop.addEventListener('click', function(e) {
+        if (e.target === exModalBackdrop) closeExModal();
+      });
+
+      // 5b. Final sale info modal
+      var fsModalBackdrop = document.getElementById('final-sale-modal-backdrop');
+      var fsModalClose = document.getElementById('final-sale-modal-close');
+      document.querySelectorAll('[data-final-sale-info]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          fsModalBackdrop.classList.add('is-open');
+        });
+      });
+      function closeFsModal() { fsModalBackdrop.classList.remove('is-open'); }
+      fsModalClose.addEventListener('click', closeFsModal);
+      fsModalBackdrop.addEventListener('click', function(e) {
+        if (e.target === fsModalBackdrop) closeFsModal();
+      });
+
+      // 6. Cross-sell "Add to Cart"
+      document.querySelectorAll('[data-add-to-cart]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btn.textContent = 'Added \u2713';
+          btn.classList.add('is-added');
+          setTimeout(function() {
+            btn.textContent = 'Add to Cart';
+            btn.classList.remove('is-added');
+          }, 2200);
+        });
+      });
+
+
+      // 6c. Estimated delivery date (ships 1-2 biz days + 3-5 biz day transit)
+      (function() {
+        var el = document.querySelector('[data-delivery-estimate]');
+        if (!el) return;
+        var now = new Date();
+        function addBizDays(date, days) {
+          var d = new Date(date);
+          while (days > 0) {
+            d.setDate(d.getDate() + 1);
+            if (d.getDay() !== 0 && d.getDay() !== 6) days--;
+          }
+          return d;
+        }
+        var earliest = addBizDays(now, 4); // 1 ship + 3 transit
+        var latest = addBizDays(now, 7);   // 2 ship + 5 transit
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var dateStr = months[earliest.getMonth()] + ' ' + earliest.getDate() + ' \u2013 ' + months[latest.getMonth()] + ' ' + latest.getDate();
+        el.textContent = dateStr;
+        var drawerEl = document.querySelector('[data-drawer-delivery-estimate]');
+        if (drawerEl) drawerEl.textContent = dateStr;
+      })();
+
+      // 7. Sticky mobile checkout bar — IntersectionObserver on CTA
+      var cta      = document.getElementById('cart-checkout-cta');
+      var stickyBar = document.getElementById('cart-sticky-bar');
+
+      if (cta && stickyBar && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) {
+              stickyBar.classList.add('is-visible');
+              stickyBar.setAttribute('aria-hidden', 'false');
+            } else {
+              stickyBar.classList.remove('is-visible');
+              stickyBar.setAttribute('aria-hidden', 'true');
+            }
+          });
+        }, { threshold: 0 });
+        observer.observe(cta);
+      }
+
+      // Run initial calculation
+      recalculate();
+
+      // 8. Redirect nav links to PDP mockup (for demo navigation)
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        // Skip mockup links (pdp-v2.html, cart.html), anchors, and javascript
+        if (!href || href === '#' || href.indexOf('pdp-v2') !== -1 || href.indexOf('cart.html') !== -1 || href.indexOf('javascript') !== -1) return;
+        // Skip external non-sorrelli links
+        if (href.indexOf('facebook') !== -1 || href.indexOf('pinterest') !== -1 || href.indexOf('instagram') !== -1 || href.indexOf('mailto:') !== -1 || href.indexOf('tel:') !== -1) return;
+        e.preventDefault();
+        window.location.href = 'pdp-v2.html';
+      });
+
+    })();
+    </script>
+    <script src="preview-nav.js"></script>
+
+  </body>
+</html>

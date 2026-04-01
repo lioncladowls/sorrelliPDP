@@ -24,7 +24,10 @@
     'pdp-v1.html':                { group: 'product', label: 'Mockup — V1' },
     'design-philosophy.html':     { group: 'product', label: 'Design Philosophy' },
     'customization-guide.html':   { group: 'product', label: 'Customization Guide' },
-    'cart.html':                  { group: 'cart',    label: 'Mockup' },
+    'cart-v3.html':               { group: 'cart',    label: 'Mockup — V3' },
+    'cart-v2.html':               { group: 'cart',    label: 'Mockup — V2' },
+    'cart-v1.html':               { group: 'cart',    label: 'Mockup — V1' },
+    'cart.html':                  { group: 'cart',    label: 'Mockup — Original' },
     'cart-design-philosophy.html':{ group: 'cart',    label: 'Design Philosophy' },
     'cart-developer-guide.html':  { group: 'cart',    label: 'Developer Guide' }
   };
@@ -77,7 +80,11 @@
     + '          <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>'
     + '        </button>'
     + '        <div class="preview-nav__dropdown">'
-    + '          <a href="cart.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart.html') + '">Mockup</a>'
+    + '          <span class="preview-nav__dropdown-label">Mockup</span>'
+    + '          <a href="cart-v3.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v3.html') + '">V3 <span class="preview-nav__current-tag">Current</span></a>'
+    + '          <a href="cart-v2.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v2.html') + '">V2</a>'
+    + '          <a href="cart-v1.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v1.html') + '">V1</a>'
+    + '          <div class="preview-nav__dropdown-divider"></div>'
     + '          <a href="cart-design-philosophy.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart-design-philosophy.html') + '">Design Philosophy</a>'
     + '          <a href="cart-developer-guide.html" class="preview-nav__dropdown-link' + activeLinkIf(filename === 'cart-developer-guide.html') + '">Developer Guide</a>'
     + '        </div>'
@@ -178,7 +185,7 @@
         drawer.setAttribute('aria-hidden', 'false');
       } else {
         // Navigate to cart with drawer open
-        window.location.href = 'cart.html?drawer=1';
+        window.location.href = 'cart-v3.html?drawer=1';
       }
     });
   }
