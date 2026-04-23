@@ -9,10 +9,22 @@
   'use strict';
 
   // ── Auth guard ──
-  // Redirect to index.html if not authenticated
+  // Redirect to index.html if not authenticated or session expired (24h)
   var AUTH_HASH = '1e4a2148';
   var AUTH_KEY = 'sorrelli_preview_auth';
-  if (sessionStorage.getItem(AUTH_KEY) !== AUTH_HASH) {
+  var authOk = false;
+  try {
+    var raw = localStorage.getItem(AUTH_KEY);
+    if (raw) {
+      var rec = JSON.parse(raw);
+      if (rec.h === AUTH_HASH && rec.exp && Date.now() <= rec.exp) {
+        authOk = true;
+      } else {
+        localStorage.removeItem(AUTH_KEY);
+      }
+    }
+  } catch (e) { /* fall through to redirect */ }
+  if (!authOk) {
     window.location.replace('index.html');
     return;
   }
@@ -168,7 +180,7 @@
   var logoutBtn = document.getElementById('preview-nav-logout');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', function() {
-      sessionStorage.removeItem(AUTH_KEY);
+      localStorage.removeItem(AUTH_KEY);
       window.location.replace('index.html');
     });
   }

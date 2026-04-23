@@ -240,6 +240,7 @@
     (function() {
       var PASS_HASH = '1e4a2148';  // simple hash of password for client-side check
       var STORAGE_KEY = 'sorrelli_preview_auth';
+      var AUTH_TTL_MS = 24 * 60 * 60 * 1000;  // 24 hours
 
       // Simple string hash (djb2)
       function hash(str) {
@@ -251,8 +252,24 @@
         return (h >>> 0).toString(16);
       }
 
+      function isAuthed() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return false;
+          var rec = JSON.parse(raw);
+          if (rec.h !== PASS_HASH) return false;
+          if (!rec.exp || Date.now() > rec.exp) {
+            localStorage.removeItem(STORAGE_KEY);
+            return false;
+          }
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
       // If already authenticated, redirect to main page
-      if (sessionStorage.getItem(STORAGE_KEY) === PASS_HASH) {
+      if (isAuthed()) {
         window.location.replace('/src/pdp-v3');
         return;
       }
@@ -276,7 +293,7 @@
         var h = hash(val);
 
         if (h === PASS_HASH) {
-          sessionStorage.setItem(STORAGE_KEY, PASS_HASH);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ h: PASS_HASH, exp: Date.now() + AUTH_TTL_MS }));
           window.location.replace('/src/pdp-v3');
         } else {
           error.classList.add('is-visible');
