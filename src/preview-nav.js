@@ -24,6 +24,7 @@
     'pdp-v1.html':                { group: 'product', label: 'Mockup — V1' },
     'design-philosophy.html':     { group: 'product', label: 'Design Philosophy' },
     'customization-guide.html':   { group: 'product', label: 'Customization Guide' },
+    'cart-v4.html':               { group: 'cart',    label: 'Mockup — V4' },
     'cart-v3.html':               { group: 'cart',    label: 'Mockup — V3' },
     'cart-v2.html':               { group: 'cart',    label: 'Mockup — V2' },
     'cart-v1.html':               { group: 'cart',    label: 'Mockup — V1' },
@@ -81,7 +82,8 @@
     + '        </button>'
     + '        <div class="preview-nav__dropdown">'
     + '          <span class="preview-nav__dropdown-label">Mockup</span>'
-    + '          <a href="cart-v3.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v3.html') + '">V3 <span class="preview-nav__current-tag">Current</span></a>'
+    + '          <a href="cart-v4.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v4.html') + '">V4 <span class="preview-nav__current-tag">Current</span></a>'
+    + '          <a href="cart-v3.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v3.html') + '">V3</a>'
     + '          <a href="cart-v2.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v2.html') + '">V2</a>'
     + '          <a href="cart-v1.html" class="preview-nav__dropdown-link preview-nav__dropdown-link--sub' + activeLinkIf(filename === 'cart-v1.html') + '">V1</a>'
     + '          <div class="preview-nav__dropdown-divider"></div>'
@@ -185,7 +187,7 @@
         drawer.setAttribute('aria-hidden', 'false');
       } else {
         // Navigate to cart with drawer open
-        window.location.href = 'cart-v3.html?drawer=1';
+        window.location.href = 'cart-v4.html?drawer=1';
       }
     });
   }
