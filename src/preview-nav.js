@@ -31,6 +31,7 @@
 
   // ── Page registry ──
   var pages = {
+    'pdp-v4.html':                { group: 'product', label: 'Mockup — V4' },
     'pdp-v3.html':                { group: 'product', label: 'Mockup — V3' },
     'pdp-v2.html':                { group: 'product', label: 'Mockup — V2' },
     'pdp-v1.html':                { group: 'product', label: 'Mockup — V1' },
