@@ -270,7 +270,7 @@
 
       // If already authenticated, redirect to main page
       if (isAuthed()) {
-        window.location.replace('/src/pdp-v3');
+        window.location.replace('/src/pdp-v5');
         return;
       }
 
@@ -294,7 +294,7 @@
 
         if (h === PASS_HASH) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ h: PASS_HASH, exp: Date.now() + AUTH_TTL_MS }));
-          window.location.replace('/src/pdp-v3');
+          window.location.replace('/src/pdp-v5');
         } else {
           error.classList.add('is-visible');
           card.classList.remove('shake');
